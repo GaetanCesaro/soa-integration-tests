@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+SLEEPTIME = 3
 LOGLEVEL = "INFO"
 
 ENVIRONNEMENTS = {
@@ -74,7 +75,7 @@ TESTS = [
             "type": "SQL",
             "server": "POSTGRE",
             "operation": {
-                "command": "select 1 from sgengpp.moyen_contact_view where matricule = '540003' and date_fin_validite is null and adresse_domicile like '%RES LES BAMBOUS APT 2%'",
+                "command": "select 1 from sgengpp.moyen_contact_view where matricule = '540003' and date_fin_validite is null and adresse_domicile like '%RES LES BAMBOUS APT 3%'",
                 "data": ""
             },
             "expected": {
@@ -90,6 +91,10 @@ TESTS = [
             "server": "DB2",
             "operation": {
                 "command": "update BDEV.ADRESSE set ADRPA2 = 'RUE GABRIEL LAROQUE' where ADRCAF = '02018000007994'",
+                "data": ""
+            },
+            "rollback_operation": {
+                "command": "update BDEV.ADRESSE set ADRPA2 = 'RUE JIM DALY' where ADRCAF = '02018000007994'",
                 "data": ""
             }
         },
@@ -111,4 +116,4 @@ TESTS = [
 # Excel file configuration
 OUTPUT_FOLDER = "output\\"
 EXCEL_FILE_NAME = "_SoaTestIT.xlsx"
-EXCEL_COLUMNS = ["Nom du test", "Statut", "Résultat Attendu", "Résultat Obtenu"]
+EXCEL_COLUMNS = ["Nom du test", "Statut", "Commande", "Résultat Attendu", "Résultat Obtenu"]

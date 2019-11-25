@@ -28,9 +28,8 @@ class TestResult:
         self.gottenResult = g
 
 
-def runSQLUpdate(environnement, test):
-    server = test["in"]["server"]
-    query = test["in"]["operation"]["command"]
+def runSQLUpdate(environnement, server, operation):
+    query = operation["command"]
 
     if server == "DB2":
         conn = pyodbc.connect(environnement["servers"][server])
@@ -50,6 +49,7 @@ def runSQLCheck(environnement, test):
 
     testResult = TestResult()
     testResult.testName = test["testName"]
+    testResult.command = test["out"]["operation"]["command"]
     testResult.expectedResult = test["out"]["expected"]["value"]
     testResult.gottenResult = "Test check failed"
     testResult.status = "KO"
@@ -86,14 +86,14 @@ def runSQLCheck(environnement, test):
     return testResult
 
 
-def runRESTPost(environnement, test):
-    server = test["in"]["server"]
-    url = environnement["servers"][server] + test["in"]["operation"]["command"]
-    data = test["in"]["operation"]["data"]
+def runRESTPost(environnement, server, operation):
+    url = environnement["servers"][server] + operation["command"]
+    data = operation["data"]
 
-    x = requests.post(url, json=data, verify=False)
-    log.debug("Executing POST %s with data %s: %s" %(url, data, x.text))
-    log.debug("Status code: %s" %(x.status_code))
+    response = requests.post(url, json=data, verify=False)
+    log.debug("Executing POST %s with data %s" %(url, data))
+    log.debug("Result: %s" %(response.text))
+    log.debug("Status code: %s" %(response.status_code))
 
 
 def runRESTCheck(environnement, test):
@@ -102,16 +102,17 @@ def runRESTCheck(environnement, test):
 
     testResult = TestResult()
     testResult.testName = test["testName"]
+    testResult.command = test["out"]["operation"]["command"]
     testResult.expectedResult = test["out"]["expected"]["value"]
     testResult.gottenResult = "Test check failed"
     testResult.status = "KO"
 
-    x = requests.get(url, params=None, verify=False)
-    log.debug("Executing GET %s: %s" %(url, x.text))
-    log.debug("Status code: %s" %(x.status_code))
+    response = requests.get(url, params=None, verify=False)
+    log.debug("Executing GET %s: %s" %(url, response.text))
+    log.debug("Status code: %s" %(response.status_code))
     
-    if len(x.text) > 0:
-        jsonResult = x.json()
+    if response.ok:
+        jsonResult = response.json()
         
         # Parsing de l'attribut à controler
         expectedAttribute = test["out"]["expected"]["attribute"]
@@ -129,7 +130,7 @@ def runRESTCheck(environnement, test):
             log.error("Expected %s" %(testResult.expectedResult))
             log.error("Gotten %s" %(testResult.gottenResult))
     else:
-        testResult.gottenResult = "No result"
+        testResult.gottenResult = response.status_code
         testResult.status = "KO"
         log.error("%s - %s" %(testResult.status, testResult.gottenResult))
 
@@ -141,18 +142,24 @@ def runTest(environnement, test):
 
     # Modification de donnée en entrée
     if test["in"]["type"] == "SQL":
-        runSQLUpdate(environnement, test)
+        runSQLUpdate(environnement, test["in"]["server"], test["in"]["operation"])
     elif test["in"]["type"] == "REST":
-        runRESTPost(environnement, test)
+        runRESTPost(environnement, test["in"]["server"], test["in"]["operation"])
 
-    # WAIT 3 s
-    time.sleep(3)
+    # WAIT 
+    time.sleep(cfg.SLEEPTIME)
 
     # Test en sortie
     if test["out"]["type"] == "SQL":
         result = runSQLCheck(environnement, test)
     elif test["out"]["type"] == "REST":
         result = runRESTCheck(environnement, test)
+
+    # Rollback operation faite en entrée
+    if test["in"]["type"] == "SQL":
+        runSQLUpdate(environnement, test["in"]["server"], test["in"]["rollback_operation"])
+    elif test["in"]["type"] == "REST":
+        runRESTPost(environnement, test["in"]["server"], test["in"]["rollback_operation"])
 
     return result
 
@@ -174,7 +181,7 @@ def exportResults(environnement, results):
     ws1.append(cfg.EXCEL_COLUMNS)
 
     for result in results:
-        ws1.append([result.testName, result.status, result.expectedResult, result.gottenResult])
+        ws1.append([result.testName, result.status, result.command, result.expectedResult, result.gottenResult])
 
     pathFolder = os.path.dirname(__file__)[0:len(os.path.dirname(__file__))-4] + '\\' + cfg.OUTPUT_FOLDER
     if not os.path.exists(pathFolder):
