@@ -30,7 +30,7 @@ class TestResult:
 
 def runSQLUpdate(environnement, test):
     server = test["in"]["server"]
-    query = test["in"]["operation"]
+    query = test["in"]["operation"]["command"]
 
     if server == "DB2":
         conn = pyodbc.connect(environnement["servers"][server])
@@ -46,11 +46,11 @@ def runSQLUpdate(environnement, test):
 
 def runSQLCheck(environnement, test):
     server = test["out"]["server"]
-    query = test["out"]["operation"]
+    query = test["out"]["operation"]["command"]
 
     testResult = TestResult()
     testResult.testName = test["testName"]
-    testResult.expectedResult = test["out"]["expected"]
+    testResult.expectedResult = test["out"]["expected"]["value"]
     testResult.gottenResult = "Test check failed"
     testResult.status = "KO"
 
@@ -88,8 +88,8 @@ def runSQLCheck(environnement, test):
 
 def runRESTPost(environnement, test):
     server = test["in"]["server"]
-    url = environnement["servers"][server] + test["in"]["operation"]
-    data = test["in"]["data"]
+    url = environnement["servers"][server] + test["in"]["operation"]["command"]
+    data = test["in"]["operation"]["data"]
 
     x = requests.post(url, json=data, verify=False)
     log.debug("Executing POST %s with data %s: %s" %(url, data, x.text))
@@ -98,11 +98,11 @@ def runRESTPost(environnement, test):
 
 def runRESTCheck(environnement, test):
     server = test["out"]["server"]
-    url = environnement["servers"][server] + test["out"]["operation"]
+    url = environnement["servers"][server] + test["out"]["operation"]["command"]
 
     testResult = TestResult()
     testResult.testName = test["testName"]
-    testResult.expectedResult = test["out"]["expected"]
+    testResult.expectedResult = test["out"]["expected"]["value"]
     testResult.gottenResult = "Test check failed"
     testResult.status = "KO"
 
@@ -114,7 +114,7 @@ def runRESTCheck(environnement, test):
         jsonResult = x.json()
         
         # Parsing de l'attribut à controler
-        expectedAttribute = test["out"]["expectedAttribute"]
+        expectedAttribute = test["out"]["expected"]["attribute"]
         for p in expectedAttribute:
             jsonResult = jsonResult[p]
 
