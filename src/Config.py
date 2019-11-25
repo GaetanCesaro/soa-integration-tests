@@ -1,51 +1,100 @@
 # -*- coding: utf-8 -*-
 
-# Environnements
+LOGLEVEL = "INFO"
+
 ENVIRONNEMENTS = {
-    "LOCALHOST": {
-        "name": "LOCALHOST",
-        "hostname": "http://localhost:8161",
-        "broker": "localhost"
-    },
     "DEV": {
         "name": "DEV",
         "servers": {
-            "DB2": {
-                
-            },
-            "POSTGRE": {
-
-            }
-        },
-        "broker": "ACTIVEMQ-DEV1"
+            "DB2": "DRIVER={iSeries Access ODBC Driver};SYSTEM=IVAL;SERVER=IVAL;DATABASE=BGEN;UID=INFTEST;PWD=INFTEST",
+            "POSTGRE": "host=dbpg-qua-80 port=5432 user=devcafatuser password=Devc@f@tus3r database=dev_cafat_01",
+            "SPRINGBOOT": "https://api-dev.intra.cafat.nc",
+            "JBOSS": "http://app-dev.intra.cafat.nc",
+        }
     }
 }
 
 TESTS = [
     {
+        "testName": "PostGre-to-DB2-MAJ-Adresse",
+        "in": {
+            "type": "REST",
+            "server": "SPRINGBOOT",
+            "operation": "/s-gen-gpp-3.2/personne-physique/540003/contact",
+            "data": {
+                "adressePostale": {
+                    "type": "domicile",
+                    "typeContact": "ASSURE",
+                    "ligneDesserte": {
+                        "type": "reference",
+                        "id": 6833
+                    },
+                    "lignePays": {
+                        "code": "540"
+                    },
+                    "ligneComplement": "RES LES BAMBOUS APT 2",
+                    "ligneLieuDit": {
+                        "type": "libre",
+                        "libelle": "VAL PLAISANCE"
+                    },
+                    "ligneVoie": {
+                        "type": "reference",
+                        "numero": "15",
+                        "id": 422958
+                    }
+                },
+                "adresseFormattee": "RES LES BAMBOUS APT 2\n15, RUE GABRIEL LAROQUE\nVAL PLAISANCE\n98800 NOUMEA\nNOUVELLE-CALEDONIE",
+                "email": {
+                    "type": "email",
+                    "typeContact": "ASSURE",
+                    "adresse": "gaetan.cesaro+coucou@gmail.com"
+                },
+                "telephoneFixe": {
+                    "type": "fixe",
+                    "typeContact": "ASSURE",
+                    "numero": "0"
+                },
+                "telephoneMobile": {
+                    "type": "mobile",
+                    "typeContact": "ASSURE",
+                    "numero": "522933"
+                },
+                "typeContact": "ASSURE"
+            },
+            "rollback_operation": ""
+        },
+        "out": {
+            "type": "REST",
+            "server": "SPRINGBOOT",
+            "operation": "/s-gen-gpp-3.2/personne-physique/540003/contact?type=ASSURE",
+            "expectedAttribute": ["email", "adresse"],
+            "expected": "gaetan.cesaro+coucou@gmail.com"
+        }
+    },
+    {
         "testName": "DB2-to-PostGre-MAJ-Adresse-Complement",
         "in": {
-            "type": "sql",
+            "type": "SQL",
             "server": "DB2",
             "operation": "update BDEV.ADRESSE set ADRPA1 = 'RES LES BAMBOUS APT 2' where ADRCAF = '02018000007994'",
             "rollback_operation": ""
         },
         "out": {
-            "type": "sql",
+            "type": "SQL",
             "server": "POSTGRE",
             "operation": "select 1 from sgengpp.moyen_contact_view where matricule = '540003' and date_fin_validite is null and adresse_domicile like '%RES LES BAMBOUS APT 2%'",
-            "expected": "toto"
+            "expected": "1"
         }
     },
     {
         "testName": "DB2-to-PostGre-MAJ-Adresse-Rue",
         "in": {
-            "type": "sql",
+            "type": "SQL",
             "server": "DB2",
             "operation": "update BDEV.ADRESSE set ADRPA2 = 'RUE GABRIEL LAROQUE' where ADRCAF = '02018000007994'"
         },
         "out": {
-            "type": "sql",
+            "type": "SQL",
             "server": "POSTGRE",
             "operation": "select 1 from sgengpp.moyen_contact_view where matricule = '540003' and date_fin_validite is null and adresse_domicile like '%RUE GABRIEL LAROQUE%'",
             "expected": "1"
@@ -57,30 +106,3 @@ TESTS = [
 OUTPUT_FOLDER = "output\\"
 EXCEL_FILE_NAME = "_SoaTestIT.xlsx"
 EXCEL_COLUMNS = ["Nom du test", "Statut", "Résultat Attendu", "Résultat Obtenu"]
-
-
-# Login/Pswd
-USERNAME = "admin"
-PASSWORD = "admin"
-
-
-# Messages processing
-URL_GET_ALL_MESSAGES = "{}/api/jolokia/exec/org.apache.activemq:type=Broker,brokerName={},destinationType=Queue,destinationName={}/browse()"
-URL_RETRY_MESSAGES = "{}/api/jolokia/exec/org.apache.activemq:type=Broker,brokerName={},destinationType=Queue,destinationName={}/retryMessages()"
-#URL_GET_ONE_MESSAGE = "{}/api/jolokia/exec/org.apache.activemq:type=Broker,brokerName={},destinationType=Queue,destinationName={}/browseMessages(java.lang.String)/JMSMessageID={}"
-URL_POST_MESSAGE = "{}/api/jolokia/"
-BODY_POST_MESSAGE = '{"type":"EXEC", "mbean":"org.apache.activemq:type=Broker,brokerName=[BROKER],destinationType=Queue,destinationName=[QUEUE]", "operation":"sendTextMessage(java.util.Map,java.lang.String,java.lang.String,java.lang.String)", "arguments":[ARGUMENTS]}'
-
-
-# Queues
-ALL_DLQ_QUEUES = [
-    "DLQ.Consumer.SGENCLI.VirtualTopic.TDATAGPP",
-    "DLQ.Consumer.SGENGPP.VirtualTopic.TDATALEGACY",
-    "DLQ.QDATALEGACY",
-    "DLQ.QGENCLI",
-    "DLQ.QGENGPP",
-    "DLQ.SGENGED",
-    "DLQ.SRECDEC",
-    "DLQ.SRECDNO",
-    "DLQ.SRECOBL"
-]

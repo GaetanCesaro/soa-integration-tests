@@ -14,6 +14,11 @@ import sys, getopt
 from openpyxl import Workbook
 import src.Config as cfg
 import src.Log as log
+import urllib3
+
+# Disable REST InsecureRequestWarning
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
 
 class TestResult:
     def __init__(self, n="", s="", e="", g=""):
@@ -24,23 +29,23 @@ class TestResult:
 
 
 def runSQLUpdate(environnement, test):
-    databaseType = test["in"]["server"]
+    server = test["in"]["server"]
     query = test["in"]["operation"]
 
-    if databaseType == "DB2":
+    if server == "DB2":
         conn = pyodbc.connect('DRIVER={iSeries Access ODBC Driver};SYSTEM=IVAL;SERVER=IVAL;DATABASE=BGEN;UID=INFTEST;PWD=INFTEST')
-    elif databaseType == "POSTGRE":
+    elif server == "POSTGRE":
         conn = psycopg2.connect(user="devcafatuser", password="Devc@f@tus3r", host="dbpg-qua-80", port="5432", database="dev_cafat_01")
 
     cursor = conn.cursor()
-    #log.ok("Executing %s update: %s" %(databaseType, query))
+    log.debug("Executing %s update: %s" %(server, query))
 
     with conn:
         cursor.execute(query)
 
 
 def runSQLCheck(environnement, test):
-    databaseType = test["out"]["server"]
+    server = test["out"]["server"]
     query = test["out"]["operation"]
 
     testResult = TestResult()
@@ -49,56 +54,51 @@ def runSQLCheck(environnement, test):
     testResult.gottenResult = "Test check failed"
     testResult.status = "KO"
 
-    if databaseType == "DB2":
+    if server == "DB2":
         conn = pyodbc.connect('DRIVER={iSeries Access ODBC Driver};SYSTEM=IVAL;SERVER=IVAL;DATABASE=BGEN;UID=INFTEST;PWD=INFTEST')
-    elif databaseType == "POSTGRE":
+    elif server == "POSTGRE":
         conn = psycopg2.connect(user="devcafatuser", password="Devc@f@tus3r", host="dbpg-qua-80", port="5432", database="dev_cafat_01")
 
     cursor = conn.cursor()
-    #log.ok("Executing %s select: %s" %(databaseType, query))
+    log.debug("Executing %s select: %s" %(server, query))
 
     with conn:
         cursor.execute(query)
         rows = cursor.fetchall()
-        #log.ok("Results: %s" %str(rows))
+        log.debug("Results: %s" %str(rows))
         
         if len(rows) > 0 and len(rows[0]) > 0:
             testResult.gottenResult = str(rows[0][0])
-            #log.ok("Expected %s, Gotten %s" %(testResult.gottenResult, testResult.expectedResult))
 
             if testResult.gottenResult == testResult.expectedResult:
                 testResult.status = "OK"
-                log.ok("%s" %testResult.status)
+                log.info("%s" %testResult.status)
             else:
                 testResult.status = "KO"
                 log.error("%s" %testResult.status)
+                log.error("Expected %s" %(testResult.expectedResult))
+                log.error("Gotten %s" %(testResult.gottenResult))
         else:
             testResult.gottenResult = "No result"
             testResult.status = "KO"
-            log.error("%s" %testResult.status)
+            log.error("%s - %s" %(testResult.status, testResult.gottenResult))
 
     return testResult
 
 
 def runRESTPost(environnement, test):
-    databaseType = test["in"]["server"]
-    query = test["in"]["operation"]
+    server = test["in"]["server"]
+    url = "https://api-dev.intra.cafat.nc" + test["in"]["operation"]
+    data = test["in"]["data"]
 
-    if databaseType == "DB2":
-        conn = pyodbc.connect('DRIVER={iSeries Access ODBC Driver};SYSTEM=IVAL;SERVER=IVAL;DATABASE=BGEN;UID=INFTEST;PWD=INFTEST')
-    elif databaseType == "POSTGRE":
-        conn = psycopg2.connect(user="devcafatuser", password="Devc@f@tus3r", host="dbpg-qua-80", port="5432", database="dev_cafat_01")
-
-    cursor = conn.cursor()
-    #log.ok("Executing %s update: %s" %(databaseType, query))
-
-    with conn:
-        cursor.execute(query)
+    x = requests.post(url, json=data, verify=False)
+    log.debug("Executing POST %s with data %s: %s" %(url, data, x.text))
+    log.debug("Status code: %s" %(x.status_code))
 
 
 def runRESTCheck(environnement, test):
-    databaseType = test["out"]["server"]
-    query = test["out"]["operation"]
+    server = test["out"]["server"]
+    url = "https://api-dev.intra.cafat.nc" + test["out"]["operation"]
 
     testResult = TestResult()
     testResult.testName = test["testName"]
@@ -106,53 +106,52 @@ def runRESTCheck(environnement, test):
     testResult.gottenResult = "Test check failed"
     testResult.status = "KO"
 
-    if databaseType == "DB2":
-        conn = pyodbc.connect('DRIVER={iSeries Access ODBC Driver};SYSTEM=IVAL;SERVER=IVAL;DATABASE=BGEN;UID=INFTEST;PWD=INFTEST')
-    elif databaseType == "POSTGRE":
-        conn = psycopg2.connect(user="devcafatuser", password="Devc@f@tus3r", host="dbpg-qua-80", port="5432", database="dev_cafat_01")
-
-    cursor = conn.cursor()
-    #log.ok("Executing %s select: %s" %(databaseType, query))
-
-    with conn:
-        cursor.execute(query)
-        rows = cursor.fetchall()
-        #log.ok("Results: %s" %str(rows))
+    x = requests.get(url, params=None, verify=False)
+    log.debug("Executing GET %s: %s" %(url, x.text))
+    log.debug("Status code: %s" %(x.status_code))
+    
+    if len(x.text) > 0:
+        jsonResult = x.json()
         
-        if len(rows) > 0 and len(rows[0]) > 0:
-            testResult.gottenResult = str(rows[0][0])
-            #log.ok("Expected %s, Gotten %s" %(testResult.gottenResult, testResult.expectedResult))
+        # Parsing de l'attribut à controler
+        expectedAttribute = test["out"]["expectedAttribute"]
+        for p in expectedAttribute:
+            jsonResult = jsonResult[p]
 
-            if testResult.gottenResult == testResult.expectedResult:
-                testResult.status = "OK"
-                log.ok("%s" %testResult.status)
-            else:
-                testResult.status = "KO"
-                log.error("%s" %testResult.status)
+        testResult.gottenResult = jsonResult
+
+        if testResult.gottenResult == testResult.expectedResult:
+            testResult.status = "OK"
+            log.info("%s" %testResult.status)
         else:
-            testResult.gottenResult = "No result"
             testResult.status = "KO"
             log.error("%s" %testResult.status)
+            log.error("Expected %s" %(testResult.expectedResult))
+            log.error("Gotten %s" %(testResult.gottenResult))
+    else:
+        testResult.gottenResult = "No result"
+        testResult.status = "KO"
+        log.error("%s - %s" %(testResult.status, testResult.gottenResult))
 
     return testResult
 
 
 def runTest(environnement, test):
-    log.ok("Running test %s" %test["testName"])
+    log.info("Running test %s" %test["testName"])
 
     # Modification de donnée en entrée
-    if test["type"] == "sql":
+    if test["in"]["type"] == "SQL":
         runSQLUpdate(environnement, test)
-    elif test["type"] == "rest":
+    elif test["in"]["type"] == "REST":
         runRESTPost(environnement, test)
 
     # WAIT 3 s
     time.sleep(3)
 
     # Test en sortie
-    if test["type"] == "sql":
+    if test["out"]["type"] == "SQL":
         result = runSQLCheck(environnement, test)
-    elif test["type"] == "rest":
+    elif test["out"]["type"] == "REST":
         result = runRESTCheck(environnement, test)
 
     return result
@@ -182,115 +181,5 @@ def exportResults(environnement, results):
         os.mkdir(pathFolder)
 
     path = pathFolder + environnement["name"] + cfg.EXCEL_FILE_NAME
-    log.ok("Fichier excel cree : %s" %path)
+    log.info("Fichier excel cree : %s" %path)
     wb.save(path)
-
-
-###########################################################################################################################
-
-def processJsonResponse(method, response):
-    if (response.status_code == 200):
-        jsonResponse = json.loads(response.text)
-        responseCode = jsonResponse["status"]
-        log.ok("%s - HTTP Status %s" %(method, str(jsonResponse["status"])))
-
-        if responseCode != 200:
-            log.error(response.text)
-            sys.exit(2)
-
-        return jsonResponse
-    else:
-        log.error(method)
-        log.error(response)
-
-
-def getAllMessages(environnement, queue):
-    response = requests.get(cfg.URL_GET_ALL_MESSAGES.format(environnement["hostname"], environnement["broker"], queue), params=None, verify=False, auth=(cfg.USERNAME, cfg.PASSWORD))
-    return processJsonResponse("getAllMessages", response)
-
-
-def formatMessages(jsonResponse, environnement, queue, writeExcelFile):
-    messageList = []
-    if writeExcelFile:    
-        wb = Workbook()
-        ws1 = wb.active
-        ws1.title = queue[0 : 31]
-        ws1.append(cfg.EXCEL_COLUMNS[queue])
-
-        #ws2 = wb.create_sheet(title="TEST2")
-
-    if not jsonResponse["value"]:
-        log.error("Rien a formater")
-        sys.exit(2)
-
-    for message in tqdm(jsonResponse["value"], desc="formatMessages"):
-        
-        #properties = json.dumps(message["StringProperties"]).replace("u'", "'")
-        properties = "{"
-        headers = message["StringProperties"]
-        for header in headers:
-            if header != 'dlqDeliveryFailureCause':
-                properties = properties + "\"" + header + "\":\"" + message["StringProperties"][header] + "\", "
-
-        properties = properties + "\"JMSDeliveryMode\":\"" + message["JMSDeliveryMode"] + "\""
-        properties = properties + ", \"JMSPriority\":\"" + str(message["JMSPriority"]) + "\""
-        properties = properties + "}"
-
-        # 1ere passe de formatage
-        text = json.dumps(message["Text"]).replace(' ', '').replace('\\\"', '"')
-
-        # ajout dans le fichier excel
-        if writeExcelFile: 
-            dlqDeliveryFailureCause = message["StringProperties"]['dlqDeliveryFailureCause']
-
-            if queue == "DLQ.Consumer.SGENGPP.VirtualTopic.TDATALEGACY":
-                table = message["StringProperties"]['TABLE']
-                operation = message["StringProperties"]['OPERATION']
-                ws1.append([table, operation, dlqDeliveryFailureCause, properties, text.replace('\\\"', '"').replace('"{"', '{"').replace('"}"', '"}')])
-            else:
-                ws1.append([dlqDeliveryFailureCause, properties, text.replace('\\\"', '"').replace('"{"', '{"').replace('"}"', '"}')])
-            
-
-        argument = []
-        argument.append(properties)
-        argument.append(text)
-        argument.append(cfg.USERNAME)
-        argument.append(cfg.PASSWORD)
-
-        # 2eme passe de formatage pour préparer le body
-        argumentText = json.dumps(argument).replace('\\\"', '"').replace('\\\"', '"').replace('\\\"', '"').replace('\\\"', '"').replace('"{"', '{"').replace('"{"', '{"').replace('"}"', '"}').replace('"}"', '"}').replace('}"",', '},')
-        messageList.append(argumentText)
-
-    if writeExcelFile:
-        pathFolder = os.path.dirname(__file__)[0:len(os.path.dirname(__file__))-4] + '\\' + cfg.OUTPUT_FOLDER
-        if not os.path.exists(pathFolder):
-            os.mkdir(pathFolder)
-        path = pathFolder + environnement["name"] + cfg.EXCEL_FILE_NAME
-        log.ok("fichier excel: %s" %path)
-        wb.save(path)
-    
-    time.sleep(0.1)
-    log.ok("formatMessages - {} messages traites".format(len(messageList)))
-    return messageList
-
-
-def postMessage(environnement, queue, message):
-    if(environnement["name"] == "PRD" or environnement["hostname"] == "http://mom-prd-01:8161"):
-        log.error("postMessage - Environnement PRD interdit")
-        return
-
-    textBody = cfg.BODY_POST_MESSAGE.replace("[BROKER]", environnement["broker"]).replace("[QUEUE]", queue).replace("[ARGUMENTS]", message)
-    jsonBody = json.loads(textBody)
-
-    response = requests.post(cfg.URL_POST_MESSAGE.format(environnement["hostname"]), json=jsonBody, auth=(cfg.USERNAME, cfg.PASSWORD))
-    return processJsonResponse("postMessage", response)
-
-
-def retryMessages(environnement, queue):
-    response = requests.get(cfg.URL_RETRY_MESSAGES.format(environnement["hostname"], environnement["broker"], queue), params=None, verify=False, auth=(cfg.USERNAME, cfg.PASSWORD))
-    jsonResponse = processJsonResponse("retryMessages", response)
-
-    if jsonResponse:
-        log.ok("Queue %s - Nb message rejoues: %s" %(queue, str(jsonResponse["value"])))
-        return jsonResponse
-
