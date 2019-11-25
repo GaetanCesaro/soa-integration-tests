@@ -33,9 +33,9 @@ def runSQLUpdate(environnement, test):
     query = test["in"]["operation"]
 
     if server == "DB2":
-        conn = pyodbc.connect('DRIVER={iSeries Access ODBC Driver};SYSTEM=IVAL;SERVER=IVAL;DATABASE=BGEN;UID=INFTEST;PWD=INFTEST')
+        conn = pyodbc.connect(environnement["servers"][server])
     elif server == "POSTGRE":
-        conn = psycopg2.connect(user="devcafatuser", password="Devc@f@tus3r", host="dbpg-qua-80", port="5432", database="dev_cafat_01")
+        conn = psycopg2.connect(environnement["servers"][server])
 
     cursor = conn.cursor()
     log.debug("Executing %s update: %s" %(server, query))
@@ -55,9 +55,9 @@ def runSQLCheck(environnement, test):
     testResult.status = "KO"
 
     if server == "DB2":
-        conn = pyodbc.connect('DRIVER={iSeries Access ODBC Driver};SYSTEM=IVAL;SERVER=IVAL;DATABASE=BGEN;UID=INFTEST;PWD=INFTEST')
+        conn = pyodbc.connect(environnement["servers"][server])
     elif server == "POSTGRE":
-        conn = psycopg2.connect(user="devcafatuser", password="Devc@f@tus3r", host="dbpg-qua-80", port="5432", database="dev_cafat_01")
+        conn = psycopg2.connect(environnement["servers"][server])
 
     cursor = conn.cursor()
     log.debug("Executing %s select: %s" %(server, query))
@@ -88,7 +88,7 @@ def runSQLCheck(environnement, test):
 
 def runRESTPost(environnement, test):
     server = test["in"]["server"]
-    url = "https://api-dev.intra.cafat.nc" + test["in"]["operation"]
+    url = environnement["servers"][server] + test["in"]["operation"]
     data = test["in"]["data"]
 
     x = requests.post(url, json=data, verify=False)
@@ -98,7 +98,7 @@ def runRESTPost(environnement, test):
 
 def runRESTCheck(environnement, test):
     server = test["out"]["server"]
-    url = "https://api-dev.intra.cafat.nc" + test["out"]["operation"]
+    url = environnement["servers"][server] + test["out"]["operation"]
 
     testResult = TestResult()
     testResult.testName = test["testName"]

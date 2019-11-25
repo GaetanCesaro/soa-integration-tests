@@ -7,7 +7,7 @@ ENVIRONNEMENTS = {
         "name": "DEV",
         "servers": {
             "DB2": "DRIVER={iSeries Access ODBC Driver};SYSTEM=IVAL;SERVER=IVAL;DATABASE=BGEN;UID=INFTEST;PWD=INFTEST",
-            "POSTGRE": "host=dbpg-qua-80 port=5432 user=devcafatuser password=Devc@f@tus3r database=dev_cafat_01",
+            "POSTGRE": "host=dbpg-qua-80 port=5432 user=devcafatuser password=Devc@f@tus3r dbname=dev_cafat_01",
             "SPRINGBOOT": "https://api-dev.intra.cafat.nc",
             "JBOSS": "http://app-dev.intra.cafat.nc",
         }
@@ -22,42 +22,10 @@ TESTS = [
             "server": "SPRINGBOOT",
             "operation": "/s-gen-gpp-3.2/personne-physique/540003/contact",
             "data": {
-                "adressePostale": {
-                    "type": "domicile",
-                    "typeContact": "ASSURE",
-                    "ligneDesserte": {
-                        "type": "reference",
-                        "id": 6833
-                    },
-                    "lignePays": {
-                        "code": "540"
-                    },
-                    "ligneComplement": "RES LES BAMBOUS APT 2",
-                    "ligneLieuDit": {
-                        "type": "libre",
-                        "libelle": "VAL PLAISANCE"
-                    },
-                    "ligneVoie": {
-                        "type": "reference",
-                        "numero": "15",
-                        "id": 422958
-                    }
-                },
-                "adresseFormattee": "RES LES BAMBOUS APT 2\n15, RUE GABRIEL LAROQUE\nVAL PLAISANCE\n98800 NOUMEA\nNOUVELLE-CALEDONIE",
                 "email": {
                     "type": "email",
                     "typeContact": "ASSURE",
-                    "adresse": "gaetan.cesaro+coucou@gmail.com"
-                },
-                "telephoneFixe": {
-                    "type": "fixe",
-                    "typeContact": "ASSURE",
-                    "numero": "0"
-                },
-                "telephoneMobile": {
-                    "type": "mobile",
-                    "typeContact": "ASSURE",
-                    "numero": "522933"
+                    "adresse": "gaetan.cesaro+titi@gmail.com"
                 },
                 "typeContact": "ASSURE"
             },
@@ -68,7 +36,7 @@ TESTS = [
             "server": "SPRINGBOOT",
             "operation": "/s-gen-gpp-3.2/personne-physique/540003/contact?type=ASSURE",
             "expectedAttribute": ["email", "adresse"],
-            "expected": "gaetan.cesaro+coucou@gmail.com"
+            "expected": "gaetan.cesaro+titi@gmail.com"
         }
     },
     {
