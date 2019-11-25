@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-SLEEPTIME = 3
+SLEEPTIME = 10
 LOGLEVEL = "INFO"
 
 ENVIRONNEMENTS = {
@@ -27,7 +27,7 @@ TESTS = [
                     "email": {
                         "type": "email",
                         "typeContact": "ASSURE",
-                        "adresse": "gaetan.cesaro+titi@gmail.com"
+                        "adresse": "gaetan.cesaro+toto@gmail.com"
                     },
                     "typeContact": "ASSURE"
                 }
@@ -53,7 +53,7 @@ TESTS = [
             },
             "expected": {
                 "attribute": ["email", "adresse"],
-                "value": "gaetan.cesaro+titi@gmail.com"
+                "value": "gaetan.cesaro+toto@gmail.com"
             }
         }
     },
