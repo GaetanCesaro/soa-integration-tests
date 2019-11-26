@@ -48,14 +48,22 @@ def main():
     ENV = cfg.ENVIRONNEMENTS[env]
 
     if test:
-        # Un seul TI bien précis
-        result = core.runTest(ENV, test)
-        core.exportResults(ENV, result)
+        results = []
+
+        # Recherche de TI bien précis
+        for TEST in cfg.TESTS:
+             if test in TEST["name"]:
+                result = core.runTest(ENV, TEST)
+                results.append(result)
+
+        core.exportResults(ENV, results)
+        return core.getFinalStatus(results)
 
     else:
         # Tous les TI
         results = core.runAllTests(ENV)
         core.exportResults(ENV, results)
+        return core.getFinalStatus(results)
 
 
 if __name__ == "__main__":

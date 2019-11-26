@@ -29,7 +29,7 @@ class TestResult:
 
 
 def runSQLUpdate(environnement, server, operation):
-    query = operation["command"]
+    query = operation["command"].format(envname=environnement["name"])
 
     if server == "DB2":
         conn = pyodbc.connect(environnement["servers"][server])
@@ -45,10 +45,10 @@ def runSQLUpdate(environnement, server, operation):
 
 def runSQLCheck(environnement, test):
     server = test["out"]["server"]
-    query = test["out"]["operation"]["command"]
+    query = test["out"]["operation"]["command"].format(envname=environnement["name"])
 
     testResult = TestResult()
-    testResult.testName = test["testName"]
+    testResult.testName = test["name"]
     testResult.command = test["out"]["operation"]["command"]
     testResult.expectedResult = test["out"]["expected"]["value"]
     testResult.gottenResult = "Test check failed"
@@ -101,7 +101,7 @@ def runRESTCheck(environnement, test):
     url = environnement["servers"][server] + test["out"]["operation"]["command"]
 
     testResult = TestResult()
-    testResult.testName = test["testName"]
+    testResult.testName = test["name"]
     testResult.command = test["out"]["operation"]["command"]
     testResult.expectedResult = test["out"]["expected"]["value"]
     testResult.gottenResult = "Test check failed"
@@ -138,7 +138,7 @@ def runRESTCheck(environnement, test):
 
 
 def runTest(environnement, test):
-    log.info("Running test %s" %test["testName"])
+    log.info("Running test %s" %test["name"])
 
     # Modification de donnée en entrée
     if test["in"]["type"] == "SQL":
@@ -156,10 +156,10 @@ def runTest(environnement, test):
         result = runRESTCheck(environnement, test)
 
     # Rollback operation faite en entrée
-    if test["in"]["type"] == "SQL":
-        runSQLUpdate(environnement, test["in"]["server"], test["in"]["rollback_operation"])
-    elif test["in"]["type"] == "REST":
-        runRESTPost(environnement, test["in"]["server"], test["in"]["rollback_operation"])
+    #if test["in"]["type"] == "SQL":
+    #    runSQLUpdate(environnement, test["in"]["server"], test["in"]["rollback_operation"])
+    #elif test["in"]["type"] == "REST":
+    #    runRESTPost(environnement, test["in"]["server"], test["in"]["rollback_operation"])
 
     return result
 
@@ -190,3 +190,13 @@ def exportResults(environnement, results):
     path = pathFolder + environnement["name"] + cfg.EXCEL_FILE_NAME
     log.info("Fichier excel cree : %s" %path)
     wb.save(path)
+
+
+def getFinalStatus(results):
+    errors = 0
+
+    for result in results:
+        if result.status != "OK":
+            errors = errors + 1
+    
+    return errors
