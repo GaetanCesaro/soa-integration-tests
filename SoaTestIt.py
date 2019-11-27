@@ -18,7 +18,6 @@ def checkParameters(env, test):
 
 
 def main():
-
     try:
         opts, args = getopt.getopt(sys.argv[1:], "h:e:t:", ["help","env","test"])
 

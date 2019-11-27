@@ -35,6 +35,47 @@ ENVIRONNEMENTS = {
 
 TESTS = [
     {
+        "name": "PostGreToPostGre-MAJAdresse-Email",
+        "in": {
+            "type": "REST",
+            "server": "SPRINGBOOT",
+            "operation": {
+                "command": "/s-gen-gpp-3.2/personne-physique/540003/contact",
+                "data": {
+                    "email": {
+                        "type": "email",
+                        "typeContact": "ASSURE",
+                        "adresse": "gaetan.cesaro+test@gmail.com"
+                    },
+                    "typeContact": "ASSURE"
+                }
+            },
+            "rollback_operation": {
+                "command": "/s-gen-gpp-3.2/personne-physique/540003/contact",
+                "data": {
+                    "email": {
+                        "type": "email",
+                        "typeContact": "ASSURE",
+                        "adresse": "gaetan.cesaro@gmail.com"
+                    },
+                    "typeContact": "ASSURE"
+                }
+            }
+        },
+        "out": {
+            "type": "REST",
+            "server": "SPRINGBOOT",
+            "operation": {
+                "command": "/s-gen-gpp-3.2/personne-physique/540003/contact?type=ASSURE",
+                "data": ""
+            },
+            "expected": {
+                "attribute": ["email", "adresse"],
+                "value": "gaetan.cesaro+test@gmail.com"
+            }
+        }
+    },
+    {
         "name": "DB2ToPostGre-MAJAdresse-Complement",
         "in": {
             "type": "SQL",
@@ -62,50 +103,23 @@ TESTS = [
         }
     },
     {
-        "name": "DB2ToPostGre-MAJAdresse-VoieLibre",
-        "in": {
-            "type": "SQL",
-            "server": "DB2",
-            "operation": {
-                "command": "update B{envname}.ADRESSE set ADRPA2 = 'VOIE LIBRE' where ADRCAF = '02018000007994'",
-                "data": ""
-            },
-            "rollback_operation": {
-                "command": "update B{envname}.ADRESSE set ADRPA2 = 'RUE JIM DALY' where ADRCAF = '02018000007994'",
-                "data": ""
-            }
-        },
-        "out": {
-            "type": "SQL",
-            "server": "POSTGRE",
-            "operation": {
-                "command": "select 1 from sgengpp.gpp_adresse_domicile a inner join sgengpp.gpp_moyen_contact m on m.id = a.id_fk_ap inner join sgengpp.gpp_personne_physique p on m.fk_personne_physique = p.numero_interne where p.matricule = '540003' and m.date_fin_validite is null and a.voie_libre = 'VOIE LIBRE'",
-                "data": ""
-            },
-            "expected": {
-                "attribute": "",
-                "value": "1"
-            }
-        }
-    },
-    {
         "name": "PostGreToDB2-MAJAdresse-Email",
         "in": {
             "type": "REST",
             "server": "SPRINGBOOT",
             "operation": {
-                "command": "/s-gen-gpp-3.1/personne-physique/540003/contact",
+                "command": "/s-gen-gpp-3.2/personne-physique/540003/contact",
                 "data": {
                     "email": {
                         "type": "email",
                         "typeContact": "ASSURE",
-                        "adresse": "gaetan.cesaro+toto@gmail.com"
+                        "adresse": "gaetan.cesaro+test@gmail.com"
                     },
                     "typeContact": "ASSURE"
                 }
             },
             "rollback_operation": {
-                "command": "/s-gen-gpp-3.1/personne-physique/540003/contact",
+                "command": "/s-gen-gpp-3.2/personne-physique/540003/contact",
                 "data": {
                     "email": {
                         "type": "email",
@@ -117,18 +131,59 @@ TESTS = [
             }
         },
         "out": {
-            "type": "REST",
-            "server": "SPRINGBOOT",
+            "type": "SQL",
+            "server": "DB2",
             "operation": {
-                "command": "/s-gen-gpp-3.1/personne-physique/540003/contact?type=ASSURE",
+                "command": "select 1 from B{envname}.ADRESSE where ADRCAF = '02018000007994' and ADREML = 'gaetan.cesaro+test@gmail.com'",
                 "data": ""
             },
             "expected": {
-                "attribute": ["email", "adresse"],
-                "value": "gaetan.cesaro+toto@gmail.com"
+                "attribute": "1",
+                "value": "1"
             }
         }
-    }
+    },
+    {
+        "name": "PostGreToPostGre-GppToCli-Email",
+        "in": {
+            "type": "REST",
+            "server": "SPRINGBOOT",
+            "operation": {
+                "command": "/s-gen-gpp-3.2/personne-physique/540003/contact",
+                "data": {
+                    "email": {
+                        "type": "email",
+                        "typeContact": "ASSURE",
+                        "adresse": "gaetan.cesaro+test@gmail.com"
+                    },
+                    "typeContact": "ASSURE"
+                }
+            },
+            "rollback_operation": {
+                "command": "/s-gen-gpp-3.2/personne-physique/540003/contact",
+                "data": {
+                    "email": {
+                        "type": "email",
+                        "typeContact": "ASSURE",
+                        "adresse": "gaetan.cesaro@gmail.com"
+                    },
+                    "typeContact": "ASSURE"
+                }
+            }
+        },
+        "out": {
+            "type": "SQL",
+            "server": "POSTGRE",
+            "operation": {
+                "command": "select 1 from sgencli.cli_contact a inner join sgencli.cli_client c on c.id = a.id_fk_client inner join sgencli.cli_personne_physique p on p.id_fk_client = c.id where p.matricule = 540003 and a.email like 'gaetan.cesaro+test@gmail.com%'",
+                "data": ""
+            },
+            "expected": {
+                "attribute": "1",
+                "value": "1"
+            }
+        }
+    },
 ]
     
 # Excel file configuration
