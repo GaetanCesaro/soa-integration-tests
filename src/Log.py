@@ -13,17 +13,7 @@ def info(msg): tqdm.write(colored('[INFO] ' + msg, 'green'))
 def warn(msg): tqdm.write(colored('[WARN] ' + 'orange'))
 def error(msg): tqdm.write(colored('[ERROR] --> ' + msg, 'red'))
 
-
-
-# TODO - Refactor this banner
-def printBanner():
-    tqdm.write(colored('''----------------------------
-╔═╗╔╦╗╔═╗   ╔╦╗╔═╗╔═╗╦  ╔═╗
-╠═╣║║║║═╬╗   ║ ║ ║║ ║║  ╚═╗
-╩ ╩╩ ╩╚═╝╚   ╩ ╚═╝╚═╝╩═╝╚═╝
-----------------------------''', 'green'))
-
-# TODO - Refactor usage
+# Usage
 def usage():
     print("Utilisation : ")
     print("python SoaTestIt.py -e <environnement> -t <test>")
