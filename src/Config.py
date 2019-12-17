@@ -225,6 +225,79 @@ TESTS = [
             }
         }
     },
+    {
+        "name": "PostGreToPostGre-GppToCli-AdressePostale",
+        "in": {
+            "type": "REST",
+            "server": "SPRINGBOOT",
+            "operation": {
+                "command": "/s-gen-gpp-3.2/personne-physique/540003/contact",
+                "data": {
+                    "adressePostale": {
+                        "type": "domicile",
+                        "typeContact": "ASSURE",
+                        "ligneDesserte": {
+                            "type": "reference",
+                            "id": 6833
+                        },
+                        "lignePays": {
+                            "code": "540"
+                        },
+                        "ligneComplement": "RES LES BAMBOUS APT 3",
+                        "ligneLieuDit": {
+                            "type": "libre",
+                            "libelle": "VAL PLAISANCE"
+                        },
+                        "ligneVoie": {
+                            "type": "libre",
+                            "numero": "15",
+                            "libelle": "VOIE LIBRE"
+                        }
+                    },
+                    "typeContact": "ASSURE"
+                }
+            },
+            "rollback_operation": {
+                "command": "/s-gen-gpp-3.2/personne-physique/540003/contact",
+                "data": {
+                    "adressePostale": {
+                        "type": "domicile",
+                        "typeContact": "ASSURE",
+                        "ligneDesserte": {
+                            "type": "reference",
+                            "id": 6833
+                        },
+                        "lignePays": {
+                            "code": "540"
+                        },
+                        "ligneComplement": "RES LES BAMBOUS APT 3",
+                        "ligneLieuDit": {
+                            "type": "libre",
+                            "libelle": "VAL PLAISANCE"
+                        },
+                        "ligneVoie": {
+                            "type": "reference",
+                            "numero": "15",
+                            "id": 502249
+                        }
+                    },
+                    "typeContact": "ASSURE"
+                }
+            }
+        },
+        "out": {
+            "type": "SQL",
+            "server": "POSTGRE",
+            "operation": {
+                "command": "select 1 from sgencli.cli_contact a inner join sgencli.cli_client c on c.id = a.id_fk_client inner join sgencli.cli_personne_physique p on p.id_fk_client = c.id where p.matricule = 540003 and a.adresse_postale like '%VOIE LIBRE%'",
+                "data": ""
+            },
+            "expected": {
+                "attribute": "1",
+                "value": "1"
+            }
+        }
+    },
 ]
     
 # Excel file configuration
