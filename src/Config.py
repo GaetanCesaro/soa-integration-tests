@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-SLEEPTIME = 8
 LOGLEVEL = "INFO"
 
 ENVIRONNEMENTS = {
@@ -36,6 +35,7 @@ ENVIRONNEMENTS = {
 TESTS = [
     {
         "name": "PostGreToPostGre-MAJAdresse-Email",
+        "sleeptime": 3,
         "in": {
             "type": "REST",
             "server": "SPRINGBOOT",
@@ -81,6 +81,7 @@ TESTS = [
     },
     {
         "name": "DB2ToPostGre-MAJAdresse-Complement",
+        "sleeptime": 3,
         "in": {
             "type": "SQL",
             "server": "DB2",
@@ -112,6 +113,7 @@ TESTS = [
     },
     {
         "name": "PostGreToDB2-MAJAdresse-Email",
+        "sleeptime": 6,
         "in": {
             "type": "REST",
             "server": "SPRINGBOOT",
@@ -157,6 +159,7 @@ TESTS = [
     },
     {
         "name": "PostGreToPostGre-GppToCli-Email",
+        "sleeptime": 4,
         "in": {
             "type": "REST",
             "server": "SPRINGBOOT",
@@ -202,6 +205,7 @@ TESTS = [
     },
     {
         "name": "PostGreToPostGre-GppToCli-Mobile",
+        "sleeptime": 4,
         "in": {
             "type": "REST",
             "server": "SPRINGBOOT",
@@ -247,6 +251,7 @@ TESTS = [
     },
     {
         "name": "PostGreToPostGre-GppToCli-AdressePostale",
+        "sleeptime": 4, 
         "in": {
             "type": "REST",
             "server": "SPRINGBOOT",

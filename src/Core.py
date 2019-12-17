@@ -147,7 +147,7 @@ def runTest(environnement, test):
         runRESTPost(environnement, test["in"]["server"], test["in"]["operation"])
 
     # WAIT 
-    time.sleep(cfg.SLEEPTIME)
+    time.sleep(test["sleeptime"])
 
     # Test en sortie
     if test["out"]["type"] == "SQL":
@@ -155,11 +155,12 @@ def runTest(environnement, test):
     elif test["out"]["type"] == "REST":
         result = runRESTCheck(environnement, test)
 
-    # Rollback operation faite en entrée
-    if test["rollback"]["type"] == "SQL":
-        runSQLUpdate(environnement, test["rollback"]["server"], test["rollback"]["operation"])
-    elif test["rollback"]["type"] == "REST":
-        runRESTPost(environnement, test["rollback"]["server"], test["rollback"]["operation"])
+    if result.status == "OK":
+        # Rollback operation faite en entrée
+        if test["rollback"]["type"] == "SQL":
+            runSQLUpdate(environnement, test["rollback"]["server"], test["rollback"]["operation"])
+        elif test["rollback"]["type"] == "REST":
+            runRESTPost(environnement, test["rollback"]["server"], test["rollback"]["operation"])
 
     return result
 
