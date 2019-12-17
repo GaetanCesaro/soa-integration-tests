@@ -49,17 +49,6 @@ TESTS = [
                     },
                     "typeContact": "ASSURE"
                 }
-            },
-            "rollback_operation": {
-                "command": "/s-gen-gpp-3.2/personne-physique/540003/contact",
-                "data": {
-                    "email": {
-                        "type": "email",
-                        "typeContact": "ASSURE",
-                        "adresse": "gaetan.cesaro@gmail.com"
-                    },
-                    "typeContact": "ASSURE"
-                }
             }
         },
         "out": {
@@ -73,6 +62,21 @@ TESTS = [
                 "attribute": ["email", "adresse"],
                 "value": "gaetan.cesaro+test@gmail.com"
             }
+        },
+        "rollback": {
+            "type": "REST",
+            "server": "SPRINGBOOT",
+            "operation": {
+                "command": "/s-gen-gpp-3.2/personne-physique/540003/contact",
+                "data": {
+                    "email": {
+                        "type": "email",
+                        "typeContact": "ASSURE",
+                        "adresse": "gaetan.cesaro@gmail.com"
+                    },
+                    "typeContact": "ASSURE"
+                }
+            }
         }
     },
     {
@@ -82,10 +86,6 @@ TESTS = [
             "server": "DB2",
             "operation": {
                 "command": "update B{envname}.ADRESSE set ADRPA1 = 'RES LES BAMBOUS APT 3' where ADRCAF = '02018000007994'",
-                "data": ""
-            },
-            "rollback_operation": {
-                "command": "update B{envname}.ADRESSE set ADRPA1 = 'RES LES BAMBOUS APT 2' where ADRCAF = '02018000007994'",
                 "data": ""
             }
         },
@@ -99,6 +99,14 @@ TESTS = [
             "expected": {
                 "attribute": "",
                 "value": "1"
+            }
+        },
+        "rollback": {
+            "type": "SQL",
+            "server": "DB2",
+            "operation": {
+                "command": "update B{envname}.ADRESSE set ADRPA1 = 'RES LES BAMBOUS APT 2' where ADRCAF = '02018000007994'",
+                "data": ""
             }
         }
     },
@@ -117,17 +125,6 @@ TESTS = [
                     },
                     "typeContact": "ASSURE"
                 }
-            },
-            "rollback_operation": {
-                "command": "/s-gen-gpp-3.2/personne-physique/540003/contact",
-                "data": {
-                    "email": {
-                        "type": "email",
-                        "typeContact": "ASSURE",
-                        "adresse": "gaetan.cesaro@gmail.com"
-                    },
-                    "typeContact": "ASSURE"
-                }
             }
         },
         "out": {
@@ -140,6 +137,21 @@ TESTS = [
             "expected": {
                 "attribute": "1",
                 "value": "1"
+            }
+        },
+        "rollback": {
+            "type": "REST",
+            "server": "SPRINGBOOT",
+            "operation": {
+                "command": "/s-gen-gpp-3.2/personne-physique/540003/contact",
+                "data": {
+                    "email": {
+                        "type": "email",
+                        "typeContact": "ASSURE",
+                        "adresse": "gaetan.cesaro@gmail.com"
+                    },
+                    "typeContact": "ASSURE"
+                }
             }
         }
     },
@@ -158,17 +170,6 @@ TESTS = [
                     },
                     "typeContact": "ASSURE"
                 }
-            },
-            "rollback_operation": {
-                "command": "/s-gen-gpp-3.2/personne-physique/540003/contact",
-                "data": {
-                    "email": {
-                        "type": "email",
-                        "typeContact": "ASSURE",
-                        "adresse": "gaetan.cesaro@gmail.com"
-                    },
-                    "typeContact": "ASSURE"
-                }
             }
         },
         "out": {
@@ -181,6 +182,21 @@ TESTS = [
             "expected": {
                 "attribute": "1",
                 "value": "1"
+            }
+        },
+        "rollback": {
+            "type": "REST",
+            "server": "SPRINGBOOT",
+            "operation": {
+                "command": "/s-gen-gpp-3.2/personne-physique/540003/contact",
+                "data": {
+                    "email": {
+                        "type": "email",
+                        "typeContact": "ASSURE",
+                        "adresse": "gaetan.cesaro@gmail.com"
+                    },
+                    "typeContact": "ASSURE"
+                }
             }
         }
     },
@@ -199,17 +215,6 @@ TESTS = [
                     },
                     "typeContact": "ASSURE"
                 }
-            },
-            "rollback_operation": {
-                "command": "/s-gen-gpp-3.2/personne-physique/540003/contact",
-                "data": {
-                    "telephoneMobile": {
-                        "type": "mobile",
-                        "typeContact": "ASSURE",
-                        "numero": "522933"
-                    },
-                    "typeContact": "ASSURE"
-                }
             }
         },
         "out": {
@@ -222,6 +227,21 @@ TESTS = [
             "expected": {
                 "attribute": "1",
                 "value": "1"
+            }
+        },
+        "rollback": {
+            "type": "REST",
+            "server": "SPRINGBOOT",
+            "operation": {
+                "command": "/s-gen-gpp-3.2/personne-physique/540003/contact",
+                "data": {
+                    "telephoneMobile": {
+                        "type": "mobile",
+                        "typeContact": "ASSURE",
+                        "numero": "522933"
+                    },
+                    "typeContact": "ASSURE"
+                }
             }
         }
     },
@@ -256,8 +276,24 @@ TESTS = [
                     },
                     "typeContact": "ASSURE"
                 }
+            }
+        },
+        "out": {
+            "type": "SQL",
+            "server": "POSTGRE",
+            "operation": {
+                "command": "select 1 from sgencli.cli_contact a inner join sgencli.cli_client c on c.id = a.id_fk_client inner join sgencli.cli_personne_physique p on p.id_fk_client = c.id where p.matricule = 540003 and a.adresse_postale like '%VOIE LIBRE%'",
+                "data": ""
             },
-            "rollback_operation": {
+            "expected": {
+                "attribute": "1",
+                "value": "1"
+            }
+        },
+        "rollback": {
+            "type": "REST",
+            "server": "SPRINGBOOT",
+            "operation": {
                 "command": "/s-gen-gpp-3.2/personne-physique/540003/contact",
                 "data": {
                     "adressePostale": {
@@ -284,20 +320,8 @@ TESTS = [
                     "typeContact": "ASSURE"
                 }
             }
-        },
-        "out": {
-            "type": "SQL",
-            "server": "POSTGRE",
-            "operation": {
-                "command": "select 1 from sgencli.cli_contact a inner join sgencli.cli_client c on c.id = a.id_fk_client inner join sgencli.cli_personne_physique p on p.id_fk_client = c.id where p.matricule = 540003 and a.adresse_postale like '%VOIE LIBRE%'",
-                "data": ""
-            },
-            "expected": {
-                "attribute": "1",
-                "value": "1"
-            }
         }
-    },
+    }
 ]
     
 # Excel file configuration

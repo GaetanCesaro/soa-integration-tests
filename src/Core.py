@@ -156,10 +156,10 @@ def runTest(environnement, test):
         result = runRESTCheck(environnement, test)
 
     # Rollback operation faite en entrée
-    if test["in"]["type"] == "SQL":
-        runSQLUpdate(environnement, test["in"]["server"], test["in"]["rollback_operation"])
-    elif test["in"]["type"] == "REST":
-        runRESTPost(environnement, test["in"]["server"], test["in"]["rollback_operation"])
+    if test["rollback"]["type"] == "SQL":
+        runSQLUpdate(environnement, test["rollback"]["server"], test["rollback"]["operation"])
+    elif test["rollback"]["type"] == "REST":
+        runRESTPost(environnement, test["rollback"]["server"], test["rollback"]["operation"])
 
     return result
 
