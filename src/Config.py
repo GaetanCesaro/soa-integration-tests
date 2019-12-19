@@ -35,7 +35,7 @@ ENVIRONNEMENTS = {
 
 TESTS = [
     {
-        "name": "PostGreToPostGre-MAJAdresse-Email",
+        "name": "PostGreToPostGre-GppToGpp-Email",
         "sleeptime": 3,
         "in": {
             "type": "REST",
@@ -252,7 +252,7 @@ TESTS = [
     },
     {
         "name": "PostGreToPostGre-GppToCli-AdressePostale",
-        "sleeptime": 4, 
+        "sleeptime": 6, 
         "in": {
             "type": "REST",
             "server": "SPRINGBOOT",
@@ -322,6 +322,374 @@ TESTS = [
                             "numero": "15",
                             "id": 502249
                         }
+                    },
+                    "typeContact": "ASSURE"
+                }
+            }
+        }
+    },
+    {
+        "name": "PostGreToPostGre-CliToCli-TelephoneFixe",
+        "sleeptime": 6,
+        "in": {
+            "type": "REST",
+            "server": "SPRINGBOOT",
+            "operation": {
+                "command": "/s-gen-cli-2.0/personne-physique/540003/contact",
+                "data": {
+                    "adressePostale": {
+                        "type": "domicile",
+                        "ligneDesserte": {
+                            "type": "reference",
+                            "id": "6833"
+                        },
+                        "lignePays": {
+                            "code": "540"
+                        },
+                        "ligneComplement": "RES LES BAMBOUS APT 3",
+                        "ligneLieuDit": {
+                            "type": "libre",
+                            "libelle": "VAL PLAISANCE"
+                        },
+                        "ligneVoie": {
+                            "type": "reference",
+                            "numero": "15",
+                            "id": 502249
+                        }
+                    },
+                    "telephoneFixe": {
+                        "type": "fixe",
+                        "numero": "123456"
+                    },
+                    "telephoneMobile": {
+                        "type": "mobile",
+                        "numero": "522933"
+                    },
+                    "typeContact": "ASSURE"
+                }
+            }
+        },
+        "out": {
+            "type": "SQL",
+            "server": "POSTGRE",
+            "operation": {
+                "command": "select 1 from sgencli.cli_contact c, sgencli.cli_personne_physique pp where c.id_fk_client = pp.id_fk_client and pp.matricule = '540003' and c.telephone_fixe = '123456'",
+                "data": ""
+            },
+            "expected": {
+                "attribute": "1",
+                "value": "1"
+            }
+        },
+        "rollback": {
+            "type": "REST",
+            "server": "SPRINGBOOT",
+            "operation": {
+                "command": "/s-gen-cli-2.0/personne-physique/540003/contact",
+                "data": {
+                    "adressePostale": {
+                        "type": "domicile",
+                        "ligneDesserte": {
+                            "type": "reference",
+                            "id": "6833"
+                        },
+                        "lignePays": {
+                            "code": "540"
+                        },
+                        "ligneComplement": "RES LES BAMBOUS APT 3",
+                        "ligneLieuDit": {
+                            "type": "libre",
+                            "libelle": "VAL PLAISANCE"
+                        },
+                        "ligneVoie": {
+                            "type": "reference",
+                            "numero": "15",
+                            "id": 502249
+                        }
+                    },
+                    "telephoneFixe": {
+                        "type": "fixe",
+                        "numero": "0"
+                    },
+                    "telephoneMobile": {
+                        "type": "mobile",
+                        "numero": "522933"
+                    },
+                    "typeContact": "ASSURE"
+                }
+            }
+        }
+    },
+    {
+        "name": "PostGreToPostGre-CliToGpp-TelephoneFixe",
+        "sleeptime": 6,
+        "in": {
+            "type": "REST",
+            "server": "SPRINGBOOT",
+            "operation": {
+                "command": "/s-gen-cli-2.0/personne-physique/540003/contact",
+                "data": {
+                    "adressePostale": {
+                        "type": "domicile",
+                        "ligneDesserte": {
+                            "type": "reference",
+                            "id": "6833"
+                        },
+                        "lignePays": {
+                            "code": "540"
+                        },
+                        "ligneComplement": "RES LES BAMBOUS APT 3",
+                        "ligneLieuDit": {
+                            "type": "libre",
+                            "libelle": "VAL PLAISANCE"
+                        },
+                        "ligneVoie": {
+                            "type": "reference",
+                            "numero": "15",
+                            "id": 502249
+                        }
+                    },
+                    "telephoneFixe": {
+                        "type": "fixe",
+                        "numero": "123456"
+                    },
+                    "telephoneMobile": {
+                        "type": "mobile",
+                        "numero": "522933"
+                    },
+                    "typeContact": "ASSURE"
+                }
+            }
+        },
+        "out": {
+            "type": "SQL",
+            "server": "POSTGRE",
+            "operation": {
+                "command": "select 1 from sgengpp.gpp_telephone_fixe t, sgengpp.gpp_moyen_contact mc, sgengpp.gpp_personne_physique pp where t.id_fk_moyen_contact = mc.id and mc.date_fin_validite is null and mc.fk_personne_physique = pp.numero_interne and pp.matricule = 540003 and t.numero = '123456'",
+                "data": ""
+            },
+            "expected": {
+                "attribute": "1",
+                "value": "1"
+            }
+        },
+        "rollback": {
+            "type": "REST",
+            "server": "SPRINGBOOT",
+            "operation": {
+                "command": "/s-gen-cli-2.0/personne-physique/540003/contact",
+                "data": {
+                    "adressePostale": {
+                        "type": "domicile",
+                        "ligneDesserte": {
+                            "type": "reference",
+                            "id": "6833"
+                        },
+                        "lignePays": {
+                            "code": "540"
+                        },
+                        "ligneComplement": "RES LES BAMBOUS APT 3",
+                        "ligneLieuDit": {
+                            "type": "libre",
+                            "libelle": "VAL PLAISANCE"
+                        },
+                        "ligneVoie": {
+                            "type": "reference",
+                            "numero": "15",
+                            "id": 502249
+                        }
+                    },
+                    "telephoneFixe": {
+                        "type": "fixe",
+                        "numero": "0"
+                    },
+                    "telephoneMobile": {
+                        "type": "mobile",
+                        "numero": "522933"
+                    },
+                    "typeContact": "ASSURE"
+                }
+            }
+        }
+    },
+    {
+        "name": "PostGreToPostGre-CliToCli-TelephoneMobile",
+        "sleeptime": 6,
+        "in": {
+            "type": "REST",
+            "server": "SPRINGBOOT",
+            "operation": {
+                "command": "/s-gen-cli-2.0/personne-physique/540003/contact",
+                "data": {
+                    "adressePostale": {
+                        "type": "domicile",
+                        "ligneDesserte": {
+                            "type": "reference",
+                            "id": "6833"
+                        },
+                        "lignePays": {
+                            "code": "540"
+                        },
+                        "ligneComplement": "RES LES BAMBOUS APT 3",
+                        "ligneLieuDit": {
+                            "type": "libre",
+                            "libelle": "VAL PLAISANCE"
+                        },
+                        "ligneVoie": {
+                            "type": "reference",
+                            "numero": "15",
+                            "id": 502249
+                        }
+                    },
+                    "telephoneFixe": {
+                        "type": "fixe",
+                        "numero": "0"
+                    },
+                    "telephoneMobile": {
+                        "type": "mobile",
+                        "numero": "123456"
+                    },
+                    "typeContact": "ASSURE"
+                }
+            }
+        },
+        "out": {
+            "type": "SQL",
+            "server": "POSTGRE",
+            "operation": {
+                "command": "select 1 from sgencli.cli_contact c, sgencli.cli_personne_physique pp where c.id_fk_client = pp.id_fk_client and pp.matricule = '540003' and c.telephone_mobile = '123456'",
+                "data": ""
+            },
+            "expected": {
+                "attribute": "1",
+                "value": "1"
+            }
+        },
+        "rollback": {
+            "type": "REST",
+            "server": "SPRINGBOOT",
+            "operation": {
+                "command": "/s-gen-cli-2.0/personne-physique/540003/contact",
+                "data": {
+                    "adressePostale": {
+                        "type": "domicile",
+                        "ligneDesserte": {
+                            "type": "reference",
+                            "id": "6833"
+                        },
+                        "lignePays": {
+                            "code": "540"
+                        },
+                        "ligneComplement": "RES LES BAMBOUS APT 3",
+                        "ligneLieuDit": {
+                            "type": "libre",
+                            "libelle": "VAL PLAISANCE"
+                        },
+                        "ligneVoie": {
+                            "type": "reference",
+                            "numero": "15",
+                            "id": 502249
+                        }
+                    },
+                    "telephoneFixe": {
+                        "type": "fixe",
+                        "numero": "0"
+                    },
+                    "telephoneMobile": {
+                        "type": "mobile",
+                        "numero": "522933"
+                    },
+                    "typeContact": "ASSURE"
+                }
+            }
+        }
+    },
+    {
+        "name": "PostGreToPostGre-CliToGpp-TelephoneMobile",
+        "sleeptime": 6,
+        "in": {
+            "type": "REST",
+            "server": "SPRINGBOOT",
+            "operation": {
+                "command": "/s-gen-cli-2.0/personne-physique/540003/contact",
+                "data": {
+                    "adressePostale": {
+                        "type": "domicile",
+                        "ligneDesserte": {
+                            "type": "reference",
+                            "id": "6833"
+                        },
+                        "lignePays": {
+                            "code": "540"
+                        },
+                        "ligneComplement": "RES LES BAMBOUS APT 3",
+                        "ligneLieuDit": {
+                            "type": "libre",
+                            "libelle": "VAL PLAISANCE"
+                        },
+                        "ligneVoie": {
+                            "type": "reference",
+                            "numero": "15",
+                            "id": 502249
+                        }
+                    },
+                    "telephoneFixe": {
+                        "type": "fixe",
+                        "numero": "0"
+                    },
+                    "telephoneMobile": {
+                        "type": "mobile",
+                        "numero": "123456"
+                    },
+                    "typeContact": "ASSURE"
+                }
+            }
+        },
+        "out": {
+            "type": "SQL",
+            "server": "POSTGRE",
+            "operation": {
+                "command": "select 1 from sgengpp.gpp_telephone_mobile t, sgengpp.gpp_moyen_contact mc, sgengpp.gpp_personne_physique pp where t.id_fk_moyen_contact = mc.id and mc.date_fin_validite is null and mc.fk_personne_physique = pp.numero_interne and pp.matricule = 540003 and t.numero = '123456'",
+                "data": ""
+            },
+            "expected": {
+                "attribute": "1",
+                "value": "1"
+            }
+        },
+        "rollback": {
+            "type": "REST",
+            "server": "SPRINGBOOT",
+            "operation": {
+                "command": "/s-gen-cli-2.0/personne-physique/540003/contact",
+                "data": {
+                    "adressePostale": {
+                        "type": "domicile",
+                        "ligneDesserte": {
+                            "type": "reference",
+                            "id": "6833"
+                        },
+                        "lignePays": {
+                            "code": "540"
+                        },
+                        "ligneComplement": "RES LES BAMBOUS APT 3",
+                        "ligneLieuDit": {
+                            "type": "libre",
+                            "libelle": "VAL PLAISANCE"
+                        },
+                        "ligneVoie": {
+                            "type": "reference",
+                            "numero": "15",
+                            "id": 502249
+                        }
+                    },
+                    "telephoneFixe": {
+                        "type": "fixe",
+                        "numero": "0"
+                    },
+                    "telephoneMobile": {
+                        "type": "mobile",
+                        "numero": "522933"
                     },
                     "typeContact": "ASSURE"
                 }
