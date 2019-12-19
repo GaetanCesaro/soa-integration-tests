@@ -90,10 +90,14 @@ def runRESTPost(environnement, server, operation):
     url = environnement["servers"][server] + operation["command"]
     data = operation["data"]
 
-    response = requests.post(url, json=data, verify=False)
+    response = requests.post(url, json=data, verify=False, headers={'Authorization': '{0}'.format(cfg.GODMODE_TOKEN)})
     log.debug("Executing POST %s with data %s" %(url, data))
     log.debug("Result: %s" %(response.text))
     log.debug("Status code: %s" %(response.status_code))
+
+    if not (response.status_code >= 200 and response.status_code < 300):
+        log.error("Status code: %s" %(response.status_code))
+
 
 
 def runRESTCheck(environnement, test):
@@ -107,7 +111,7 @@ def runRESTCheck(environnement, test):
     testResult.gottenResult = "Test check failed"
     testResult.status = "KO"
 
-    response = requests.get(url, params=None, verify=False)
+    response = requests.get(url, params=None, verify=False, headers={'Authorization': '{0}'.format(cfg.GODMODE_TOKEN)})
     log.debug("Executing GET %s: %s" %(url, response.text))
     log.debug("Status code: %s" %(response.status_code))
     
@@ -155,12 +159,11 @@ def runTest(environnement, test):
     elif test["out"]["type"] == "REST":
         result = runRESTCheck(environnement, test)
 
-    if result.status == "OK":
-        # Rollback operation faite en entrée
-        if test["rollback"]["type"] == "SQL":
-            runSQLUpdate(environnement, test["rollback"]["server"], test["rollback"]["operation"])
-        elif test["rollback"]["type"] == "REST":
-            runRESTPost(environnement, test["rollback"]["server"], test["rollback"]["operation"])
+    # Rollback operation faite en entrée
+    if test["rollback"]["type"] == "SQL":
+        runSQLUpdate(environnement, test["rollback"]["server"], test["rollback"]["operation"])
+    elif test["rollback"]["type"] == "REST":
+        runRESTPost(environnement, test["rollback"]["server"], test["rollback"]["operation"])
 
     return result
 
