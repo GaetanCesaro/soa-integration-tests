@@ -5,6 +5,7 @@ GODMODE_TOKEN = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzUxMiJ9.eyJpc3MiOiJzZWN1cmU
 
 GPP_VERSION = "3.2"
 CLI_VERSION = "2.0"
+DIF_VERSION = "1.1"
 
 ENVIRONNEMENTS = {
     "DEV": {
@@ -961,6 +962,50 @@ TESTS = [
             "operation": {
                 "command": "/s-gen-cli-"+CLI_VERSION+"/personne-physique/540003/preferences-notifications",
                 "data": {
+                    "abonnementEmail": "false",
+                    "abonnementSms": "false"
+                }
+            }
+        }
+    },
+    {
+        "name": "PostGreToPostGre-DifToCli-PreferencesNotifications",
+        "sleeptime": 6,
+        "in": {
+            "type": "REST",
+            "server": "SPRINGBOOT",
+            "operation": {
+                "command": "/s-gen-dif-"+DIF_VERSION+"/preferences-notifications",
+                "data": {
+                    "identifiant": {
+                        "numeroAssure": "540003"
+                    },
+                    "abonnementEmail": "true",
+                    "abonnementSms": "true"
+                }
+            }
+        },
+        "out": {
+            "type": "SQL",
+            "server": "POSTGRE",
+            "operation": {
+                "command": "select 1 from sgencli.cli_preferences_notifications cpn, sgencli.cli_personne_physique pp where cpn.fk_personne_physique = pp.id_fk_client and pp.matricule = '540003' and abonnement_email = true and abonnement_sms = true",
+                "data": ""
+            },
+            "expected": {
+                "attribute": "1",
+                "value": "1"
+            }
+        },
+        "rollback": {
+            "type": "REST",
+            "server": "SPRINGBOOT",
+            "operation": {
+                "command": "/s-gen-dif-"+DIF_VERSION+"/preferences-notifications",
+                "data": {
+                    "identifiant": {
+                        "numeroAssure": "540003"
+                    },
                     "abonnementEmail": "false",
                     "abonnementSms": "false"
                 }
