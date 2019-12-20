@@ -3,8 +3,8 @@
 LOGLEVEL = "INFO"
 GODMODE_TOKEN = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzUxMiJ9.eyJpc3MiOiJzZWN1cmUtYXBpIiwiYXVkIjoic2VjdXJlLWFwcCIsInN1YiI6ImdvbGRAY2FmYXQubmMiLCJhY2NvdW50Ijoie1wibG9naW5cIjpcImdvbGRAY2FmYXQubmNcIixcIm1hdHJpY3VsZVwiOlwiOTk5OTk5XCIsXCJoYWJpbGl0YXRpb25zXCI6W1wiR0VORVJBTF9XX0FcIixcIk1BTEFESUVfV19BXCIsXCJSRVRSQUlURV9XX0FcIl19IiwicHJvZmlsIjoiQVNTVVJFIn0.L-yz9wzPjXkRwsSNU99Ns1Aj0POM83MI7hfz6tXssoaEnQdlVVBA-oZtuCXyQdVHW1s_d6-WhZs7ZG01LxxY3wBNvK7pmOhq1zGp-C59OUSrxMp84gP9UaeL13D6YAVnQ0AxFpyGPZowMmHvWcbjjZXNcONrVi4iZBz9IYKY0fSV1ccuw08lE_oFW2O9Orst4NCRc-RmjJF6mkzmh4oDUvRNEn-p83vn_H_wa9unu_90T6Q5vGu4n3IvkVQVkk7d_QCKD2lZzDWo0VgrdPVTc5SE_D4egUNDodZd-e7oo2ty8lY7B04_zPAEI8cXHy-54iBYEOHNqJXhUXdseHlD2g"
 
-GPP_VERSION = "3.1"
-CLI_VERSION = "1.1"
+GPP_VERSION = "3.2"
+CLI_VERSION = "2.0"
 
 ENVIRONNEMENTS = {
     "DEV": {
@@ -208,7 +208,7 @@ TESTS = [
         }
     },
     {
-        "name": "PostGreToPostGre-GppToCli-Mobile",
+        "name": "PostGreToPostGre-GppToCli-TelephoneMobile",
         "sleeptime": 4,
         "in": {
             "type": "REST",
@@ -247,6 +247,52 @@ TESTS = [
                         "type": "mobile",
                         "typeContact": "ASSURE",
                         "numero": "522933"
+                    },
+                    "typeContact": "ASSURE"
+                }
+            }
+        }
+    },
+    {
+        "name": "PostGreToPostGre-GppToCli-TelephoneFixe",
+        "sleeptime": 4,
+        "in": {
+            "type": "REST",
+            "server": "SPRINGBOOT",
+            "operation": {
+                "command": "/s-gen-gpp-"+GPP_VERSION+"/personne-physique/540003/contact",
+                "data": {
+                    "telephoneFixe": {
+                        "type": "fixe",
+                        "typeContact": "ASSURE",
+                        "numero": "123456"
+                    },
+                    "typeContact": "ASSURE"
+                }
+            }
+        },
+        "out": {
+            "type": "SQL",
+            "server": "POSTGRE",
+            "operation": {
+                "command": "select 1 from sgencli.cli_contact a inner join sgencli.cli_client c on c.id = a.id_fk_client inner join sgencli.cli_personne_physique p on p.id_fk_client = c.id where p.matricule = 540003 and a.telephone_fixe like '123456%'",
+                "data": ""
+            },
+            "expected": {
+                "attribute": "1",
+                "value": "1"
+            }
+        },
+        "rollback": {
+            "type": "REST",
+            "server": "SPRINGBOOT",
+            "operation": {
+                "command": "/s-gen-gpp-"+GPP_VERSION+"/personne-physique/540003/contact",
+                "data": {
+                    "telephoneFixe": {
+                        "type": "fixe",
+                        "typeContact": "ASSURE",
+                        "numero": "0"
                     },
                     "typeContact": "ASSURE"
                 }
