@@ -1,20 +1,14 @@
 # -*- coding: utf-8 -*-
+import re, os, sys, getopt, csv, difflib, json, time
 import pyodbc
 import psycopg2
-import time
 import requests
-import json
-import difflib
-import csv
-import re
-import os
-import time
+import urllib3
 from tqdm import tqdm
-import sys, getopt
 from openpyxl import Workbook
 import src.Config as cfg
 import src.Log as log
-import urllib3
+
 
 # Disable REST InsecureRequestWarning
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)

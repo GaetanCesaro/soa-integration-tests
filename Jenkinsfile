@@ -41,12 +41,14 @@ node {
 
         stage('Test') {
             echo "== Test"
+			
+			// KO - Fait à la main sur le serveur... sh "/usr/local/bin/pip3.7 install -r requirements.txt"
 
             // Run the python script
 			if(TEST_NAME) {
-				sh "python3.7 -e ${DEPLOY_ENV_TARGET} -t ${TEST_NAME}"
+				sh "/usr/local/bin/python3.7 SoaTestIt.py -e ${DEPLOY_ENV_TARGET} -t ${TEST_NAME}"
 			} else {
-				sh "python3.7 -e ${DEPLOY_ENV_TARGET}"
+				sh "/usr/local/bin/python3.7 SoaTestIt.py -e ${DEPLOY_ENV_TARGET}"
 			}
         }
 
@@ -90,9 +92,15 @@ def checkProperties() {
     try {
         echo DEPLOY_ENV_TARGET
         echo 'DEPLOY_ENV_TARGET is defined'
+		
+		echo TEST_NAME
+        echo 'TEST_NAME is defined'
     } catch (groovy.lang.MissingPropertyException ex) {
         echo 'This is the first build of the branch, DEPLOY_ENV_TARGET is not set yet. Setting it to DEV.'
         DEPLOY_ENV_TARGET = "DEV"
+		
+		echo 'This is the first build of the branch, TEST_NAME is not set yet. Setting it to empty.'
+        TEST_NAME = ""
     }
 
     GIT_REVISION = ''
