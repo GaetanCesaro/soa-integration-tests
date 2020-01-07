@@ -29,7 +29,7 @@ class TestResult:
 
 
 def runSQLUpdate(environnement, server, operation):
-    query = operation["command"].format(envname=environnement["name"])
+    query = operation["command"].format(ENV_NAME=environnement["name"])
 
     if server == "DB2":
         conn = pyodbc.connect(environnement["servers"][server])
@@ -45,7 +45,7 @@ def runSQLUpdate(environnement, server, operation):
 
 def runSQLCheck(environnement, test):
     server = test["out"]["server"]
-    query = test["out"]["operation"]["command"].format(envname=environnement["name"])
+    query = test["out"]["operation"]["command"].format(ENV_NAME=environnement["name"])
 
     testResult = TestResult()
     testResult.testName = test["name"]
@@ -87,7 +87,9 @@ def runSQLCheck(environnement, test):
 
 
 def runRESTPost(environnement, server, operation):
-    url = environnement["servers"][server] + operation["command"]
+    log.debug(cfg.GPP_VERSION)
+    restCommand = operation["command"].format(CLI_VERSION=cfg.CLI_VERSION, DIF_VERSION=cfg.DIF_VERSION, GPP_VERSION=cfg.GPP_VERSION)
+    url = environnement["servers"][server] + restCommand
     data = operation["data"]
 
     response = requests.post(url, json=data, verify=False, headers={'Authorization': '{0}'.format(cfg.GODMODE_TOKEN)})
@@ -101,7 +103,8 @@ def runRESTPost(environnement, server, operation):
 
 def runRESTCheck(environnement, test):
     server = test["out"]["server"]
-    url = environnement["servers"][server] + test["out"]["operation"]["command"]
+    restCommand = test["out"]["operation"]["command"].format(CLI_VERSION=cfg.CLI_VERSION, DIF_VERSION=cfg.DIF_VERSION, GPP_VERSION=cfg.GPP_VERSION)
+    url = environnement["servers"][server] + restCommand
 
     testResult = TestResult()
     testResult.testName = test["name"]
@@ -208,16 +211,6 @@ def runTest(environnement, test):
         runRESTPost(environnement, test["rollback"]["server"], test["rollback"]["operation"])
 
     return result
-
-
-def runAllTests(environnement):
-    results = []
-    
-    for test in cfg.TESTS:
-        result = runTest(environnement, test)
-        results.append(result)
-        
-    return results
 
 
 def exportResults(environnement, results):

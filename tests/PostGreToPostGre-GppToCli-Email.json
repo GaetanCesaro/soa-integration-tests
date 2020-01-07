@@ -1,0 +1,46 @@
+{
+	"name": "PostGreToPostGre-GppToCli-Email",
+	"sleeptime": 6,
+	"in": {
+		"type": "REST",
+		"server": "SPRINGBOOT",
+		"operation": {
+			"command": "/s-gen-gpp-{GPP_VERSION}/personne-physique/540003/contact",
+			"data": {
+				"email": {
+					"type": "email",
+					"typeContact": "ASSURE",
+					"adresse": "gaetan.cesaro+test@gmail.com"
+				},
+				"typeContact": "ASSURE"
+			}
+		}
+	},
+	"out": {
+		"type": "SQL",
+		"server": "POSTGRE",
+		"operation": {
+			"command": "select 1 from sgencli.cli_contact a inner join sgencli.cli_client c on c.id = a.id_fk_client inner join sgencli.cli_personne_physique p on p.id_fk_client = c.id where p.matricule = 540003 and a.email like 'gaetan.cesaro+test@gmail.com%'",
+			"data": ""
+		},
+		"expected": {
+			"attribute": "1",
+			"value": "1"
+		}
+	},
+	"rollback": {
+		"type": "REST",
+		"server": "SPRINGBOOT",
+		"operation": {
+			"command": "/s-gen-gpp-{GPP_VERSION}/personne-physique/540003/contact",
+			"data": {
+				"email": {
+					"type": "email",
+					"typeContact": "ASSURE",
+					"adresse": "gaetan.cesaro@gmail.com"
+				},
+				"typeContact": "ASSURE"
+			}
+		}
+	}
+}

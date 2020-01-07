@@ -1,0 +1,46 @@
+{
+        "name": "PostGreToPostGre-GppToGpp-Email",
+        "sleeptime": 3,
+        "in": {
+            "type": "REST",
+            "server": "SPRINGBOOT",
+            "operation": {
+                "command": "/s-gen-gpp-{GPP_VERSION}/personne-physique/540003/contact",
+                "data": {
+                    "email": {
+                        "type": "email",
+                        "typeContact": "ASSURE",
+                        "adresse": "gaetan.cesaro+test@gmail.com"
+                    },
+                    "typeContact": "ASSURE"
+                }
+            }
+        },
+        "out": {
+            "type": "REST",
+            "server": "SPRINGBOOT",
+            "operation": {
+                "command": "/s-gen-gpp-{GPP_VERSION}/personne-physique/540003/contact?type=ASSURE",
+                "data": ""
+            },
+            "expected": {
+                "attribute": ["email", "adresse"],
+                "value": "gaetan.cesaro+test@gmail.com"
+            }
+        },
+        "rollback": {
+            "type": "REST",
+            "server": "SPRINGBOOT",
+            "operation": {
+                "command": "/s-gen-gpp-{GPP_VERSION}/personne-physique/540003/contact",
+                "data": {
+                    "email": {
+                        "type": "email",
+                        "typeContact": "ASSURE",
+                        "adresse": "gaetan.cesaro@gmail.com"
+                    },
+                    "typeContact": "ASSURE"
+                }
+            }
+        }
+    }

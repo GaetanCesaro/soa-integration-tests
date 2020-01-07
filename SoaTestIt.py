@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 import sys, getopt
+import os
+import glob
+import json
 import src.Config as cfg
 import src.Core as core
 import src.Log as log
@@ -13,8 +16,6 @@ def checkParameters(env, test):
         log.error("L'environnement est obligatoire")  
         log.usage()
         sys.exit()
-    #elif test:
-        # TODO - Check test name connu
 
 
 def main():
@@ -45,23 +46,28 @@ def main():
     print("ENVIRONNEMENT", env)
     ENV = cfg.ENVIRONNEMENTS[env]
 
-    if test:
-        results = []
+    # Chargement des tests depuis les fichiers JSON
+    testFilesPath = 'tests'
 
-        # Recherche de TI bien précis
-        for TEST in cfg.TESTS:
-             if test in TEST["name"]:
-                result = core.runTest(ENV, TEST)
+    results = []
+
+    for filename in glob.glob(os.path.join(testFilesPath, '*.json')):
+        log.debug("Reading test file %s" %filename)
+        with open(filename) as json_file:
+            # Uniquement 1 seul test passé en paramètre de l'appel
+            if test:
+                if test.lower() in filename.lower():
+                    data = json.load(json_file)
+                    result = core.runTest(ENV, data)
+                    results.append(result)    
+            # Tous les tests dans le dossier test
+            else:
+                data = json.load(json_file)
+                result = core.runTest(ENV, data)
                 results.append(result)
 
-        core.exportResults(ENV, results)
-        return core.getFinalStatus(results)
-
-    else:
-        # Tous les TI
-        results = core.runAllTests(ENV)
-        core.exportResults(ENV, results)
-        return core.getFinalStatus(results)
+    core.exportResults(ENV, results)
+    return core.getFinalStatus(results)
 
 
 if __name__ == "__main__":

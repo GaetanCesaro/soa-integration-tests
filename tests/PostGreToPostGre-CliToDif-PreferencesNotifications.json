@@ -1,0 +1,38 @@
+{
+	"name": "PostGreToPostGre-CliToDif-PreferencesNotifications",
+	"sleeptime": 6,
+	"in": {
+		"type": "REST",
+		"server": "SPRINGBOOT",
+		"operation": {
+			"command": "/s-gen-cli-{CLI_VERSION}/personne-physique/540003/preferences-notifications",
+			"data": {
+				"abonnementEmail": "true",
+				"abonnementSms": "true"
+			}
+		}
+	},
+	"out": {
+		"type": "SQL",
+		"server": "POSTGRE",
+		"operation": {
+			"command": "select 1 from sgendif.dif_preferences_notifications where numero_assure = '540003' and abonnement_email = true and abonnement_sms = true",
+			"data": ""
+		},
+		"expected": {
+			"attribute": "1",
+			"value": "1"
+		}
+	},
+	"rollback": {
+		"type": "REST",
+		"server": "SPRINGBOOT",
+		"operation": {
+			"command": "/s-gen-cli-{CLI_VERSION}/personne-physique/540003/preferences-notifications",
+			"data": {
+				"abonnementEmail": "false",
+				"abonnementSms": "false"
+			}
+		}
+	}
+}

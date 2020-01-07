@@ -1,0 +1,46 @@
+{
+	"name": "PostGreToDB2-MAJAdresse-Email",
+	"sleeptime": 10,
+	"in": {
+		"type": "REST",
+		"server": "SPRINGBOOT",
+		"operation": {
+			"command": "/s-gen-gpp-{GPP_VERSION}/personne-physique/540003/contact",
+			"data": {
+				"email": {
+					"type": "email",
+					"typeContact": "ASSURE",
+					"adresse": "gaetan.cesaro+test@gmail.com"
+				},
+				"typeContact": "ASSURE"
+			}
+		}
+	},
+	"out": {
+		"type": "SQL",
+		"server": "DB2",
+		"operation": {
+			"command": "select 1 from B{ENV_NAME}.ADRESSE where ADRCAF = '02018000007994' and ADREML = 'gaetan.cesaro+test@gmail.com'",
+			"data": ""
+		},
+		"expected": {
+			"attribute": "1",
+			"value": "1"
+		}
+	},
+	"rollback": {
+		"type": "REST",
+		"server": "SPRINGBOOT",
+		"operation": {
+			"command": "/s-gen-gpp-{GPP_VERSION}/personne-physique/540003/contact",
+			"data": {
+				"email": {
+					"type": "email",
+					"typeContact": "ASSURE",
+					"adresse": "gaetan.cesaro@gmail.com"
+				},
+				"typeContact": "ASSURE"
+			}
+		}
+	}
+}
