@@ -14,12 +14,12 @@
 				"tupleBefore": { 
 					"matricule": "540003", 
 					"email": "gaetan.cesaro@gmail.com", 
-					"compteDesactive": "false" 
+					"compteDesactive": "true" 
 				}, 
 				"tupleAfter": { 
 					"matricule": "540003", 
 					"email": "gaetan.cesaro@gmail.com", 
-					"compteDesactive": "true" 
+					"compteDesactive": "false" 
 				} 
 			}
 		}
@@ -33,7 +33,7 @@
 		},
 		"expected": {
 			"attribute": "compte_actif",
-			"value": "False"
+			"value": "True"
 		}
 	},
 	"rollback": {
@@ -49,12 +49,12 @@
 				"tupleBefore": {
 					"matricule": "540003",
 					"email": "gaetan.cesaro@gmail.com", 
-					"compteDesactive": "true"
+					"compteDesactive": "false"
 				},
 				"tupleAfter": {
 					"matricule": "540003",
 					"email": "gaetan.cesaro@gmail.com",
-					"compteDesactive": "false"
+					"compteDesactive": "true"
 				}
 			}
 		}

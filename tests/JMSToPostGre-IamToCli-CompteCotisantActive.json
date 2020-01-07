@@ -1,0 +1,62 @@
+{
+	"name": "JMSToPostGre-IamToCli-CompteCotisantDesactive",
+	"sleeptime": 6,
+	"in": {
+		"type": "JMS",
+		"server": "",
+		"operation": {
+			"command": "VirtualTopic.TDATAPOSTGRE",
+			"data": { 
+				"id": "1", 
+				"dateCreation": "2019-12-03T13:55:01.711", 
+				"table": "IAM_ASSURE_ACCOUNT", 
+				"operation": "UPDATE", 
+				"tupleBefore": { 
+					"matricule": "540003", 
+					"email": "gaetan.cesaro@gmail.com", 
+					"compteDesactive": "true" 
+				}, 
+				"tupleAfter": { 
+					"matricule": "540003", 
+					"email": "gaetan.cesaro@gmail.com", 
+					"compteDesactive": "false" 
+				} 
+			}
+		}
+	},
+	"out": {
+		"type": "SQL",
+		"server": "POSTGRE",
+		"operation": {
+			"command": "select statut_compte_assure from sgencli.cli_personne_physique where matricule = 540003",
+			"data": ""
+		},
+		"expected": {
+			"attribute": "statut_compte_assure",
+			"value": "ACTIVE"
+		}
+	},
+	"rollback": {
+		"type": "JMS",
+		"server": "",
+		"operation": {
+			"command": "VirtualTopic.TDATAPOSTGRE",
+			"data": {
+				"id": "1",
+				"dateCreation": "2019-12-03T13:55:01.711",
+				"table": "IAM_ASSURE_ACCOUNT",
+				"operation": "UPDATE",
+				"tupleBefore": {
+					"matricule": "540003",
+					"email": "gaetan.cesaro@gmail.com", 
+					"compteDesactive": "false"
+				},
+				"tupleAfter": {
+					"matricule": "540003",
+					"email": "gaetan.cesaro@gmail.com",
+					"compteDesactive": "true"
+				}
+			}
+		}
+	}
+}
