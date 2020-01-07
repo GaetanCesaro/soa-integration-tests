@@ -135,7 +135,7 @@ TESTS = [
     },
     {
         "name": "PostGreToDB2-MAJAdresse-Email",
-        "sleeptime": 6,
+        "sleeptime": 10,
         "in": {
             "type": "REST",
             "server": "SPRINGBOOT",
@@ -181,7 +181,7 @@ TESTS = [
     },
     {
         "name": "PostGreToPostGre-GppToCli-Email",
-        "sleeptime": 4,
+        "sleeptime": 6,
         "in": {
             "type": "REST",
             "server": "SPRINGBOOT",
@@ -227,7 +227,7 @@ TESTS = [
     },
     {
         "name": "PostGreToPostGre-GppToCli-TelephoneMobile",
-        "sleeptime": 4,
+        "sleeptime": 6,
         "in": {
             "type": "REST",
             "server": "SPRINGBOOT",
@@ -273,7 +273,7 @@ TESTS = [
     },
     {
         "name": "PostGreToPostGre-GppToCli-TelephoneFixe",
-        "sleeptime": 4,
+        "sleeptime": 6,
         "in": {
             "type": "REST",
             "server": "SPRINGBOOT",
@@ -319,7 +319,7 @@ TESTS = [
     },
     {
         "name": "PostGreToPostGre-GppToCli-AdressePostale",
-        "sleeptime": 6, 
+        "sleeptime": 14, 
         "in": {
             "type": "REST",
             "server": "SPRINGBOOT",
@@ -489,7 +489,7 @@ TESTS = [
     },
     {
         "name": "PostGreToPostGre-CliToGpp-TelephoneFixe",
-        "sleeptime": 6,
+        "sleeptime": 8,
         "in": {
             "type": "REST",
             "server": "SPRINGBOOT",
@@ -673,7 +673,7 @@ TESTS = [
     },
     {
         "name": "PostGreToPostGre-CliToGpp-TelephoneMobile",
-        "sleeptime": 6,
+        "sleeptime": 8,
         "in": {
             "type": "REST",
             "server": "SPRINGBOOT",
@@ -765,7 +765,7 @@ TESTS = [
     },
     {
         "name": "PostGreToPostGre-CliToCli-AdressePostale",
-        "sleeptime": 6,
+        "sleeptime": 8,
         "in": {
             "type": "REST",
             "server": "SPRINGBOOT",
