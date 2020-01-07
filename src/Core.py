@@ -209,6 +209,8 @@ def runTest(environnement, test):
         runSQLUpdate(environnement, test["rollback"]["server"], test["rollback"]["operation"])
     elif test["rollback"]["type"] == "REST":
         runRESTPost(environnement, test["rollback"]["server"], test["rollback"]["operation"])
+    elif test["in"]["type"] == "JMS":
+        runJMSPost(environnement, test["rollback"]["operation"])
 
     return result
 
