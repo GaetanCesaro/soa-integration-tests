@@ -1028,6 +1028,53 @@ TESTS = [
                 }
             }
         }
+    },
+    {
+        "name": "PostGreToPostGre-IamToGpp-Email",
+        "sleeptime": 6,
+        "in": {
+            "type": "JMS",
+            "server": "",
+            "operation": {
+                "command": "VirtualTopic.TDATAPOSTGRE",
+                "data": '{ "id": "1", "dateCreation": "2019-12-03T13:55:01.711", "table": "IAM_ASSURE_ACCOUNT", "operation": "UPDATE", "tupleBefore": { "matricule": "540003", "email": "gaetan.cesaro@gmail.com", "compteDesactive": "false" }, "tupleAfter": { "matricule": "540003", "email": "gaetan.cesaro+testsoa@gmail.com", "compteDesactive": "false" } }'
+            }
+        },
+        "out": {
+            "type": "SQL",
+            "server": "POSTGRE",
+            "operation": {
+                "command": "select 1 from sgengpp.gpp_email e, sgengpp.gpp_moyen_contact mc, sgengpp.gpp_personne_physique pp where e.id_fk_moyen_contact = mc.id and mc.date_fin_validite is null and mc.fk_personne_physique = pp.numero_interne and pp.matricule = 540003 and adresse = 'gaetan.cesaro+testsoa@gmail.com'",
+                "data": ""
+            },
+            "expected": {
+                "attribute": "1",
+                "value": "1"
+            }
+        },
+        "rollback": {
+            "type": "JMS",
+            "server": "",
+            "operation": {
+                "command": "VirtualTopic.TDATAPOSTGRE",
+                "data": {
+                    "id": "1",
+                    "dateCreation": "2019-12-03T13:55:01.711",
+                    "table": "IAM_ASSURE_ACCOUNT",
+                    "operation": "UPDATE",
+                    "tupleBefore": {
+                        "matricule": "540003",
+                        "email": "gaetan.cesaro+testsoa@gmail.com",
+                        "compteDesactive": "false"
+                    },
+                    "tupleAfter": {
+                        "matricule": "540003",
+                        "email": "gaetan.cesaro@gmail.com",
+                        "compteDesactive": "false"
+                    }
+                }
+            }
+        }
     }
 ]
     

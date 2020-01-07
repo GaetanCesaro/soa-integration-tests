@@ -144,7 +144,7 @@ def processJMSResponse(method, response):
     if (response.status_code == 200):
         jsonResponse = json.loads(response.text)
         responseCode = jsonResponse["status"]
-        log.info("%s - HTTP Status %s" %(method, str(jsonResponse["status"])))
+        log.debug("%s - HTTP Status %s" %(method, str(jsonResponse["status"])))
 
         if responseCode != 200:
             log.error(response.text)
