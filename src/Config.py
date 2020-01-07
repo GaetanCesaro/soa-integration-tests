@@ -7,6 +7,11 @@ GPP_VERSION = "3.2"
 CLI_VERSION = "2.0"
 DIF_VERSION = "1.1"
 
+JMS_USERNAME = "admin"
+JMS_PASSWORD = "admin"
+JMS_URL_POST_MESSAGE = "{}/api/jolokia/"
+JMS_BODY_POST_MESSAGE = '{"type":"EXEC", "mbean":"org.apache.activemq:type=Broker,brokerName=[BROKER],destinationType=Topic,destinationName=[TOPIC]", "operation":"sendTextMessage(java.util.Map,java.lang.String,java.lang.String,java.lang.String)", "arguments":[ARGUMENTS]}'
+
 ENVIRONNEMENTS = {
     "DEV": {
         "name": "DEV",
@@ -15,6 +20,10 @@ ENVIRONNEMENTS = {
             "POSTGRE": "host=dbpg-qua-80 port=5432 user=devcafatuser password=Devc@f@tus3r dbname=dev_cafat_01",
             "SPRINGBOOT": "https://api-dev.intra.cafat.nc",
             "JBOSS": "http://app-dev.intra.cafat.nc",
+            "JMS": {
+                "hostname": "http://mom-tst-01:1161",
+                "broker": "ACTIVEMQ-DEV1",
+            }
         }
     },
     "INT": {
@@ -24,6 +33,10 @@ ENVIRONNEMENTS = {
             "POSTGRE": "host=dbpg-qua-80 port=5432 user=intcafatuser password=Intc@f@tus3r dbname=int_cafat_01",
             "SPRINGBOOT": "https://api-int.intra.cafat.nc",
             "JBOSS": "http://app-int.intra.cafat.nc",
+            "JMS": {
+                "hostname": "http://mom-tst-01:2161",
+                "broker": "ACTIVEMQ-INT",
+            }
         }
     },
     "VAL": {
@@ -33,6 +46,10 @@ ENVIRONNEMENTS = {
             "POSTGRE": "host=dbpg-qua-80 port=5432 user=valcafatuser password=valcafatuser dbname=val_cafat_01",
             "SPRINGBOOT": "https://api-val.intra.cafat.nc",
             "JBOSS": "http://app-val.intra.cafat.nc",
+            "JMS": {
+                "hostname": "http://mom-tst-01:3161",
+                "broker": "ACTIVEMQ-VAL",
+            }
         }
     }
 }

@@ -99,7 +99,6 @@ def runRESTPost(environnement, server, operation):
         log.error("Status code: %s" %(response.status_code))
 
 
-
 def runRESTCheck(environnement, test):
     server = test["out"]["server"]
     url = environnement["servers"][server] + test["out"]["operation"]["command"]
@@ -141,6 +140,47 @@ def runRESTCheck(environnement, test):
     return testResult
 
 
+def processJMSResponse(method, response):
+    if (response.status_code == 200):
+        jsonResponse = json.loads(response.text)
+        responseCode = jsonResponse["status"]
+        log.info("%s - HTTP Status %s" %(method, str(jsonResponse["status"])))
+
+        if responseCode != 200:
+            log.error(response.text)
+            sys.exit(2)
+
+        return jsonResponse
+    else:
+        log.error(method)
+        log.error(response)
+
+
+def runJMSPost(environnement, operation):
+    hostname = environnement["servers"]["JMS"]["hostname"]
+    broker = environnement["servers"]["JMS"]["broker"]
+    topic = operation["command"]
+
+    # Préparation du message JMS
+    message = operation["data"]
+    properties = "{ \"PersistentDelivery\":\"true\" }"
+    argument = []
+    argument.append(properties)
+    argument.append(message)
+    argument.append(cfg.JMS_USERNAME)
+    argument.append(cfg.JMS_PASSWORD)
+    jmsMessage = json.dumps(argument)
+
+    # Préparation de l'envoi
+    textBody = cfg.JMS_BODY_POST_MESSAGE.replace("[BROKER]", broker).replace("[TOPIC]", topic).replace("[ARGUMENTS]", jmsMessage)
+    log.debug(textBody)
+    jsonBody = json.loads(textBody)
+
+    # Envoi
+    response = requests.post(cfg.JMS_URL_POST_MESSAGE.format(hostname), json=jsonBody, auth=(cfg.JMS_USERNAME, cfg.JMS_PASSWORD))
+    return processJMSResponse("postMessage", response)
+
+
 def runTest(environnement, test):
     log.info("Running test %s" %test["name"])
 
@@ -149,6 +189,8 @@ def runTest(environnement, test):
         runSQLUpdate(environnement, test["in"]["server"], test["in"]["operation"])
     elif test["in"]["type"] == "REST":
         runRESTPost(environnement, test["in"]["server"], test["in"]["operation"])
+    elif test["in"]["type"] == "JMS":
+        runJMSPost(environnement, test["in"]["operation"])
 
     # WAIT 
     time.sleep(test["sleeptime"])
