@@ -67,7 +67,14 @@ def main():
                 results.append(result)
 
     core.exportResults(ENV, results)
-    return core.getFinalStatus(results)
+
+    nbErrors = core.getFinalStatus(results)
+    log.info("Nb errors %s" %nbErrors)
+
+    if nbErrors > 0:
+        sys.exit(1)
+    else:
+        sys.exit(0)
 
 
 if __name__ == "__main__":
