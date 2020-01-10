@@ -150,7 +150,8 @@ def processJMSResponse(method, response):
         return jsonResponse
     else:
         log.error(method)
-        log.error(response)
+        log.error(response.status_code)
+        log.error(response.text)
 
 
 def runJMSPost(environnement, operation):
