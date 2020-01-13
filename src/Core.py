@@ -36,7 +36,7 @@ def runSQLUpdate(environnement, server, operation):
     with conn:
         try:
             cursor.execute(query)
-        except Exception as e:
+        except (Exception, pyodbc.Error) as e:
             log.error(e)
 
 
