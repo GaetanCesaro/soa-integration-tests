@@ -36,7 +36,7 @@ def runSQLUpdate(environnement, server, operation):
     with conn:
         try:
             cursor.execute(query)
-        except as e:
+        except Exception as e:
             log.error(e)
 
 
