@@ -34,7 +34,10 @@ def runSQLUpdate(environnement, server, operation):
     log.debug("Executing %s update: %s" %(server, query))
 
     with conn:
-        cursor.execute(query)
+        try:
+            cursor.execute(query)
+        except as e:
+            log.error(e)
 
 
 def runSQLCheck(environnement, test):
