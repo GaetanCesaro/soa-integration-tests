@@ -7,6 +7,7 @@
 		"operation": {
 			"command": "/s-gen-cli-{CLI_VERSION}/personne-physique/540003/preferences-notifications",
 			"data": {
+				"typeContact": "ASSURE",
 				"abonnementEmail": "true",
 				"abonnementSms": "true"
 			}
@@ -30,6 +31,7 @@
 		"operation": {
 			"command": "/s-gen-cli-{CLI_VERSION}/personne-physique/540003/preferences-notifications",
 			"data": {
+				"typeContact": "ASSURE",
 				"abonnementEmail": "false",
 				"abonnementSms": "false"
 			}
