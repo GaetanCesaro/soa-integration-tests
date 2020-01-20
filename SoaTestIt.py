@@ -50,7 +50,7 @@ def main():
         elif opt in ("-l", "--loglevel"):
             loglevel = arg 
         else:
-            assert False, "unhandled option"
+            assert False, "Option non prise en compte"
 
     checkParameters(env, test, loglevel)
     
@@ -66,7 +66,7 @@ def main():
     for filename in glob.glob(os.path.join(testFilesPath, '*.json')):
         # Petit saut de ligne des familles pour la clareté du log
         print("")
-        log.debug("Lecture du fichier de test %s" %filename)
+        log.debug("Lecture du fichier de test: %s" %filename)
 
         with open(filename) as json_file:
             # Uniquement 1 seul test passé en paramètre de l'appel
@@ -86,7 +86,10 @@ def main():
     core.exportResults(ENV, results)
 
     nbErrors = core.getFinalStatus(results)
-    log.info("Nb errors %s" %nbErrors)
+    if (nbErrors > 0):
+        log.error("Nombre d'erreurs: %s" %nbErrors)
+    else:
+        log.error("Aucune erreur survenue !")
 
     if nbErrors > 0:
         sys.exit(1)
