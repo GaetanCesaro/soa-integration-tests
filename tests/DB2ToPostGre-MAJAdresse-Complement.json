@@ -1,6 +1,6 @@
 {
 	"name": "DB2ToPostGre-MAJAdresse-Complement",
-	"sleeptime": 3,
+	"sleeptime": 10,
 	"in": {
 		"type": "SQL",
 		"server": "DB2",

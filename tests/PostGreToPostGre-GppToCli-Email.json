@@ -1,6 +1,6 @@
 {
 	"name": "PostGreToPostGre-GppToCli-Email",
-	"sleeptime": 6,
+	"sleeptime": 10,
 	"in": {
 		"type": "REST",
 		"server": "SPRINGBOOT",
