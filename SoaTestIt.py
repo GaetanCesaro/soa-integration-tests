@@ -10,17 +10,25 @@ from tqdm import tqdm
 from termcolor import colored
 
 
-def checkParameters(env, test):
+def checkParameters(env, test, loglevel):
     # Paramètres obligatoires sinon on sort
     if not env:
         log.error("L'environnement est obligatoire")  
         log.usage()
         sys.exit()
 
+    if loglevel:
+        if loglevel not in 'DEBUGINFOWARNERROR':
+            log.error("Le loglevel, s'il est renseigne, doit valoir DEBUG, INFO, WARN ou ERROR")  
+            log.usage()
+            sys.exit()
+        else:
+            cfg.LOGLEVEL = loglevel
+
 
 def main():
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "h:e:t:", ["help","env","test"])
+        opts, args = getopt.getopt(sys.argv[1:], "h:e:t:l:", ["help","env","test", "loglevel"])
 
     except getopt.GetoptError as err:
         log.error(err)  
@@ -29,6 +37,7 @@ def main():
     
     env = ""
     test = ""
+    loglevel = ""
 
     for opt, arg in opts:
         if opt in ("-h", "--help"):
@@ -38,10 +47,13 @@ def main():
             env = arg
         elif opt in ("-t", "--test"):
             test = arg    
+        elif opt in ("-l", "--loglevel"):
+            loglevel = arg 
         else:
             assert False, "unhandled option"
 
-    checkParameters(env, test)
+    checkParameters(env, test, loglevel)
+    
 
     print("ENVIRONNEMENT", env)
     ENV = cfg.ENVIRONNEMENTS[env]
@@ -52,14 +64,19 @@ def main():
     results = []
 
     for filename in glob.glob(os.path.join(testFilesPath, '*.json')):
-        log.debug("Reading test file %s" %filename)
+        # Petit saut de ligne des familles pour la clareté du log
+        print("")
+        log.debug("Lecture du fichier de test %s" %filename)
+
         with open(filename) as json_file:
             # Uniquement 1 seul test passé en paramètre de l'appel
             if test:
                 if test.lower() in filename.lower():
                     data = json.load(json_file)
                     result = core.runTest(ENV, data)
-                    results.append(result)    
+                    results.append(result)
+                else:
+                    log.debug("--> Fichier non concerne par le filtre")
             # Tous les tests dans le dossier test
             else:
                 data = json.load(json_file)

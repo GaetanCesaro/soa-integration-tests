@@ -31,7 +31,7 @@ def runSQLUpdate(environnement, server, operation):
         conn = psycopg2.connect(environnement["servers"][server])
 
     cursor = conn.cursor()
-    log.debug("Executing %s update: %s" %(server, query))
+    log.debug("Execution %s UPDATE: %s" %(server, query))
 
     with conn:
         try:
@@ -48,7 +48,7 @@ def runSQLCheck(environnement, test):
     testResult.testName = test["name"]
     testResult.command = test["out"]["operation"]["command"]
     testResult.expectedResult = test["out"]["expected"]["value"]
-    testResult.gottenResult = "Test check failed"
+    testResult.gottenResult = "Verification du test en echec"
     testResult.status = "KO"
 
     if server == "DB2":
@@ -57,12 +57,12 @@ def runSQLCheck(environnement, test):
         conn = psycopg2.connect(environnement["servers"][server])
 
     cursor = conn.cursor()
-    log.debug("Executing %s select: %s" %(server, query))
+    log.debug("Execution %s SELECT: %s" %(server, query))
 
     with conn:
         cursor.execute(query)
         rows = cursor.fetchall()
-        log.debug("Results: %s" %str(rows))
+        log.debug("Resultats: %s" %str(rows))
         
         if len(rows) > 0 and len(rows[0]) > 0:
             testResult.gottenResult = str(rows[0][0])
@@ -73,10 +73,10 @@ def runSQLCheck(environnement, test):
             else:
                 testResult.status = "KO"
                 log.error("%s" %testResult.status)
-                log.error("Expected %s" %(testResult.expectedResult))
-                log.error("Gotten %s" %(testResult.gottenResult))
+                log.error("Attendu: %s" %(testResult.expectedResult))
+                log.error("Obtenu: %s" %(testResult.gottenResult))
         else:
-            testResult.gottenResult = "No result"
+            testResult.gottenResult = "Aucun resultat"
             testResult.status = "KO"
             log.error("%s - %s" %(testResult.status, testResult.gottenResult))
 
@@ -84,14 +84,13 @@ def runSQLCheck(environnement, test):
 
 
 def runRESTPost(environnement, server, operation):
-    log.debug(cfg.GPP_VERSION)
     restCommand = operation["command"].format(CLI_VERSION=cfg.CLI_VERSION, DIF_VERSION=cfg.DIF_VERSION, GPP_VERSION=cfg.GPP_VERSION)
     url = environnement["servers"][server] + restCommand
     data = operation["data"]
 
     response = requests.post(url, json=data, verify=False, headers={'Authorization': '{0}'.format(cfg.GODMODE_TOKEN)})
-    log.debug("Executing POST %s with data %s" %(url, data))
-    log.debug("Result: %s" %(response.text))
+    log.debug("Execution POST %s avec json %s" %(url, data))
+    log.debug("Resultat: %s" %(response.text))
     log.debug("Status code: %s" %(response.status_code))
 
     if not (response.status_code >= 200 and response.status_code < 300):
@@ -111,7 +110,7 @@ def runRESTCheck(environnement, test):
     testResult.status = "KO"
 
     response = requests.get(url, params=None, verify=False, headers={'Authorization': '{0}'.format(cfg.GODMODE_TOKEN)})
-    log.debug("Executing GET %s: %s" %(url, response.text))
+    log.debug("Execution GET %s: %s" %(url, response.text))
     log.debug("Status code: %s" %(response.status_code))
     
     if response.ok:
@@ -130,8 +129,8 @@ def runRESTCheck(environnement, test):
         else:
             testResult.status = "KO"
             log.error("%s" %testResult.status)
-            log.error("Expected %s" %(testResult.expectedResult))
-            log.error("Gotten %s" %(testResult.gottenResult))
+            log.error("Attendu: %s" %(testResult.expectedResult))
+            log.error("Obtenu: %s" %(testResult.gottenResult))
     else:
         testResult.gottenResult = response.status_code
         testResult.status = "KO"
@@ -183,7 +182,7 @@ def runJMSPost(environnement, operation):
 
 
 def runTest(environnement, test):
-    log.info("Running test %s" %test["name"])
+    log.info("Lancement du test %s" %test["name"])
 
     # Modification de donnée en entrée
     if test["in"]["type"] == "SQL":
@@ -216,7 +215,7 @@ def runTest(environnement, test):
 def exportResults(environnement, results):
     wb = Workbook()
     ws1 = wb.active
-    ws1.title = "SoaTestIT - Results"
+    ws1.title = "SoaTestIT - Resultats"
     ws1.append(cfg.EXCEL_COLUMNS)
 
     for result in results:

@@ -13,7 +13,9 @@ node {
                     [$class: 'ParameterSeparatorDefinition', name: 'separator_header', sectionHeader: 'Environnement', sectionHeaderStyle: 'font-weight: bold; text-transform: uppercase;', separatorStyle: 'margin-top: 10px'],
                     choice(choices: 'DEV\r\nINT\r\nVAL', description: '''Choix de l\'environnement cible<br/>''', name: 'DEPLOY_ENV_TARGET'),
 					[$class: 'ParameterSeparatorDefinition', name: 'separator_header', sectionHeader: 'Filtre de tests', sectionHeaderStyle: 'font-weight: bold; text-transform: uppercase;', separatorStyle: 'margin-top: 10px'],
-					string(defaultValue: '', description: 'Nom du test à réaliser (recheche wildcard)', name: 'TEST_NAME'),
+					string(defaultValue: '', description: 'Nom du test à réaliser (recheche wildcard)<br/>', name: 'TEST_NAME'),
+                    [$class: 'ParameterSeparatorDefinition', name: 'separator_header', sectionHeader: 'Niveau de log', sectionHeaderStyle: 'font-weight: bold; text-transform: uppercase;', separatorStyle: 'margin-top: 10px'],
+                    choice(choices: 'INFO\r\nDEBUG\r\nERROR', description: 'Niveau de log', name: 'LOG_LEVEL'),
                 ]
              ),
              [$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', artifactDaysToKeepStr: '', artifactNumToKeepStr: '10', daysToKeepStr: '', numToKeepStr: '10']],
@@ -42,14 +44,21 @@ node {
         stage('Test') {
             echo "== Test"
 			
-			// KO - Fait à la main sur le serveur... sh "/usr/local/bin/pip3.7 install -r requirements.txt"
-
-            // Run the python script
+            // Récupération des dépendances
+			// KO - Fait à la main sur le serveur... 
+            //sh "/usr/local/bin/pip3.7 install -r requirements.txt"
+            
+            // Préparation de la commande shell à lancer
+            shell_command = "/usr/local/bin/python3.7 SoaTestIt.py -e ${DEPLOY_ENV_TARGET}"
 			if(TEST_NAME) {
-				sh "/usr/local/bin/python3.7 SoaTestIt.py -e ${DEPLOY_ENV_TARGET} -t ${TEST_NAME}"
-			} else {
-				sh "/usr/local/bin/python3.7 SoaTestIt.py -e ${DEPLOY_ENV_TARGET}"
+                shell_command = shell_command + " -t ${TEST_NAME}"
 			}
+            if (LOG_LEVEL) {
+                shell_command = shell_command + " -l ${LOG_LEVEL}"
+            }
+            
+            // Lancement du script Python
+			sh shell_command
         }
 
         // At last, delete current directory to save space
