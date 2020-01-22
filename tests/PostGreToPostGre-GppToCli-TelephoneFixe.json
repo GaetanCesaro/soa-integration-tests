@@ -17,17 +17,17 @@
 		}
 	},
 	"out": {
-		"type": "REST",
-		"server": "SPRINGBOOT",
+		"type": "SQL",
+		"server": "POSTGRE",
 		"operation": {
-			"command": "/s-gen-cli-{CLI_VERSION}/personne-physique/540003/contact?type=ASSURE",
+			"command": "select 1 from sgencli.cli_contact a inner join sgencli.cli_client c on c.id = a.id_fk_client inner join sgencli.cli_personne_physique p on p.id_fk_client = c.id where p.matricule = 540003 and a.telephone_mfixe like '533922%'",
 			"data": ""
 		},
 		"expected": {
-			"attribute": ["telephoneFixe", "numero"],
-			"value": "533922"
+			"attribute": "1",
+			"value": "1"
 		}
-    },
+	},
 	"rollback": {
 		"type": "REST",
 		"server": "SPRINGBOOT",
