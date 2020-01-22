@@ -217,6 +217,9 @@ def runTest(environnement, test):
     elif test["in"]["type"] == "JMS":
         runJMSPost(environnement, test["rollback"]["operation"])
 
+    # WAIT SINON CA PEUT IMPACTER LES TESTS SUIVANTS
+    time.sleep(test["sleeptime"])
+
     return result
 
 
