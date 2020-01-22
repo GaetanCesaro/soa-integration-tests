@@ -1,5 +1,5 @@
 {
-	"name": "DB2ToPostGre-MAJEmail-NonPriseEnCompte",
+	"name": "DB2ToPostGre-MAJAdresse-Email-NonPriseEnCompte",
 	"sleeptime": 10,
 	"in": {
 		"type": "SQL",
@@ -25,7 +25,7 @@
 		"type": "SQL",
 		"server": "DB2",
 		"operation": {
-			"command": "update B{ENV_NAME}.ADRESSE set ADRPA1 = 'RES LES BAMBOUS APT 2' where ADRCAF = '02018000007994'",
+			"command": "update B{ENV_NAME}.ADRESSE set ADREML = 'gaetan.cesaro@gmail.com' where ADRCAF = '02018000007994'",
 			"data": ""
 		}
 	}

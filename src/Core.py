@@ -76,9 +76,13 @@ def runSQLCheck(environnement, test):
                 log.error("Attendu: %s" %(testResult.expectedResult))
                 log.error("Obtenu: %s" %(testResult.gottenResult))
         else:
-            testResult.gottenResult = "Aucun resultat"
-            testResult.status = "KO"
-            log.error("%s - %s" %(testResult.status, testResult.gottenResult))
+            if testResult.expectedResult == "":
+                testResult.status = "OK"
+                log.info("%s" %testResult.status)
+            else:
+                testResult.gottenResult = "Aucun resultat"
+                testResult.status = "KO"
+                log.error("%s - %s" %(testResult.status, testResult.gottenResult))
 
     return testResult
 

@@ -64,8 +64,6 @@ def main():
     results = []
 
     for filename in glob.glob(os.path.join(testFilesPath, '*.json')):
-        # Petit saut de ligne des familles pour la clareté du log
-        print("")
         log.debug("Lecture du fichier de test: %s" %filename)
 
         with open(filename) as json_file:
@@ -75,13 +73,17 @@ def main():
                     data = json.load(json_file)
                     result = core.runTest(ENV, data)
                     results.append(result)
+                    print("")   # Petit saut de ligne des familles pour la clareté du log
                 else:
                     log.debug("--> Fichier non concerne par le filtre")
+                    log.debug("")
+                
             # Tous les tests dans le dossier test
             else:
                 data = json.load(json_file)
                 result = core.runTest(ENV, data)
                 results.append(result)
+                print("")   # Petit saut de ligne des familles pour la clareté du log
 
     core.exportResults(ENV, results)
 
@@ -89,7 +91,7 @@ def main():
     if (nbErrors > 0):
         log.error("Nombre d'erreurs: %s" %nbErrors)
     else:
-        log.error("Aucune erreur survenue !")
+        log.info("Aucune erreur survenue !")
 
     if nbErrors > 0:
         sys.exit(1)
