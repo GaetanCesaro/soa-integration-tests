@@ -1,6 +1,6 @@
 {
 	"name": "PostGreToPostGre-GppToCli-TelephoneFixe",
-	"sleeptime": 15,
+	"sleeptime": 8,
 	"in": {
 		"type": "REST",
 		"server": "SPRINGBOOT",

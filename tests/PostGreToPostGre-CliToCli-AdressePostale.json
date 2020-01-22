@@ -1,6 +1,6 @@
 {
 	"name": "PostGreToPostGre-CliToCli-AdressePostale",
-	"sleeptime": 12,
+	"sleeptime": 6,
 	"in": {
 		"type": "REST",
 		"server": "SPRINGBOOT",
