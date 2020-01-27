@@ -1,0 +1,32 @@
+{
+        "name": "DB2ToPostGre-GppToGpp-RadieAutre",
+        "sleeptime": 10,
+        "in": {
+            "type": "SQL",
+            "server": "DB2",
+            "operation": {
+                "command": "update BGEN.CIVILP set ETARAD = 'E' where ETACAF = '02018000007994'",
+                "data": ""
+            }
+        },
+        "out": {
+            "type": "SQL",
+            "server": "POSTGRE",
+            "operation": {
+                "command": "select 1 from sgengpp.gpp_personne_physique p where p.numero_interne = 2018000007994 and p.radie = true and p.decede = false and p.motif_radiation = 'ERREUR_SAISIE'",
+                "data": ""
+            },
+            "expected": {
+                "attribute": "",
+                "value": "1"
+            }
+        },
+        "rollback": {
+            "type": "SQL",
+            "server": "DB2",
+            "operation": {
+                "command": "update BGEN.CIVILP set ETARAD = ' ' where ETACAF = '02018000007994'",
+                "data": ""
+            }
+        }
+    }
