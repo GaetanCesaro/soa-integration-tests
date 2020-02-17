@@ -73,7 +73,7 @@ node {
             "-d '{\"state\": \"SUCCESSFUL\", \"key\": \"${env.JOB_NAME}\", \"name\": \"${env.JOB_NAME} ${env.BUILD_DISPLAY_NAME}\", \"url\": \"${env.RUN_DISPLAY_URL}\"}' " +
             "${env.BITBUCKET_BASE_URL}/rest/build-status/1.0/commits/${GIT_REVISION}"
     }
-    step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: emailextrecipients([[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider'], [$class: 'CulpritsRecipientProvider']])])
+    step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: 'qdelabarrednanteuil@cafat.nc, eleroy@cafat.nc, bmaurice@cafat.nc, e_cesarog@cafat.nc', sendToIndividuals: true])
 
     if (GIT_REVISION && currentBuild.result.equals("FAILURE")) {
         sh "curl --insecure -H 'Authorization: Bearer ${env.BUILD_STATUS_BITBUCKET_TOKEN}' " +
