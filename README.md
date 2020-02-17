@@ -48,3 +48,11 @@ Les fichiers de tests se trouvent dans le répertoire [tests](/tests/)
 3. **Attention :** Bien appliquer le même nom dans la balise json *name* du fichier
 
 ### Règles de nommage des tests
+La structure du nom d'un test est la suivante :
+
+<**stack_source**>To<**stack_cible**>-<**module_source**>To<**module_cible**>-<**NomDuTestCamelEnCaseAvecMajuscule**>
+
+Les valeurs possibles sont :
+- **stack_source/stack_cible** : DB2, PostGre, JMS
+- **module_source/module_cible** : gpp, cli, iam, dif, etc... 
+- **NomDuTestCamelEnCaseAvecMajuscule** : CeQuonVeutTantQueCaRespecteLeCamelCaseAvecMajusculeEtPasTropLongSiPossiblePasCommeCetExempleQuoi
