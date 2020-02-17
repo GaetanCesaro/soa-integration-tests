@@ -17,8 +17,9 @@ node {
                     [$class: 'ParameterSeparatorDefinition', name: 'separator_header', sectionHeader: 'Niveau de log', sectionHeaderStyle: 'font-weight: bold; text-transform: uppercase;', separatorStyle: 'margin-top: 10px'],
                     choice(choices: 'INFO\r\nDEBUG\r\nERROR', description: 'Niveau de log', name: 'LOG_LEVEL'),
                 ]
-             ),
-             [$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', artifactDaysToKeepStr: '', artifactNumToKeepStr: '10', daysToKeepStr: '', numToKeepStr: '10']],
+            ),
+            [$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', artifactDaysToKeepStr: '', artifactNumToKeepStr: '10', daysToKeepStr: '', numToKeepStr: '10']],
+			pipelineTriggers([cron('H 7 * * 1-5')]),
          ])
 
 
