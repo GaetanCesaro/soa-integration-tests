@@ -5,19 +5,17 @@
             "type": "SQL",
             "server": "DB2",
             "operation": {
-                "command": "update BGEN.CIVILP set ETARAD = 'D', ETADDC = 20191231 where ETACAF = '02018000007994'",
-                "data": ""
+                "command": "update BGEN.CIVILP set ETARAD = 'D', ETADDC = 20191231 where ETACAF = '02018000007994'"
             }
         },
         "out": {
             "type": "SQL",
             "server": "POSTGRE",
             "operation": {
-                "command": "select 1 from sgengpp.gpp_personne_physique p where p.numero_interne = 2018000007994 and p.date_deces = '2019-12-31' and p.radie = true and p.decede = true and p.motif_radiation = 'DECEDE'",
-                "data": ""
+                "command": "select 1 from sgengpp.gpp_personne_physique p where p.numero_interne = 2018000007994 and p.date_deces = '2019-12-31' and p.radie = true and p.decede = true and p.motif_radiation = 'DECEDE'"
             },
             "expected": {
-                "attribute": "",
+                "attribute": "1",
                 "value": "1"
             }
         },
@@ -25,8 +23,7 @@
             "type": "SQL",
             "server": "DB2",
             "operation": {
-                "command": "update BGEN.CIVILP set ETARAD = ' ', ETADDC = 0 where ETACAF = '02018000007994'",
-                "data": ""
+                "command": "update BGEN.CIVILP set ETARAD = ' ', ETADDC = 0 where ETACAF = '02018000007994'"
             }
         }
     }

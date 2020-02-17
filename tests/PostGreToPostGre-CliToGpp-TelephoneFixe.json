@@ -43,8 +43,7 @@
 		"type": "SQL",
 		"server": "POSTGRE",
 		"operation": {
-			"command": "select 1 from sgengpp.gpp_telephone_fixe t, sgengpp.gpp_moyen_contact mc, sgengpp.gpp_personne_physique pp where t.id_fk_moyen_contact = mc.id and mc.date_fin_validite is null and mc.fk_personne_physique = pp.numero_interne and pp.matricule = 540003 and t.numero = '533922'",
-			"data": ""
+			"command": "select 1 from sgengpp.gpp_telephone_fixe t, sgengpp.gpp_moyen_contact mc, sgengpp.gpp_personne_physique pp where t.id_fk_moyen_contact = mc.id and mc.date_fin_validite is null and mc.fk_personne_physique = pp.numero_interne and pp.matricule = 540003 and t.numero = '533922'"
 		},
 		"expected": {
 			"attribute": "1",

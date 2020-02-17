@@ -17,8 +17,7 @@
 		"type": "SQL",
 		"server": "POSTGRE",
 		"operation": {
-			"command": "select 1 from sgendif.dif_preferences_notifications where numero_assure = '540003' and abonnement_email = true and abonnement_sms = true",
-			"data": ""
+			"command": "select 1 from sgendif.dif_preferences_notifications where numero_assure = '540003' and abonnement_email = true and abonnement_sms = true"
 		},
 		"expected": {
 			"attribute": "1",

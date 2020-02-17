@@ -28,8 +28,7 @@
 		"type": "SQL",
 		"server": "POSTGRE",
 		"operation": {
-			"command": "select statut_compte_assure from sgencli.cli_personne_physique where matricule = 540003",
-			"data": ""
+			"command": "select statut_compte_assure from sgencli.cli_personne_physique where matricule = 540003"
 		},
 		"expected": {
 			"attribute": "statut_compte_assure",

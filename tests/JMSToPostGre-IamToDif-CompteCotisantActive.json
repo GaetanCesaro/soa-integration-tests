@@ -28,8 +28,7 @@
 		"type": "SQL",
 		"server": "POSTGRE",
 		"operation": {
-			"command": "select compte_actif from sgendif.dif_preferences_notifications pn where to_number(pn.numero_assure, '999999') = 540003",
-			"data": ""
+			"command": "select compte_actif from sgendif.dif_preferences_notifications pn where to_number(pn.numero_assure, '999999') = 540003"
 		},
 		"expected": {
 			"attribute": "compte_actif",

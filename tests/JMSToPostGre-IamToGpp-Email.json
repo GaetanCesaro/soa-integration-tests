@@ -28,8 +28,7 @@
 		"type": "SQL",
 		"server": "POSTGRE",
 		"operation": {
-			"command": "select 1 from sgengpp.gpp_email e, sgengpp.gpp_moyen_contact mc, sgengpp.gpp_personne_physique pp where e.id_fk_moyen_contact = mc.id and mc.date_fin_validite is null and mc.fk_personne_physique = pp.numero_interne and pp.matricule = 540003 and adresse = 'gaetan.cesaro+testsoa@gmail.com'",
-			"data": ""
+			"command": "select 1 from sgengpp.gpp_email e, sgengpp.gpp_moyen_contact mc, sgengpp.gpp_personne_physique pp where e.id_fk_moyen_contact = mc.id and mc.date_fin_validite is null and mc.fk_personne_physique = pp.numero_interne and pp.matricule = 540003 and adresse = 'gaetan.cesaro+testsoa@gmail.com'"
 		},
 		"expected": {
 			"attribute": "1",

@@ -20,8 +20,7 @@
             "type": "REST",
             "server": "SPRINGBOOT",
             "operation": {
-                "command": "/s-gen-gpp-{GPP_VERSION}/personne-physique/540003/contact?type=ASSURE",
-                "data": ""
+                "command": "/s-gen-gpp-{GPP_VERSION}/personne-physique/540003/contact?type=ASSURE"
             },
             "expected": {
                 "attribute": ["email", "adresse"],

@@ -43,8 +43,7 @@
 		"type": "SQL",
 		"server": "POSTGRE",
 		"operation": {
-			"command": "select 1 from sgencli.cli_contact c, sgencli.cli_personne_physique pp where c.id_fk_client = pp.id_fk_client and pp.matricule = '540003' and c.adresse_postale like '%CITRONS%16,%HENDRIX%TRIANON%98809 %DORE%'",
-			"data": ""
+			"command": "select 1 from sgencli.cli_contact c, sgencli.cli_personne_physique pp where c.id_fk_client = pp.id_fk_client and pp.matricule = '540003' and c.adresse_postale like '%CITRONS%16,%HENDRIX%TRIANON%98809 %DORE%'"
 		},
 		"expected": {
 			"attribute": "1",

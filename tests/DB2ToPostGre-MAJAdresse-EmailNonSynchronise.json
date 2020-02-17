@@ -5,16 +5,14 @@
 		"type": "SQL",
 		"server": "DB2",
 		"operation": {
-			"command": "update B{ENV_NAME}.ADRESSE set ADREML = 'gaetan.cesaro+testnonprisencompte@gmail.com' where ADRCAF = '02018000007994'",
-			"data": ""
+			"command": "update B{ENV_NAME}.ADRESSE set ADREML = 'gaetan.cesaro+testnonprisencompte@gmail.com' where ADRCAF = '02018000007994'"
 		}
 	},
 	"out": {
 		"type": "SQL",
 		"server": "POSTGRE",
 		"operation": {
-			"command": "select 1 from sgengpp.gpp_email a  inner join sgengpp.gpp_moyen_contact m on m.id = a.id_fk_moyen_contact  inner join sgengpp.gpp_personne_physique p on m.fk_personne_physique = p.numero_interne  where p.matricule = '540003'  and m.date_fin_validite is null and a.adresse like 'gaetan.cesaro+testnonprisencompte@gmail.com%'",
-			"data": ""
+			"command": "select 1 from sgengpp.gpp_email a  inner join sgengpp.gpp_moyen_contact m on m.id = a.id_fk_moyen_contact  inner join sgengpp.gpp_personne_physique p on m.fk_personne_physique = p.numero_interne  where p.matricule = '540003'  and m.date_fin_validite is null and a.adresse like 'gaetan.cesaro+testnonprisencompte@gmail.com%'"
 		},
 		"expected": {
 			"attribute": "1",
@@ -25,8 +23,7 @@
 		"type": "SQL",
 		"server": "DB2",
 		"operation": {
-			"command": "update B{ENV_NAME}.ADRESSE set ADREML = 'gaetan.cesaro@gmail.com' where ADRCAF = '02018000007994'",
-			"data": ""
+			"command": "update B{ENV_NAME}.ADRESSE set ADREML = 'gaetan.cesaro@gmail.com' where ADRCAF = '02018000007994'"
 		}
 	}
 }
