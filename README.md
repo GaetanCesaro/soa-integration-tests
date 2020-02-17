@@ -1,6 +1,7 @@
 # SOA-Integration-Tests
 SOA-Integration-Tests est un utilitaire de tests d'intégration automatisés utilisant les protocoles SQL (DB2 & PostGre), REST et JMS.
 
+<br>
 
 ## Lancement des tests
 Par défaut, le lancement des tests est joué depuis [Jenkins](https://merlin-int2.intra.cafat.nc/jenkins/job/soa-integration-tests/) tous les jours aux alentours de 7h sur l'environnement de DEV. On peut également faire une éxécution à la demande avec les paramètres souhaités depuis Jenkins.
@@ -21,6 +22,7 @@ python SoaIntegrationTests.py -e VAL -l INFO
 | -t <test> (--test)                  | OPTIONNEL : Nom du ou des tests a executer : le terme entré est recherché dans le nom des tests référencés dans le dossier de tests |
 | -l <loglevel> (--loglevel)          | OPTIONNEL : Niveau de log à appliquer à l'exécution du programme (DEBUG, INFO, WARN ou ERROR)                                       |
 
+<br>
 
 ## Développement de nouveaux tests (Utilisation locale)
 
