@@ -85,7 +85,7 @@ def main():
                 results.append(result)
                 print("")   # Petit saut de ligne des familles pour la clareté du log
 
-    core.exportResults(ENV, results)
+    core.exportResults(env, results)
 
     nbErrors = core.getFinalStatus(results)
     if (nbErrors > 0):

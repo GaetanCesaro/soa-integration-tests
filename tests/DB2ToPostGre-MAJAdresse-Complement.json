@@ -5,7 +5,7 @@
 		"type": "SQL",
 		"server": "DB2",
 		"operation": {
-			"command": "update B{ENV_NAME}.ADRESSE set ADRPA1 = 'RES LES BAMBOUS APT 3' where ADRCAF = '02018000007994'"
+			"command": "update B{SCHEMA_NAME}.ADRESSE set ADRPA1 = 'RES LES BAMBOUS APT 3' where ADRCAF = '02018000007994'"
 		}
 	},
 	"out": {
@@ -23,7 +23,7 @@
 		"type": "SQL",
 		"server": "DB2",
 		"operation": {
-			"command": "update B{ENV_NAME}.ADRESSE set ADRPA1 = 'RES LES BAMBOUS APT 2' where ADRCAF = '02018000007994'"
+			"command": "update B{SCHEMA_NAME}.ADRESSE set ADRPA1 = 'RES LES BAMBOUS APT 2' where ADRCAF = '02018000007994'"
 		}
 	}
 }

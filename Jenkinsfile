@@ -11,7 +11,7 @@ node {
             parameters(
                 [
                     [$class: 'ParameterSeparatorDefinition', name: 'separator_header', sectionHeader: 'Environnement', sectionHeaderStyle: 'font-weight: bold; text-transform: uppercase;', separatorStyle: 'margin-top: 10px'],
-                    choice(choices: 'DEV\r\nINT\r\nVAL', description: '''Choix de l\'environnement cible<br/>''', name: 'DEPLOY_ENV_TARGET'),
+                    choice(choices: 'DEV\r\nINT\r\nVAL\r\nQUA', description: '''Choix de l\'environnement cible<br/>''', name: 'DEPLOY_ENV_TARGET'),
 					[$class: 'ParameterSeparatorDefinition', name: 'separator_header', sectionHeader: 'Filtre de tests', sectionHeaderStyle: 'font-weight: bold; text-transform: uppercase;', separatorStyle: 'margin-top: 10px'],
 					string(defaultValue: '', description: 'Nom du test à réaliser (recheche wildcard)<br/>', name: 'TEST_NAME'),
                     [$class: 'ParameterSeparatorDefinition', name: 'separator_header', sectionHeader: 'Niveau de log', sectionHeaderStyle: 'font-weight: bold; text-transform: uppercase;', separatorStyle: 'margin-top: 10px'],

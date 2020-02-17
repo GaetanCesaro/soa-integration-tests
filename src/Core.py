@@ -23,7 +23,7 @@ class TestResult:
 
 
 def runSQLUpdate(environnement, server, operation):
-    query = operation["command"].format(ENV_NAME=environnement["name"])
+    query = operation["command"].format(SCHEMA_NAME=environnement["schema_name"])
 
     if server == "DB2":
         conn = pyodbc.connect(environnement["servers"][server])
@@ -42,7 +42,7 @@ def runSQLUpdate(environnement, server, operation):
 
 def runSQLCheck(environnement, test):
     server = test["out"]["server"]
-    query = test["out"]["operation"]["command"].format(ENV_NAME=environnement["name"])
+    query = test["out"]["operation"]["command"].format(SCHEMA_NAME=environnement["schema_name"])
 
     testResult = TestResult()
     testResult.testName = test["name"]
@@ -223,7 +223,7 @@ def runTest(environnement, test):
     return result
 
 
-def exportResults(environnement, results):
+def exportResults(envName, results):
     wb = Workbook()
     ws1 = wb.active
     ws1.title = "SoaIntegrationTests - Resultats"
@@ -236,7 +236,7 @@ def exportResults(environnement, results):
     if not os.path.exists(pathFolder):
         os.mkdir(pathFolder)
 
-    path = pathFolder + environnement["name"] + cfg.EXCEL_FILE_NAME
+    path = pathFolder + envName + cfg.EXCEL_FILE_NAME
     log.info("Fichier excel cree : %s" %path)
     wb.save(path)
 

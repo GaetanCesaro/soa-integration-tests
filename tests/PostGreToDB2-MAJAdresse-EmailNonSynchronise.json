@@ -20,7 +20,7 @@
 		"type": "SQL",
 		"server": "DB2",
 		"operation": {
-			"command": "select 1 from B{ENV_NAME}.ADRESSE where ADRCAF = '02018000007994' and ADREML = 'gaetan.cesaro+testnonprisencompte@gmail.com'"
+			"command": "select 1 from B{SCHEMA_NAME}.ADRESSE where ADRCAF = '02018000007994' and ADREML = 'gaetan.cesaro+testnonprisencompte@gmail.com'"
 		},
 		"expected": {
 			"attribute": "1",

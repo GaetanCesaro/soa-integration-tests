@@ -14,7 +14,7 @@ JMS_BODY_POST_MESSAGE = '{"type":"EXEC", "mbean":"org.apache.activemq:type=Broke
 
 ENVIRONNEMENTS = {
     "DEV": {
-        "name": "DEV",
+        "schema_name": "DEV",
         "servers": {
             "DB2": "DRIVER={iSeries Access ODBC Driver};SYSTEM=IVAL;SERVER=IVAL;DATABASE=BGEN;UID=INFTEST;PWD=INFTEST",
             "POSTGRE": "host=dbpg-qua-80 port=5432 user=devcafatuser password=Devc@f@tus3r dbname=dev_cafat_01",
@@ -27,7 +27,7 @@ ENVIRONNEMENTS = {
         }
     },
     "INT": {
-        "name": "INT",
+        "schema_name": "INT",
         "servers": {
             "DB2": "DRIVER={iSeries Access ODBC Driver};SYSTEM=IVAL;SERVER=IVAL;DATABASE=BGEN;UID=INFTEST;PWD=INFTEST",
             "POSTGRE": "host=dbpg-qua-80 port=5432 user=intcafatuser password=Intc@f@tus3r dbname=int_cafat_01",
@@ -40,7 +40,7 @@ ENVIRONNEMENTS = {
         }
     },
     "VAL": {
-        "name": "VAL",
+        "schema_name": "VAL",
         "servers": {
             "DB2": "DRIVER={iSeries Access ODBC Driver};SYSTEM=IVAL;SERVER=IVAL;DATABASE=BGEN;UID=INFTEST;PWD=INFTEST",
             "POSTGRE": "host=dbpg-qua-80 port=5432 user=valcafatuser password=valcafatuser dbname=val_cafat_01",
@@ -49,6 +49,19 @@ ENVIRONNEMENTS = {
             "JMS": {
                 "hostname": "http://mom-tst-01:3161",
                 "broker": "ACTIVEMQ-VAL",
+            }
+        }
+    },
+    "QUA": {
+        "schema_name": "GEN",
+        "servers": {
+            "DB2": "DRIVER={iSeries Access ODBC Driver};SYSTEM=IQUA;SERVER=IVAL;DATABASE=BGEN;UID=MRECDNO;PWD=MRECDNO",
+            "POSTGRE": "host=dbpg-qua-80 port=5432 user=quacafatuser password=quacafatuser dbname=qua_cafat_01",
+            "SPRINGBOOT": "https://api-qua.intra.cafat.nc",
+            "JBOSS": "http://app-qua.intra.cafat.nc",
+            "JMS": {
+                "hostname": "http://mom-tst-01:8161",
+                "broker": "ACTIVEMQ-QUA",
             }
         }
     }
