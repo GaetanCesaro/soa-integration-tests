@@ -1,53 +1,50 @@
-# AMQ-Tools
+# SOA-Integration-Tests
+SOA-Integration-Tests est un utilitaire de tests d'intégration automatisés utilisant les protocoles SQL (DB2 & PostGre), REST et JMS.
 
-AMQ-Tools est un utilitaire d'exploitation des files ActiveMQ.
 
-## Configuration Workspace
+## Lancement des tests
+Par défaut, le lancement des tests est joué depuis [Jenkins](https://merlin-int2.intra.cafat.nc/jenkins/job/soa-integration-tests/) tous les jours aux alentours de 7h sur l'environnement de DEV. On peut également faire une éxécution à la demande avec les paramètres souhaités depuis Jenkins.
 
+### Exemples de commandes de lancement
+```
+python SoaIntegrationTests.py -e DEV -l DEBUG
+python SoaIntegrationTests.py -e DEV -l INFO -t gpp
+python SoaIntegrationTests.py -e INT -l INFO -t postgre
+python SoaIntegrationTests.py -e VAL -l INFO
+```
+
+### Liste des options
+| Option                              | Description                                                                                                                         |
+|-------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------|
+| -h, --help                          | Aide                                                                                                                                |
+| -e <environnement> (--env)          | Environnement ou seront joues les tests                                                                                             |
+| -t <test> (--test)                  | OPTIONNEL : Nom du ou des tests a executer : le terme entré est recherché dans le nom des tests référencés dans le dossier de tests |
+| -l <loglevel> (--loglevel)          | OPTIONNEL : Niveau de log à appliquer à l'exécution du programme (DEBUG, INFO, WARN ou ERROR)                                       |
+
+
+## Développement de nouveaux tests (Utilisation locale)
+
+### Installation Python
 L'outil fonctionne en Python 3.7.
 
 1. Installation Python 3.7 [ici](https://www.python.org/downloads/release/python-374/) ou spérieur 
 2. Vérifier que la racine de l'installation Python est bien dans votre PATH (ainsi que le sous dossier Scripts)
-2. Lancer la commande pip ci-dessous à la racine du repo pour récupérer les librairies nécessaires :
-
+3. Lancer la commande pip ci-dessous à la racine du repo pour récupérer les librairies nécessaires :
 
 ```
 pip install -r requirements.txt
 ```
 
-## Utilisation
+### Configuration ODBC 
+Afin d'utiliser les connexions DB2/400, il est nécessaire de configurer une source de données ODBC sur le poste du développeur.
+1. Sous Windows, aller dans *Panneau de configuration* > *Outils d'administration* > *Configurer les sources de données (ODBC)*
+2. Dans l'onglet *Sources de données utilisateur*, cliquer sur *Ajouter*
+3. Sélectionner le pilote **iSeries Access ODBC Driver** puis nommer la connexion **IVAL** et cliquer sur *Terminer*
 
-### Exemples d'utilisation
+### Ajout d'un nouveau test
+Les fichiers de tests se trouvent dans le répertoire [tests](/tests/)
+1. Dupliquer un des fichier JSON de test présent
+2. Le renommer en respectant la règle de nommage ci-dessous
+3. **Attention :** Bien appliquer le même nom dans la balise json *name* du fichier
 
-```
-python AMQTools.py -f PRD -a retryMessagesAllQueues
-python AMQTools.py -f PRD -a retryMessages -q QGENGPP
-python AMQTools.py -f PRD -a exportExcel -q QGENGPP
-python AMQTools.py -f VAL -t LOCALHOST -a postFirstMessage -q Consumer.SGENGPP.VirtualTopic.TDATALEGACY
-python AMQTools.py -f PRD -t DEV -a postAllMessages -q Consumer.SGENGPP.VirtualTopic.TDATALEGACY 
-```
-
-### Liste des options
-
-| Option                              | Description                                                         |
-|-------------------------------------|---------------------------------------------------------------------|
-| -h, --help                          | Aide                                                                |
-| -f <environnement_source> (--from)  | Environnement source où vont être récupérés les messages JMS        |
-| -t <environnement_cible> (--to)     | Environnement cible où vont être envoyés les messages JMS           |
-| -q <queue_cible> (--queue)          | File MQ cible. La file MQ source sera déduite en préfixant par DLQ. |
-| -a <action> (--action)              | Action exécutée. Voir la liste des actions possibles ci-dessous     |
-
-### Valeurs possibles
-
-- Environnements possibles : LOCALHOST, DEV, INT, VAL, QUA, PRD
-- Queues possibles : Consumer.SGENGPP.VirtualTopic.TDATALEGACY, Consumer.SGENCLI.VirtualTopic.TDATAGPP, QGENGPP, SRECDNO, SGENGED, SRECOBL, QDATALEGACY, ...
-
-### Liste des actions
-
-| Action                 | Description                                                                           |
-|------------------------|---------------------------------------------------------------------------------------|
-| retryMessages          | Réjoue tous les messages de la file DLQ associée sur l'environnement source           |
-| retryMessagesAllQueues | Réjoue tous les messages de toutes les files DLQ                                      |
-| exportExcel            | Un fichier Excel contenant les messages JMS de la DLQ associée est généré             |
-| postFirstMessage       | Récupère les messages de la file source et poste le 1er message dans la file cible    |
-| postAllMessages        | Récupère les messages de la file source et poste tous les messages dans la file cible |
+### Règles de nommage des tests

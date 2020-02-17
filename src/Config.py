@@ -56,5 +56,5 @@ ENVIRONNEMENTS = {
     
 # Excel file configuration
 OUTPUT_FOLDER = "output\\"
-EXCEL_FILE_NAME = "_SoaTestIT.xlsx"
+EXCEL_FILE_NAME = "_SoaIntegrationTests.xlsx"
 EXCEL_COLUMNS = ["Nom du test", "Statut", "Commande", "Résultat Attendu", "Résultat Obtenu"]

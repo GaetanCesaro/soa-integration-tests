@@ -52,7 +52,7 @@ node {
             //sh "/usr/local/bin/pip3.7 install -r requirements.txt"
             
             // Préparation de la commande shell à lancer
-            shell_command = "/usr/local/bin/python3.7 SoaTestIt.py -e ${DEPLOY_ENV_TARGET}"
+            shell_command = "/usr/local/bin/python3.7 SoaIntegrationTests.py -e ${DEPLOY_ENV_TARGET}"
 			if(TEST_NAME) {
                 shell_command = shell_command + " -t ${TEST_NAME}"
 			}

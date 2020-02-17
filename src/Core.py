@@ -226,7 +226,7 @@ def runTest(environnement, test):
 def exportResults(environnement, results):
     wb = Workbook()
     ws1 = wb.active
-    ws1.title = "SoaTestIT - Resultats"
+    ws1.title = "SoaIntegrationTests - Resultats"
     ws1.append(cfg.EXCEL_COLUMNS)
 
     for result in results:
