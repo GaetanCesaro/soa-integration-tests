@@ -24,8 +24,6 @@ node {
 
 
         checkProperties()
-		
-		EMAILS_A_NOTIFIER = readFile('jenkinsfile-emails.txt')
 
         stage('Checkout') {
             echo "== Checkout"
@@ -43,6 +41,8 @@ node {
                 "-d '{\"state\": \"INPROGRESS\", \"key\": \"${env.JOB_NAME}\", \"name\": \"${env.JOB_NAME} ${env.BUILD_DISPLAY_NAME}\", \"url\": \"${env.RUN_DISPLAY_URL}\"}' " +
                 "${env.BITBUCKET_BASE_URL}/rest/build-status/1.0/commits/${GIT_REVISION}"
         }
+		
+		EMAILS_A_NOTIFIER = readFile('jenkinsfile-emails.txt')
 
         stage('Test') {
             echo "== Test"
