@@ -1,0 +1,29 @@
+{
+        "name": "DB2ToPostGre-MAJPersonneGpp-NomPrenom",
+        "sleeptime": 10,
+        "in": {
+            "type": "SQL",
+            "server": "DB2",
+            "operation": {
+                "command": "update BGEN.CIVILP set ETANP = 'LEPOISSON', ETAPRE = 'Aquaman' where ETACAF = '02018000007994'"
+            }
+        },
+        "out": {
+            "type": "SQL",
+            "server": "POSTGRE",
+            "operation": {
+                "command": "select 1 from sgengpp.gpp_personne_physique p where p.numero_interne = 2018000007994 and nom_patronymique = 'LEPOISSON' and prenom = 'Aquaman'"
+            },
+            "expected": {
+                "attribute": "1",
+                "value": "1"
+            }
+        },
+        "rollback": {
+            "type": "SQL",
+            "server": "DB2",
+            "operation": {
+                "command": "update BGEN.CIVILP set ETANP = 'CESARO', ETAPRE = 'Gaëtan, alexis' where ETACAF = '02018000007994'"
+            }
+        }
+    }

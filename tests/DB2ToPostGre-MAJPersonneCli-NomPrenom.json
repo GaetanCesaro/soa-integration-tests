@@ -1,0 +1,29 @@
+{
+        "name": "DB2ToPostGre-MAJPersonneCli-NomPrenom",
+        "sleeptime": 10,
+        "in": {
+            "type": "SQL",
+            "server": "DB2",
+            "operation": {
+                "command": "update BGEN.CIVILP set ETANP = 'LEPOISSON', ETAPRE = 'Aquaman' where ETACAF = '02018000007994'"
+            }
+        },
+        "out": {
+            "type": "SQL",
+            "server": "POSTGRE",
+            "operation": {
+                "command": "select 1 from sgencli.cli_personne_physique pp inner join sgencli.cli_client c on pp.id_fk_client = c.id where c.histo_numero = '02018000007994' and pp.nom_patronymique = 'LEPOISSON' and pp.prenoms = 'Aquaman'"
+            },
+            "expected": {
+                "attribute": "1",
+                "value": "1"
+            }
+        },
+        "rollback": {
+            "type": "SQL",
+            "server": "DB2",
+            "operation": {
+                "command": "update BGEN.CIVILP set ETANP = 'CESARO', ETAPRE = 'Gaëtan, alexis' where ETACAF = '02018000007994'"
+            }
+        }
+    }
