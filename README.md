@@ -48,6 +48,7 @@ Les fichiers de tests se trouvent dans le répertoire [tests](./tests/)
 1. Dupliquer un des fichier JSON de test présent
 1. Le renommer en respectant la règle de nommage ci-dessous
 1. **Attention :** Bien appliquer le même nom dans la balise json *name* du fichier
+1. Référencer le nouveau test sur la [page Confluence](https://atlas-prd-01.intra.cafat.nc/confluence/pages/viewpage.action?pageId=52302270) pour qu'il soit connu des Architectes Fonctionnels
 
 ### Règles de nommage des tests
 La structure du nom d'un test est la suivante :
