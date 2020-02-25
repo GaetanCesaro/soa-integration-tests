@@ -31,7 +31,7 @@ def main():
         opts, args = getopt.getopt(sys.argv[1:], "h:e:t:l:", ["help","env","test", "loglevel"])
 
     except getopt.GetoptError as err:
-        log.error(err)  
+        log.error(str(err))
         log.usage()
         sys.exit(2)
     
