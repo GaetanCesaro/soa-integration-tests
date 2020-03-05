@@ -169,9 +169,17 @@ def runJMSPost(environnement, operation):
     broker = environnement["servers"]["JMS"]["broker"]
     topic = operation["command"]
 
+    
+    # Préparation du header JMS
+    headers = operation["headers"]
+    properties = "{"
+    for header in headers:
+        properties = properties + "\"" + header["name"] + "\":\"" + header["value"] + "\", "
+    properties = properties + ", \"PersistentDelivery\":\"true\""
+    properties = properties + "}"
+
     # Préparation du message JMS
     message = operation["data"]
-    properties = "{ \"PersistentDelivery\":\"true\" }"
     argument = []
     argument.append(properties)
     argument.append(message)
