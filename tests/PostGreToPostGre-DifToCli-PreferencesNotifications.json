@@ -8,9 +8,9 @@
 			"command": "/s-gen-dif-{DIF_VERSION}/preferences-notifications",
 			"data": {
 				"identifiant": {
-					"numeroAssure": "540003"
+					"numeroAssure": "9999999"
 				},
-				"abonnementEmail": "true",
+				"abonnementEmail": "false",
 				"abonnementSms": "true"
 			}
 		}
@@ -19,7 +19,7 @@
 		"type": "SQL",
 		"server": "POSTGRE",
 		"operation": {
-			"command": "select 1 from sgencli.cli_preferences_notifications cpn, sgencli.cli_personne_physique pp where cpn.fk_personne_physique = pp.id_fk_client and pp.matricule = '540003' and abonnement_email = true and abonnement_sms = true"
+			"command": "select 1 from sgencli.cli_preferences_notifications cpn, sgencli.cli_personne_physique pp where cpn.fk_personne_physique = pp.id_fk_client and pp.matricule = '9999999' and abonnement_email = false and abonnement_sms = true"
 		},
 		"expected": {
 			"attribute": "1",
@@ -33,9 +33,9 @@
 			"command": "/s-gen-dif-{DIF_VERSION}/preferences-notifications",
 			"data": {
 				"identifiant": {
-					"numeroAssure": "540003"
+					"numeroAssure": "9999999"
 				},
-				"abonnementEmail": "false",
+				"abonnementEmail": "true",
 				"abonnementSms": "false"
 			}
 		}

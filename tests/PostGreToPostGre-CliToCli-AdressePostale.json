@@ -1,11 +1,11 @@
 {
 	"name": "PostGreToPostGre-CliToCli-AdressePostale",
-	"sleeptime": 6,
+	"sleeptime": 8,
 	"in": {
 		"type": "REST",
 		"server": "SPRINGBOOT",
 		"operation": {
-			"command": "/s-gen-cli-{CLI_VERSION}/personne-physique/540003/contact",
+			"command": "/s-gen-cli-{CLI_VERSION}/personne-physique/9999999/contact",
 			"data": {
 				"adressePostale": {
 					"type": "domicile",
@@ -16,15 +16,15 @@
 					"lignePays": {
 						"code": "540"
 					},
-					"ligneComplement": "RES LES CITRONS APT 3",
+					"ligneComplement": "NAU MARCA test",
 					"ligneLieuDit": {
 						"type": "libre",
 						"libelle": "TRIANON"
 					},
 					"ligneVoie": {
-						"type": "reference",
+						"type": "libre",
 						"numero": "16",
-						"id": 502250
+						"libelle": "RUE Pascal TEST"
 					}
 				},
 				"telephoneFixe": {
@@ -33,7 +33,7 @@
 				},
 				"telephoneMobile": {
 					"type": "mobile",
-					"numero": "522933"
+					"numero": "0"
 				},
 				"typeContact": "ASSURE"
 			}
@@ -43,7 +43,7 @@
 		"type": "SQL",
 		"server": "POSTGRE",
 		"operation": {
-			"command": "select 1 from sgencli.cli_contact c, sgencli.cli_personne_physique pp where c.id_fk_client = pp.id_fk_client and pp.matricule = '540003' and c.adresse_postale like '%CITRONS%16,%HENDRIX%TRIANON%98809 %DORE%'"
+			"command": "select 1 from sgencli.cli_contact c, sgencli.cli_personne_physique pp where c.id_fk_client = pp.id_fk_client and pp.matricule = '9999999' and c.adresse_postale like '%NAU MARCA test%16 RUE Pascal TEST%TRIANON%98809 MONT DORE%'"
 		},
 		"expected": {
 			"attribute": "1",
@@ -54,7 +54,7 @@
 		"type": "REST",
 		"server": "SPRINGBOOT",
 		"operation": {
-			"command": "/s-gen-cli-{CLI_VERSION}/personne-physique/540003/contact",
+			"command": "/s-gen-cli-{CLI_VERSION}/personne-physique/9999999/contact",
 			"data": {
 				"adressePostale": {
 					"type": "domicile",
@@ -65,15 +65,15 @@
 					"lignePays": {
 						"code": "540"
 					},
-					"ligneComplement": "RES LES BAMBOUS APT 3",
+					"ligneComplement": "NAU MARCA",
 					"ligneLieuDit": {
 						"type": "libre",
-						"libelle": "VAL PLAISANCE"
+						"libelle": "TUBAND VIII"
 					},
 					"ligneVoie": {
-						"type": "reference",
-						"numero": "15",
-						"id": 502249
+						"type": "libre",
+						"numero": "6",
+						"libelle": "RUE Pascal SHIAZE"
 					}
 				},
 				"telephoneFixe": {
@@ -82,7 +82,7 @@
 				},
 				"telephoneMobile": {
 					"type": "mobile",
-					"numero": "522933"
+					"numero": "0"
 				},
 				"typeContact": "ASSURE"
 			}

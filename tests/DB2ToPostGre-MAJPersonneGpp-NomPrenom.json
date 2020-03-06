@@ -5,14 +5,14 @@
             "type": "SQL",
             "server": "DB2",
             "operation": {
-                "command": "update BGEN.CIVILP set ETANP = 'LEPOISSON', ETAPRE = 'Aquaman' where ETACAF = '02018000007994'"
+                "command": "update BGEN.CIVILP set ETANP = 'ASSURES DIVERS CAFAT test', ETAPRE = 'test' where ETACAF = '01900000000001'"
             }
         },
         "out": {
             "type": "SQL",
             "server": "POSTGRE",
             "operation": {
-                "command": "select 1 from sgengpp.gpp_personne_physique p where p.numero_interne = 2018000007994 and nom_patronymique = 'LEPOISSON' and prenom = 'Aquaman'"
+                "command": "select 1 from sgengpp.gpp_personne_physique p where p.numero_interne = 1900000000001 and nom_patronymique = 'ASSURES DIVERS CAFAT test' and prenom = 'test'"
             },
             "expected": {
                 "attribute": "1",
@@ -23,7 +23,7 @@
             "type": "SQL",
             "server": "DB2",
             "operation": {
-                "command": "update BGEN.CIVILP set ETANP = 'CESARO', ETAPRE = 'Gaëtan, alexis' where ETACAF = '02018000007994'"
+                "command": "update BGEN.CIVILP set ETANP = 'ASSURES DIVERS CAFAT', ETAPRE = '.' where ETACAF = '01900000000001'"
             }
         }
     }

@@ -1,18 +1,18 @@
 {
-	"name": "DB2ToPostGre-MAJAdresse-Email-NonPriseEnCompte",
+	"name": "DB2ToPostGre-MAJAdresse-Email-EmailNonSynchronise",
 	"sleeptime": 10,
 	"in": {
 		"type": "SQL",
 		"server": "DB2",
 		"operation": {
-			"command": "update B{SCHEMA_NAME}.ADRESSE set ADREML = 'gaetan.cesaro+testnonprisencompte@gmail.com' where ADRCAF = '02018000007994'"
+			"command": "update B{SCHEMA_NAME}.ADRESSE set ADREML = 'dsi_production+emailnonsynchronise@cafat.nc' where ADRCAF = '01900000000001'"
 		}
 	},
 	"out": {
 		"type": "SQL",
 		"server": "POSTGRE",
 		"operation": {
-			"command": "select 1 from sgengpp.gpp_email a  inner join sgengpp.gpp_moyen_contact m on m.id = a.id_fk_moyen_contact  inner join sgengpp.gpp_personne_physique p on m.fk_personne_physique = p.numero_interne  where p.matricule = '540003'  and m.date_fin_validite is null and a.adresse like 'gaetan.cesaro+testnonprisencompte@gmail.com%'"
+			"command": "select 1 from sgengpp.gpp_email a  inner join sgengpp.gpp_moyen_contact m on m.id = a.id_fk_moyen_contact  inner join sgengpp.gpp_personne_physique p on m.fk_personne_physique = p.numero_interne  where p.matricule = '9999999'  and m.date_fin_validite is null and a.adresse like 'assure.divers@cafat.nc%'"
 		},
 		"expected": {
 			"attribute": "1",
@@ -23,7 +23,7 @@
 		"type": "SQL",
 		"server": "DB2",
 		"operation": {
-			"command": "update B{SCHEMA_NAME}.ADRESSE set ADREML = 'gaetan.cesaro@gmail.com' where ADRCAF = '02018000007994'"
+			"command": "update B{SCHEMA_NAME}.ADRESSE set ADREML = 'dsi_production@cafat.nc' where ADRCAF = '01900000000001'"
 		}
 	}
 }

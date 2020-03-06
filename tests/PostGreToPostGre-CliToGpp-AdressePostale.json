@@ -5,7 +5,7 @@
 		"type": "REST",
 		"server": "SPRINGBOOT",
 		"operation": {
-			"command": "/s-gen-cli-{CLI_VERSION}/personne-physique/540003/contact",
+			"command": "/s-gen-cli-{CLI_VERSION}/personne-physique/9999999/contact",
 			"data": {
 				"adressePostale": {
 					"type": "domicile",
@@ -16,15 +16,15 @@
 					"lignePays": {
 						"code": "540"
 					},
-					"ligneComplement": "RES LES CITRONS APT 3",
+					"ligneComplement": "NAU MARCA test",
 					"ligneLieuDit": {
 						"type": "libre",
 						"libelle": "TRIANON"
 					},
 					"ligneVoie": {
-						"type": "reference",
+						"type": "libre",
 						"numero": "16",
-						"id": 502250
+						"libelle": "RUE Pascal TEST"
 					}
 				},
 				"telephoneFixe": {
@@ -33,7 +33,7 @@
 				},
 				"telephoneMobile": {
 					"type": "mobile",
-					"numero": "522933"
+					"numero": "0"
 				},
 				"typeContact": "ASSURE"
 			}
@@ -43,7 +43,7 @@
 		"type": "SQL",
 		"server": "POSTGRE",
 		"operation": {
-			"command": "select 1 from sgengpp.gpp_adresse_domicile ad, sgengpp.gpp_moyen_contact mc, sgengpp.gpp_personne_physique pp where ad.id_fk_ap = mc.id and mc.date_fin_validite is null and mc.fk_personne_physique = pp.numero_interne and pp.matricule = 540003 and ad.complement like '%CITRONS%' and ad.fk_voie = 502250 and ad.lieu_dit_libre = 'TRIANON' and numero_voie = '16'"
+			"command": "select 1 from sgengpp.gpp_adresse_domicile ad, sgengpp.gpp_moyen_contact mc, sgengpp.gpp_personne_physique pp where ad.id_fk_ap = mc.id and mc.date_fin_validite is null and mc.fk_personne_physique = pp.numero_interne and pp.matricule = 9999999 and ad.complement like '%NAU MARCA test%' and ad.numero_voie = '16' and ad.voie_libre = 'RUE Pascal TEST' and ad.lieu_dit_libre = 'TRIANON'"
 		},
 		"expected": {
 			"attribute": "1",
@@ -54,7 +54,7 @@
 		"type": "REST",
 		"server": "SPRINGBOOT",
 		"operation": {
-			"command": "/s-gen-cli-{CLI_VERSION}/personne-physique/540003/contact",
+			"command": "/s-gen-cli-{CLI_VERSION}/personne-physique/9999999/contact",
 			"data": {
 				"adressePostale": {
 					"type": "domicile",
@@ -65,15 +65,15 @@
 					"lignePays": {
 						"code": "540"
 					},
-					"ligneComplement": "RES LES BAMBOUS APT 3",
+					"ligneComplement": "NAU MARCA",
 					"ligneLieuDit": {
 						"type": "libre",
-						"libelle": "VAL PLAISANCE"
+						"libelle": "TUBAND VIII"
 					},
 					"ligneVoie": {
-						"type": "reference",
-						"numero": "15",
-						"id": 502249
+						"type": "libre",
+						"numero": "6",
+						"libelle": "RUE Pascal SHIAZE"
 					}
 				},
 				"telephoneFixe": {
@@ -82,7 +82,7 @@
 				},
 				"telephoneMobile": {
 					"type": "mobile",
-					"numero": "522933"
+					"numero": "0"
 				},
 				"typeContact": "ASSURE"
 			}

@@ -5,14 +5,14 @@
 		"type": "SQL",
 		"server": "DB2",
 		"operation": {
-			"command": "update B{SCHEMA_NAME}.ADRESSE set ADRPA1 = 'RES LES BAMBOUS APT 3' where ADRCAF = '02018000007994'"
+			"command": "update B{SCHEMA_NAME}.ADRESSE set ADRPA1 = 'NAU MARCA test' where ADRCAF = '01900000000001'"
 		}
 	},
 	"out": {
 		"type": "SQL",
 		"server": "POSTGRE",
 		"operation": {
-			"command": "select 1 from sgengpp.gpp_adresse_domicile a inner join sgengpp.gpp_moyen_contact m on m.id = a.id_fk_ap inner join sgengpp.gpp_personne_physique p on m.fk_personne_physique = p.numero_interne where p.matricule = '540003' and m.date_fin_validite is null and a.complement = 'RES LES BAMBOUS APT 3'"
+			"command": "select 1 from sgengpp.gpp_adresse_domicile a inner join sgengpp.gpp_moyen_contact m on m.id = a.id_fk_ap inner join sgengpp.gpp_personne_physique p on m.fk_personne_physique = p.numero_interne where p.matricule = '9999999' and m.date_fin_validite is null and a.complement = 'NAU MARCA test'"
 		},
 		"expected": {
 			"attribute": "1",
@@ -23,7 +23,7 @@
 		"type": "SQL",
 		"server": "DB2",
 		"operation": {
-			"command": "update B{SCHEMA_NAME}.ADRESSE set ADRPA1 = 'RES LES BAMBOUS APT 2' where ADRCAF = '02018000007994'"
+			"command": "update B{SCHEMA_NAME}.ADRESSE set ADRPA1 = 'NAU MARCA' where ADRCAF = '01900000000001'"
 		}
 	}
 }
