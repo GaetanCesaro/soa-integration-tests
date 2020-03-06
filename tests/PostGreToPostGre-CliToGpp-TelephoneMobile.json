@@ -29,7 +29,7 @@
 				},
 				"telephoneFixe": {
 					"type": "fixe",
-					"numero": "0"
+					"numero": ""
 				},
 				"telephoneMobile": {
 					"type": "mobile",
@@ -78,11 +78,11 @@
 				},
 				"telephoneFixe": {
 					"type": "fixe",
-					"numero": "0"
+					"numero": ""
 				},
 				"telephoneMobile": {
 					"type": "mobile",
-					"numero": "0"
+					"numero": ""
 				},
 				"typeContact": "ASSURE"
 			}

@@ -36,7 +36,7 @@
 				"telephoneMobile": {
 					"type": "mobile",
 					"typeContact": "ASSURE",
-					"numero": "0"
+					"numero": ""
 				},
 				"typeContact": "ASSURE"
 			}
