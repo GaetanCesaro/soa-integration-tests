@@ -6,7 +6,6 @@ SOA-Integration-Tests est un utilitaire de tests d'intégration automatisés uti
 ## Gestion des branches
 Contrairement à un repository Git "classique", ce projet est structuré comme suit :
 - 1 branche par environnement
-    - QUA
     - VAL
     - INT
     - DEV
