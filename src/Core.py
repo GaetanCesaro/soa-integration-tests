@@ -92,17 +92,21 @@ def runRESTPost(environnement, server, operation):
     url = environnement["servers"][server] + restCommand
     data = operation["data"]
 
-    response = requests.post(url, json=data, verify=False, headers={'Authorization': '{0}'.format(cfg.GODMODE_TOKEN)})
+    try:
+        response = requests.post(url, json=data, verify=False, headers={'Authorization': '{0}'.format(cfg.GODMODE_TOKEN)})
 
-    if cfg.LOGLEVEL == 'DEBUG':
-        prettyJsonData = json.dumps(data, indent=4, sort_keys=True)
-        
-        log.debug("Execution POST %s avec json \n%s" %(url, prettyJsonData))
-        log.debug("Resultat: %s" %(response.text))
-        log.debug("Status code: %s" %(response.status_code))
+        if cfg.LOGLEVEL == 'DEBUG':
+            prettyJsonData = json.dumps(data, indent=4, sort_keys=True)
+            
+            log.debug("Execution POST %s avec json \n%s" %(url, prettyJsonData))
+            log.debug("Resultat: %s" %(response.text))
+            log.debug("Status code: %s" %(response.status_code))
 
-    if not (response.status_code >= 200 and response.status_code < 300):
-        log.error("Status code: %s" %(response.status_code))
+        if not (response.status_code >= 200 and response.status_code < 300):
+            log.error("Status code: %s" %(response.status_code))
+
+    except (ConnectionError) as e:
+        log.error(e)
 
 
 def runRESTCheck(environnement, test):
