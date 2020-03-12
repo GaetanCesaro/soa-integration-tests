@@ -3,6 +3,19 @@ SOA-Integration-Tests est un utilitaire de tests d'intégration automatisés uti
 
 <br>
 
+## Gestion des branches
+Contrairement à un repository Git "classique", ce projet est structuré comme suit :
+- 1 branche par environnement
+    - VAL
+    - INT
+    - DEV
+- Lorsqu'un nouveau test est réalisé il est fait sur la branche **DEV**
+- On le livre ensuite avec le fonctionnement habituel de merge
+
+Cette gestion est en place pour permettre un build Jenkins quotidien automatique sur chaque environnement, avec la configuration des tests en phase avec les versions applicatives des services SOA sur l'environnement en question.
+
+NB : Pas de PR pour l'instant sur ce repository
+
 ## Lancement des tests
 Par défaut, le lancement des tests est joué depuis [Jenkins](https://merlin-int2.intra.cafat.nc/jenkins/job/soa-integration-tests/) tous les jours aux alentours de 7h sur l'environnement de DEV. On peut également faire une exécution à la demande avec les paramètres souhaités depuis Jenkins.
 
