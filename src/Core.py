@@ -105,7 +105,7 @@ def runRESTPost(environnement, server, operation):
         if not (response.status_code >= 200 and response.status_code < 300):
             log.error("Status code: %s" %(response.status_code))
 
-    except (ConnectionError) as e:
+    except (requests.ConnectionError, requests.ConnectTimeout) as e:
         log.error(e)
 
 
