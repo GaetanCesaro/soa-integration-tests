@@ -5,7 +5,7 @@
 		"type": "JMS",
 		"server": "",
 		"operation": {
-			"command": "VirtualTopic.TDATAPOSTGRE",
+			"command": "VirtualTopic.TDATASYNC",
 			"headers": [
 				{ "name": "TABLE", "value": "IAM_ASSURE_ACCOUNT" }
 			],
@@ -42,7 +42,7 @@
 		"type": "JMS",
 		"server": "",
 		"operation": {
-			"command": "VirtualTopic.TDATAPOSTGRE",
+			"command": "VirtualTopic.TDATASYNC",
 			"headers": [
 				{ "name": "TABLE", "value": "IAM_ASSURE_ACCOUNT" }
 			],

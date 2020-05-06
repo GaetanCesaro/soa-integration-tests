@@ -63,7 +63,7 @@ def main():
 
     results = []
 
-    for filename in glob.glob(os.path.join(testFilesPath, '*.json')):
+    for filename in sorted(glob.glob(os.path.join(testFilesPath, '*.json'))):
         log.debug("Lecture du fichier de test: %s" %filename)
 
         with open(filename) as json_file:
