@@ -14,6 +14,8 @@ node {
 					string(defaultValue: '', description: 'Nom du test à réaliser (recheche wildcard)<br/>', name: 'TEST_NAME'),
                     [$class: 'ParameterSeparatorDefinition', name: 'separator_header', sectionHeader: 'Niveau de log', sectionHeaderStyle: 'font-weight: bold; text-transform: uppercase;', separatorStyle: 'margin-top: 10px'],
                     choice(choices: 'INFO\r\nDEBUG\r\nERROR', description: 'Niveau de log', name: 'LOG_LEVEL'),
+                    [$class: 'ParameterSeparatorDefinition', name: 'separator_header', separatorStyle: 'margin-top: 10px'],
+					booleanParam(defaultValue: true, description: 'Notifier les développeurs si tests en erreur<br/>', name: 'NOTIFY_BY_EMAIL'),
                 ]
             ),
             [$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', artifactDaysToKeepStr: '', artifactNumToKeepStr: '10', daysToKeepStr: '', numToKeepStr: '10']],
@@ -57,7 +59,9 @@ node {
         // This will only happen when the build is successful
         deleteDir()
     }
-    step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: EMAILS_A_NOTIFIER, sendToIndividuals: true])
+    if (NOTIFY_BY_EMAIL) {
+        step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: EMAILS_A_NOTIFIER, sendToIndividuals: true])
+    }
 }
 
 /**
