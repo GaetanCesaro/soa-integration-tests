@@ -14,10 +14,8 @@ Contrairement à un repository Git "classique", ce projet est structuré comme s
 
 Cette gestion est en place pour permettre un build Jenkins quotidien automatique sur chaque environnement, avec la configuration des tests en phase avec les versions applicatives des services SOA sur l'environnement en question.
 
-NB : Pas de PR pour l'instant sur ce repository
-
 ## Lancement des tests
-Par défaut, le lancement des tests est joué depuis [Jenkins](https://merlin-int2.intra.cafat.nc/jenkins/job/soa-integration-tests/) tous les jours aux alentours de 7h sur l'environnement de DEV. On peut également faire une exécution à la demande avec les paramètres souhaités depuis Jenkins.
+Par défaut, le lancement des tests est joué depuis [Jenkins](https://merlin-int2.intra.cafat.nc/jenkins/job/soa-integration-tests/) tous les jours aux alentours de 7h sur les environnements DEV, INT et VAL. On peut également faire une exécution à la demande avec les paramètres souhaités depuis Jenkins.
 
 ### Exemples de commandes de lancement
 ```
@@ -66,9 +64,9 @@ Les fichiers de tests se trouvent dans le répertoire [tests](./tests/)
 ### Règles de nommage des tests
 La structure du nom d'un test est la suivante :
 
-<**stack_source**>To<**stack_cible**>-<**module_source**>To<**module_cible**>-<**NomDuTestCamelEnCaseAvecMajuscule**>
+<**stack_source**>To<**stack_cible**>-<**module_source**>To<**module_cible**>-<**NomDuTestEnCamelCaseAvecMajuscule**>
 
 Les valeurs possibles sont :
 - **stack_source/stack_cible** : DB2, PostGre, JMS
 - **module_source/module_cible** : gpp, cli, iam, dif, etc... 
-- **NomDuTestCamelEnCaseAvecMajuscule** : CeQuonVeutTantQueCaRespecteLeCamelCaseAvecMajusculeEtPasTropLongSiPossiblePasCommeCetExempleQuoi
+- **NomDuTestEnCamelCaseAvecMajuscule** : CeQuonVeutTantQueCaRespecteLeCamelCaseAvecMajusculeEtPasTropLongSiPossiblePasCommeCetExempleQuoi
