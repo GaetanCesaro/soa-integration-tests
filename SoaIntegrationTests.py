@@ -31,7 +31,7 @@ def main():
         opts, args = getopt.getopt(sys.argv[1:], "h:e:t:l:", ["help","env","test", "loglevel"])
 
     except getopt.GetoptError as err:
-        log.error(err)  
+        log.error(str(err))
         log.usage()
         sys.exit(2)
     
@@ -63,7 +63,7 @@ def main():
 
     results = []
 
-    for filename in glob.glob(os.path.join(testFilesPath, '*.json')):
+    for filename in sorted(glob.glob(os.path.join(testFilesPath, '*.json'))):
         log.debug("Lecture du fichier de test: %s" %filename)
 
         with open(filename) as json_file:

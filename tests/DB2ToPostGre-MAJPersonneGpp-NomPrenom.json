@@ -1,18 +1,18 @@
 {
-        "name": "DB2ToPostGre-GppToGpp-RadieDeces",
+        "name": "DB2ToPostGre-MAJPersonneGpp-NomPrenom",
         "sleeptime": 10,
         "in": {
             "type": "SQL",
             "server": "DB2",
             "operation": {
-                "command": "update BGEN.CIVILP set ETARAD = 'D', ETADDC = 20191231 where ETACAF = '01900000000001'"
+                "command": "update BGEN.CIVILP set ETANP = 'ASSURES DIVERS CAFAT test', ETAPRE = 'test' where ETACAF = '01900000000001'"
             }
         },
         "out": {
             "type": "SQL",
             "server": "POSTGRE",
             "operation": {
-                "command": "select 1 from sgengpp.gpp_personne_physique p where p.numero_interne = 1900000000001 and p.date_deces = '2019-12-31' and p.radie = true and p.decede = true and p.motif_radiation = 'DECEDE'"
+                "command": "select 1 from sgengpp.gpp_personne_physique p where p.numero_interne = 1900000000001 and nom_patronymique = 'ASSURES DIVERS CAFAT test' and prenom = 'test'"
             },
             "expected": {
                 "attribute": "1",
@@ -23,7 +23,7 @@
             "type": "SQL",
             "server": "DB2",
             "operation": {
-                "command": "update BGEN.CIVILP set ETARAD = ' ', ETADDC = 0 where ETACAF = '01900000000001'"
+                "command": "update BGEN.CIVILP set ETANP = 'ASSURES DIVERS CAFAT', ETAPRE = '.' where ETACAF = '01900000000001'"
             }
         }
     }

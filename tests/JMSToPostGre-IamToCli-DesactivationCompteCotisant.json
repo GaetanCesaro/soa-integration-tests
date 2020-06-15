@@ -1,5 +1,5 @@
 {
-	"name": "JMSToPostGre-IamToGpp-Email",
+	"name": "JMSToPostGre-IamToCli-DesactivationCompteCotisant",
 	"sleeptime": 6,
 	"in": {
 		"type": "JMS",
@@ -21,8 +21,8 @@
 				}, 
 				"tupleAfter": { 
 					"matricule": "9999999", 
-					"email": "dsi_production+testsoa@cafat.nc", 
-					"compteDesactive": "false" 
+					"email": "dsi_production@cafat.nc", 
+					"compteDesactive": "true" 
 				} 
 			}
 		}
@@ -31,11 +31,11 @@
 		"type": "SQL",
 		"server": "POSTGRE",
 		"operation": {
-			"command": "select 1 from sgengpp.gpp_email e, sgengpp.gpp_moyen_contact mc, sgengpp.gpp_personne_physique pp where e.id_fk_moyen_contact = mc.id and mc.date_fin_validite is null and mc.fk_personne_physique = pp.numero_interne and pp.matricule = 9999999 and adresse = 'dsi_production+testsoa@cafat.nc'"
+			"command": "select statut_compte_assure from sgencli.cli_personne_physique where matricule = 9999999"
 		},
 		"expected": {
-			"attribute": "1",
-			"value": "1"
+			"attribute": "statut_compte_assure",
+			"value": "DESACTIVE"
 		}
 	},
 	"rollback": {
@@ -53,8 +53,8 @@
 				"operation": "UPDATE", 
 				"tupleBefore": { 
 					"matricule": "9999999", 
-					"email": "dsi_production+testsoa@cafat.nc", 
-					"compteDesactive": "false" 
+					"email": "dsi_production@cafat.nc", 
+					"compteDesactive": "true" 
 				}, 
 				"tupleAfter": { 
 					"matricule": "9999999", 

@@ -5,7 +5,7 @@
 		"type": "REST",
 		"server": "SPRINGBOOT",
 		"operation": {
-			"command": "/s-gen-cli-{CLI_VERSION}/personne-physique/540003/contact",
+			"command": "/s-gen-cli-{CLI_VERSION}/personne-physique/9999999/contact",
 			"data": {
 				"adressePostale": {
 					"type": "domicile",
@@ -16,15 +16,15 @@
 					"lignePays": {
 						"code": "540"
 					},
-					"ligneComplement": "RES LES BAMBOUS APT 3",
+					"ligneComplement": "NAU MARCA",
 					"ligneLieuDit": {
 						"type": "libre",
-						"libelle": "VAL PLAISANCE"
+						"libelle": "TUBAND VIII"
 					},
 					"ligneVoie": {
-						"type": "reference",
-						"numero": "15",
-						"id": 502249
+						"type": "libre",
+						"numero": "6",
+						"libelle": "RUE Pascal SHIAZE"
 					}
 				},
 				"telephoneFixe": {
@@ -33,7 +33,7 @@
 				},
 				"telephoneMobile": {
 					"type": "mobile",
-					"numero": "522933"
+					"numero": ""
 				},
 				"typeContact": "ASSURE"
 			}
@@ -43,7 +43,7 @@
 		"type": "SQL",
 		"server": "POSTGRE",
 		"operation": {
-			"command": "select 1 from sgengpp.gpp_telephone_fixe t, sgengpp.gpp_moyen_contact mc, sgengpp.gpp_personne_physique pp where t.id_fk_moyen_contact = mc.id and mc.date_fin_validite is null and mc.fk_personne_physique = pp.numero_interne and pp.matricule = 540003 and t.numero = '533922'"
+			"command": "select 1 from sgengpp.gpp_telephone_fixe t, sgengpp.gpp_moyen_contact mc, sgengpp.gpp_personne_physique pp where t.id_fk_moyen_contact = mc.id and mc.date_fin_validite is null and mc.fk_personne_physique = pp.numero_interne and pp.matricule = 9999999 and t.numero = '533922'"
 		},
 		"expected": {
 			"attribute": "1",
@@ -54,7 +54,7 @@
 		"type": "REST",
 		"server": "SPRINGBOOT",
 		"operation": {
-			"command": "/s-gen-cli-{CLI_VERSION}/personne-physique/540003/contact",
+			"command": "/s-gen-cli-{CLI_VERSION}/personne-physique/9999999/contact",
 			"data": {
 				"adressePostale": {
 					"type": "domicile",
@@ -65,24 +65,24 @@
 					"lignePays": {
 						"code": "540"
 					},
-					"ligneComplement": "RES LES BAMBOUS APT 3",
+					"ligneComplement": "NAU MARCA",
 					"ligneLieuDit": {
 						"type": "libre",
-						"libelle": "VAL PLAISANCE"
+						"libelle": "TUBAND VIII"
 					},
 					"ligneVoie": {
-						"type": "reference",
-						"numero": "15",
-						"id": 502249
+						"type": "libre",
+						"numero": "6",
+						"libelle": "RUE Pascal SHIAZE"
 					}
 				},
 				"telephoneFixe": {
 					"type": "fixe",
-					"numero": "0"
+					"numero": ""
 				},
 				"telephoneMobile": {
 					"type": "mobile",
-					"numero": "522933"
+					"numero": ""
 				},
 				"typeContact": "ASSURE"
 			}

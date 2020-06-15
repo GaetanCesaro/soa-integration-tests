@@ -1,0 +1,29 @@
+{
+        "name": "DB2ToPostGre-MAJPersonneCli-NomPrenom",
+        "sleeptime": 10,
+        "in": {
+            "type": "SQL",
+            "server": "DB2",
+            "operation": {
+                "command": "update BGEN.CIVILP set ETANP = 'ASSURES DIVERS CAFAT test', ETAPRE = 'test' where ETACAF = '01900000000001'"
+            }
+        },
+        "out": {
+            "type": "SQL",
+            "server": "POSTGRE",
+            "operation": {
+                "command": "select 1 from sgencli.cli_personne_physique pp inner join sgencli.cli_client c on pp.id_fk_client = c.id where c.histo_numero = '01900000000001' and pp.nom_patronymique = 'ASSURES DIVERS CAFAT test' and pp.prenoms = 'test'"
+            },
+            "expected": {
+                "attribute": "1",
+                "value": "1"
+            }
+        },
+        "rollback": {
+            "type": "SQL",
+            "server": "DB2",
+            "operation": {
+                "command": "update BGEN.CIVILP set ETANP = 'ASSURES DIVERS CAFAT', ETAPRE = '.' where ETACAF = '01900000000001'"
+            }
+        }
+    }

@@ -5,12 +5,12 @@
 		"type": "REST",
 		"server": "SPRINGBOOT",
 		"operation": {
-			"command": "/s-gen-gpp-{GPP_VERSION}/personne-physique/540003/contact",
+			"command": "/s-gen-gpp-{GPP_VERSION}/personne-physique/9999999/contact",
 			"data": {
 				"email": {
 					"type": "email",
 					"typeContact": "ASSURE",
-					"adresse": "gaetan.cesaro+testnonprisencompte@gmail.com"
+					"adresse": "dsi_production+testemailnonsynchronise@cafat.nc"
 				},
 				"typeContact": "ASSURE"
 			}
@@ -20,7 +20,7 @@
 		"type": "SQL",
 		"server": "DB2",
 		"operation": {
-			"command": "select 1 from B{SCHEMA_NAME}.ADRESSE where ADRCAF = '02018000007994' and ADREML = 'gaetan.cesaro+testnonprisencompte@gmail.com'"
+			"command": "select 1 from B{SCHEMA_NAME}.ADRESSE where ADRCAF = '01900000000001' and ADREML = 'dsi_production+testemailnonsynchronise@cafat.nc'"
 		},
 		"expected": {
 			"attribute": "1",
@@ -31,12 +31,12 @@
 		"type": "REST",
 		"server": "SPRINGBOOT",
 		"operation": {
-			"command": "/s-gen-gpp-{GPP_VERSION}/personne-physique/540003/contact",
+			"command": "/s-gen-gpp-{GPP_VERSION}/personne-physique/9999999/contact",
 			"data": {
 				"email": {
 					"type": "email",
 					"typeContact": "ASSURE",
-					"adresse": "gaetan.cesaro@gmail.com"
+					"adresse": "dsi_production@cafat.nc"
 				},
 				"typeContact": "ASSURE"
 			}

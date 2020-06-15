@@ -3,8 +3,19 @@ SOA-Integration-Tests est un utilitaire de tests d'intégration automatisés uti
 
 <br>
 
+## Gestion des branches
+Contrairement à un repository Git "classique", ce projet est structuré comme suit :
+- 1 branche par environnement
+    - VAL
+    - INT
+    - DEV
+- Lorsqu'un nouveau test est réalisé il est fait sur la branche **DEV**
+- On le livre ensuite avec le fonctionnement habituel de merge
+
+Cette gestion est en place pour permettre un build Jenkins quotidien automatique sur chaque environnement, avec la configuration des tests en phase avec les versions applicatives des services SOA sur l'environnement en question.
+
 ## Lancement des tests
-Par défaut, le lancement des tests est joué depuis [Jenkins](https://merlin-int2.intra.cafat.nc/jenkins/job/soa-integration-tests/) tous les jours aux alentours de 7h sur l'environnement de DEV. On peut également faire une exécution à la demande avec les paramètres souhaités depuis Jenkins.
+Par défaut, le lancement des tests est joué depuis [Jenkins](https://merlin-int2.intra.cafat.nc/jenkins/job/soa-integration-tests/) tous les jours aux alentours de 7h sur les environnements DEV, INT et VAL. On peut également faire une exécution à la demande avec les paramètres souhaités depuis Jenkins.
 
 ### Exemples de commandes de lancement
 ```
@@ -48,13 +59,14 @@ Les fichiers de tests se trouvent dans le répertoire [tests](./tests/)
 1. Dupliquer un des fichier JSON de test présent
 1. Le renommer en respectant la règle de nommage ci-dessous
 1. **Attention :** Bien appliquer le même nom dans la balise json *name* du fichier
+1. Référencer le nouveau test sur la [page Confluence](https://atlas-prd-01.intra.cafat.nc/confluence/pages/viewpage.action?pageId=52302270) pour qu'il soit connu des Architectes Fonctionnels
 
 ### Règles de nommage des tests
 La structure du nom d'un test est la suivante :
 
-<**stack_source**>To<**stack_cible**>-<**module_source**>To<**module_cible**>-<**NomDuTestCamelEnCaseAvecMajuscule**>
+<**stack_source**>To<**stack_cible**>-<**module_source**>To<**module_cible**>-<**NomDuTestEnCamelCaseAvecMajuscule**>
 
 Les valeurs possibles sont :
 - **stack_source/stack_cible** : DB2, PostGre, JMS
 - **module_source/module_cible** : gpp, cli, iam, dif, etc... 
-- **NomDuTestCamelEnCaseAvecMajuscule** : CeQuonVeutTantQueCaRespecteLeCamelCaseAvecMajusculeEtPasTropLongSiPossiblePasCommeCetExempleQuoi
+- **NomDuTestEnCamelCaseAvecMajuscule** : CeQuonVeutTantQueCaRespecteLeCamelCaseAvecMajusculeEtPasTropLongSiPossiblePasCommeCetExempleQuoi

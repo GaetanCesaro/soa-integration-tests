@@ -5,12 +5,12 @@
             "type": "REST",
             "server": "SPRINGBOOT",
             "operation": {
-                "command": "/s-gen-gpp-{GPP_VERSION}/personne-physique/540003/contact",
+                "command": "/s-gen-gpp-{GPP_VERSION}/personne-physique/9999999/contact",
                 "data": {
                     "email": {
                         "type": "email",
                         "typeContact": "ASSURE",
-                        "adresse": "gaetan.cesaro+test@gmail.com"
+                        "adresse": "dsi_production+email@cafat.nc"
                     },
                     "typeContact": "ASSURE"
                 }
@@ -20,23 +20,23 @@
             "type": "REST",
             "server": "SPRINGBOOT",
             "operation": {
-                "command": "/s-gen-gpp-{GPP_VERSION}/personne-physique/540003/contact?type=ASSURE"
+                "command": "/s-gen-gpp-{GPP_VERSION}/personne-physique/9999999/contact?type=ASSURE"
             },
             "expected": {
                 "attribute": ["email", "adresse"],
-                "value": "gaetan.cesaro+test@gmail.com"
+                "value": "dsi_production+email@cafat.nc"
             }
         },
         "rollback": {
             "type": "REST",
             "server": "SPRINGBOOT",
             "operation": {
-                "command": "/s-gen-gpp-{GPP_VERSION}/personne-physique/540003/contact",
+                "command": "/s-gen-gpp-{GPP_VERSION}/personne-physique/9999999/contact",
                 "data": {
                     "email": {
                         "type": "email",
                         "typeContact": "ASSURE",
-                        "adresse": "gaetan.cesaro@gmail.com"
+                        "adresse": "dsi_production@cafat.nc"
                     },
                     "typeContact": "ASSURE"
                 }

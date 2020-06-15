@@ -37,7 +37,7 @@ def runSQLUpdate(environnement, server, operation):
         try:
             cursor.execute(query)
         except (Exception, pyodbc.Error) as e:
-            log.error(e)
+            log.error(str(e))
 
 
 def runSQLCheck(environnement, test):

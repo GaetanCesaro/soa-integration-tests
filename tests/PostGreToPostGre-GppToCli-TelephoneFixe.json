@@ -5,7 +5,7 @@
 		"type": "REST",
 		"server": "SPRINGBOOT",
 		"operation": {
-			"command": "/s-gen-gpp-{GPP_VERSION}/personne-physique/540003/contact",
+			"command": "/s-gen-gpp-{GPP_VERSION}/personne-physique/9999999/contact",
 			"data": {
 				"telephoneFixe": {
 					"type": "fixe",
@@ -20,7 +20,7 @@
 		"type": "SQL",
 		"server": "POSTGRE",
 		"operation": {
-			"command": "select 1 from sgencli.cli_contact a inner join sgencli.cli_client c on c.id = a.id_fk_client inner join sgencli.cli_personne_physique p on p.id_fk_client = c.id where p.matricule = 540003 and a.telephone_fixe like '533922%'"
+			"command": "select 1 from sgencli.cli_contact a inner join sgencli.cli_client c on c.id = a.id_fk_client inner join sgencli.cli_personne_physique p on p.id_fk_client = c.id where p.matricule = 9999999 and a.telephone_fixe like '533922%'"
 		},
 		"expected": {
 			"attribute": "1",
@@ -31,12 +31,12 @@
 		"type": "REST",
 		"server": "SPRINGBOOT",
 		"operation": {
-			"command": "/s-gen-gpp-{GPP_VERSION}/personne-physique/540003/contact",
+			"command": "/s-gen-gpp-{GPP_VERSION}/personne-physique/9999999/contact",
 			"data": {
 				"telephoneFixe": {
 					"type": "fixe",
 					"typeContact": "ASSURE",
-					"numero": "0"
+					"numero": ""
 				},
 				"typeContact": "ASSURE"
 			}

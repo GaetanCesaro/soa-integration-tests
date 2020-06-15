@@ -5,10 +5,10 @@
 		"type": "REST",
 		"server": "SPRINGBOOT",
 		"operation": {
-			"command": "/s-gen-cli-{CLI_VERSION}/personne-physique/540003/preferences-notifications",
+			"command": "/s-gen-cli-{CLI_VERSION}/personne-physique/9999999/preferences-notifications",
 			"data": {
 				"typeContact": "ASSURE",
-				"abonnementEmail": "true",
+				"abonnementEmail": "false",
 				"abonnementSms": "true"
 			}
 		}
@@ -17,7 +17,7 @@
 		"type": "SQL",
 		"server": "POSTGRE",
 		"operation": {
-			"command": "select 1 from sgendif.dif_preferences_notifications where numero_assure = '540003' and abonnement_email = true and abonnement_sms = true"
+			"command": "select 1 from sgendif.dif_preferences_notifications where numero_assure = '9999999' and abonnement_email = false and abonnement_sms = true"
 		},
 		"expected": {
 			"attribute": "1",
@@ -28,10 +28,10 @@
 		"type": "REST",
 		"server": "SPRINGBOOT",
 		"operation": {
-			"command": "/s-gen-cli-{CLI_VERSION}/personne-physique/540003/preferences-notifications",
+			"command": "/s-gen-cli-{CLI_VERSION}/personne-physique/9999999/preferences-notifications",
 			"data": {
 				"typeContact": "ASSURE",
-				"abonnementEmail": "false",
+				"abonnementEmail": "true",
 				"abonnementSms": "false"
 			}
 		}
