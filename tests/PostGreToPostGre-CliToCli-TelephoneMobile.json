@@ -1,6 +1,6 @@
 {
 	"name": "PostGreToPostGre-CliToCli-TelephoneMobile",
-	"sleeptime": 8,
+	"sleeptime": 10,
 	"in": {
 		"type": "REST",
 		"server": "SPRINGBOOT",
