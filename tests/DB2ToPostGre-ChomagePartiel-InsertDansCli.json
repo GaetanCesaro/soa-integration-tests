@@ -1,0 +1,38 @@
+{
+  "name": "DB2ToPostGre-ChomagePartiel-InsertDansCli",
+  "sleeptime": 10,
+  "in": {
+    "type": "SQL",
+    "server": "DB2",
+    "operation": {
+      "command": "INSERT INTO B{SCHEMA_NAME}.IDMCOV (INIDC,INAIDC,ITPIDC,INCIDC,ISCIDC,INIIDC,IDDIDC,IDFIDC,IDPIDC) VALUES (20999999,9999999,'CHOMAGE_COVID19',136244,0,99999,'2020-04-01','2020-04-30','2020-05-30')"
+    }
+  },
+  "out": {
+    "type": "SQL",
+    "server": "POSTGRE",
+    "operation": {
+      "command": "select 1 from sgencli.cli_indemnite_chomage ic where ic.matricule_assure = 9999999 and ic.histo_numero_indemnite = 20999999 and ic.type_prestation = 'CHOMAGE_COVID19' and ic.montant_reglement=99999 and ic.partiel is true"
+    },
+    "expected": {
+      "attribute": "1",
+      "value": "1"
+    }
+  },
+  "rollback": [
+    {
+      "type": "SQL",
+      "server": "DB2",
+      "operation": {
+        "command": "DELETE FROM B{SCHEMA_NAME}.IDMCOV WHERE INIDC = 20999999 AND INAIDC = 9999999 AND INCIDC = 136244 AND ISCIDC = 0"
+      }
+    },
+    {
+      "type": "SQL",
+      "server": "POSTGRE",
+      "operation": {
+        "command": "delete from sgencli.cli_indemnite_chomage ic where ic.matricule_assure = 9999999 and ic.histo_numero_indemnite = 20999999 and ic.type_prestation = 'CHOMAGE_COVID19' and ic.montant_reglement=99999 and ic.partiel is true"
+      }
+    }
+  ]
+}
