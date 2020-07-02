@@ -1,0 +1,45 @@
+{
+  "name": "DB2ToPostGre-Chomage-NotificationDif",
+  "sleeptime": 10,
+  "in": {
+    "type": "SQL",
+    "server": "DB2",
+    "operation": {
+      "command": "INSERT INTO BGEN.MVPRESP (MVPNUM,MVPCAS,MPRCOD,MVPCCR,MVPPED,MVPPEF,MVPDCT,MCHCOD) VALUES (2099000099999,'01900000000001','CHOMAGE',99999,20200501,20200531,20200629,'DETCHMP')"
+    }
+  },
+  "out": {
+    "type": "SQL",
+    "server": "POSTGRE",
+    "operation": {
+      "command": "select 1 from sgendif.dif_notification dn where trim(dn.numero_assure) = '9999999' and dn.type = 'CLI_INDEMNITE_CHOMAGE' and dn.statut='A_TRAITER'"
+    },
+    "expected": {
+      "attribute": "1",
+      "value": "1"
+    }
+  },
+  "rollback": [
+    {
+      "type": "SQL",
+      "server": "DB2",
+      "operation": {
+        "command": "DELETE FROM BGEN.MVPRESP WHERE MVPNUM = 2099000099999"
+      }
+    },
+    {
+      "type": "SQL",
+      "server": "POSTGRE",
+      "operation": {
+        "command": "delete from sgencli.cli_indemnite_chomage ic where ic.matricule_assure = 9999999 and ic.histo_numero_indemnite = 2099000099999 and ic.type_prestation = 'CHOMAGE' and ic.montant_reglement=99999 and ic.partiel is false"
+      }
+    },
+    {
+      "type": "SQL",
+      "server": "POSTGRE",
+      "operation": {
+        "command": "delete from sgendif.dif_notification dn where trim(dn.numero_assure) = '9999999' and dn.type = 'CLI_INDEMNITE_CHOMAGE' and dn.statut='A_TRAITER'"
+      }
+    }
+  ]
+}

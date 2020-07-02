@@ -222,12 +222,22 @@ def runTest(environnement, test):
         result = runRESTCheck(environnement, test)
 
     # Rollback operation faite en entrée
-    if test["rollback"]["type"] == "SQL":
-        runSQLUpdate(environnement, test["rollback"]["server"], test["rollback"]["operation"])
-    elif test["rollback"]["type"] == "REST":
-        runRESTPost(environnement, test["rollback"]["server"], test["rollback"]["operation"])
-    elif test["in"]["type"] == "JMS":
-        runJMSPost(environnement, test["rollback"]["operation"])
+    rollbacks = test["rollback"]
+
+    if type(rollbacks) is not list:
+        rollbacks = [rollbacks]
+
+    for rollback in rollbacks:
+        if rollback["type"] == "SQL":
+            runSQLUpdate(environnement, rollback["server"], rollback["operation"])
+        elif rollback["type"] == "REST":
+            runRESTPost(environnement, rollback["server"], rollback["operation"])
+        elif rollback["type"] == "JMS":
+            runJMSPost(environnement, rollback["operation"])
+
+        # Si besoin, on peut spécifier un temps d'attente entre chaque rollback
+        if "sleeptime" in rollback:
+            time.sleep(rollback["sleeptime"])
 
     # WAIT SINON CA PEUT IMPACTER LES TESTS SUIVANTS
     time.sleep(test["sleeptime"])
