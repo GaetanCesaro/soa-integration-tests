@@ -24,7 +24,7 @@
       "type": "SQL",
       "server": "DB2",
       "operation": {
-        "command": "DELETE FROM BGEN.MVPRESP WHERE MVPNUM = 2099000099999"
+        "command": "DELETE FROM B{SCHEMA_NAME}.IDMCOV WHERE INIDC = 20999999 AND INAIDC = 9999999 AND INCIDC = 136244 AND ISCIDC = 0"
       }
     },
     {

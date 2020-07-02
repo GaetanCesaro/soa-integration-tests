@@ -33,6 +33,13 @@
       "operation": {
         "command": "delete from sgencli.cli_prestation_familiale pf where pf.matricule_assure = 9999999 and pf.histo_numero_prestation = 2099000099999 and pf.type_prestation = 'AF_SOLIDARITE' and montant_reglement=99999"
       }
+    },
+    {
+      "type": "SQL",
+      "server": "POSTGRE",
+      "operation": {
+        "command": "delete from sgendif.dif_notification dn where trim(dn.numero_assure) = '9999999' and dn.type = 'CLI_PRESTATION_FAMILIALE' and dn.statut='A_TRAITER'"
+      }
     }
   ]
 }

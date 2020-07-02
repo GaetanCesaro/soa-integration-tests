@@ -33,6 +33,13 @@
       "operation": {
         "command": "delete from sgencli.cli_indemnite_chomage ic where ic.matricule_assure = 9999999 and ic.histo_numero_indemnite = 2099000099999 and ic.type_prestation = 'CHOMAGE' and ic.montant_reglement=99999 and ic.partiel is false"
       }
+    },
+    {
+      "type": "SQL",
+      "server": "POSTGRE",
+      "operation": {
+        "command": "delete from sgendif.dif_notification dn where trim(dn.numero_assure) = '9999999' and dn.type = 'CLI_INDEMNITE_CHOMAGE' and dn.statut='A_TRAITER'"
+      }
     }
   ]
 }
