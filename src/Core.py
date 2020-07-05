@@ -1,14 +1,17 @@
 # -*- coding: utf-8 -*-
-import re, os, sys, getopt, csv, difflib, json, time
-import pyodbc
+import json
+import os
+import sys
+import time
+
 import psycopg2
+import pyodbc
 import requests
 import urllib3
-from tqdm import tqdm
 from openpyxl import Workbook
+
 import src.Config as cfg
 import src.Log as log
-
 
 # Disable REST InsecureRequestWarning
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -40,14 +43,14 @@ def runSQLUpdate(environnement, server, operation):
             log.error(str(e))
 
 
-def runSQLCheck(environnement, test):
-    server = test["out"]["server"]
-    query = test["out"]["operation"]["command"].format(SCHEMA_NAME=environnement["schema_name"])
+def runSQLCheck(environnement, name, check):
+    server = check["server"]
+    query = check["operation"]["command"].format(SCHEMA_NAME=environnement["schema_name"])
 
     testResult = TestResult()
-    testResult.testName = test["name"]
-    testResult.command = test["out"]["operation"]["command"]
-    testResult.expectedResult = test["out"]["expected"]["value"]
+    testResult.testName = name
+    testResult.command = check["operation"]["command"]
+    testResult.expectedResult = check["expected"]["value"]
     testResult.gottenResult = "Verification du test en echec"
     testResult.status = "KO"
 
@@ -109,15 +112,15 @@ def runRESTPost(environnement, server, operation):
         log.error(str(e))
 
 
-def runRESTCheck(environnement, test):
-    server = test["out"]["server"]
-    restCommand = test["out"]["operation"]["command"].format(CLI_VERSION=cfg.CLI_VERSION, DIF_VERSION=cfg.DIF_VERSION, GPP_VERSION=cfg.GPP_VERSION)
+def runRESTCheck(environnement, name, check):
+    server = check["server"]
+    restCommand = check["operation"]["command"].format(CLI_VERSION=cfg.CLI_VERSION, DIF_VERSION=cfg.DIF_VERSION, GPP_VERSION=cfg.GPP_VERSION)
     url = environnement["servers"][server] + restCommand
 
     testResult = TestResult()
-    testResult.testName = test["name"]
-    testResult.command = test["out"]["operation"]["command"]
-    testResult.expectedResult = test["out"]["expected"]["value"]
+    testResult.testName = name
+    testResult.command = check["operation"]["command"]
+    testResult.expectedResult = check["expected"]["value"]
     testResult.gottenResult = "Test check failed"
     testResult.status = "KO"
 
@@ -129,7 +132,7 @@ def runRESTCheck(environnement, test):
         jsonResult = response.json()
         
         # Parsing de l'attribut à controler
-        expectedAttribute = test["out"]["expected"]["attribute"]
+        expectedAttribute = check["expected"]["attribute"]
         for p in expectedAttribute:
             jsonResult = jsonResult[p]
 
@@ -201,48 +204,59 @@ def runJMSPost(environnement, operation):
     return processJMSResponse("postMessage", response)
 
 
+def runOperations(environment, operations):
+    if type(operations) is not list:
+        operations = [operations]
+
+    for operation in operations:
+        if operation["type"] == "SQL":
+            runSQLUpdate(environment, operation["server"], operation["operation"])
+        elif operation["type"] == "REST":
+            runRESTPost(environment, operation["server"], operation["operation"])
+        elif operation["type"] == "JMS":
+            runJMSPost(environment, operation["operation"])
+        # Si besoin, on peut spécifier un temps d'attente entre chaque opération
+        if "sleeptime" in operation:
+            time.sleep(operation["sleeptime"])
+
+
+def runChecks(environment, name, checks):
+    results = []
+
+    if type(checks) is not list:
+        checks = [checks]
+
+    for check in checks:
+        if check["type"] == "SQL":
+            results.append(runSQLCheck(environment, name, check))
+        elif check["type"] == "REST":
+            results.append(runRESTCheck(environment, name, check))
+        # Si besoin, on peut spécifier un temps d'attente entre chaque test
+        if "sleeptime" in check:
+            time.sleep(check["sleeptime"])
+
+    return results
+
+
 def runTest(environnement, test):
-    log.info("Lancement du test %s" %test["name"])
+    log.info("Lancement du test %s" % test["name"])
 
     # Modification de donnée en entrée
-    if test["in"]["type"] == "SQL":
-        runSQLUpdate(environnement, test["in"]["server"], test["in"]["operation"])
-    elif test["in"]["type"] == "REST":
-        runRESTPost(environnement, test["in"]["server"], test["in"]["operation"])
-    elif test["in"]["type"] == "JMS":
-        runJMSPost(environnement, test["in"]["operation"])
+    runOperations(environnement, test["in"])
 
-    # WAIT 
+    # WAIT
     time.sleep(test["sleeptime"])
 
-    # Test en sortie
-    if test["out"]["type"] == "SQL":
-        result = runSQLCheck(environnement, test)
-    elif test["out"]["type"] == "REST":
-        result = runRESTCheck(environnement, test)
+    # Tests en sortie
+    results = runChecks(environnement, test["name"], test["out"])
 
     # Rollback operation faite en entrée
-    rollbacks = test["rollback"]
-
-    if type(rollbacks) is not list:
-        rollbacks = [rollbacks]
-
-    for rollback in rollbacks:
-        if rollback["type"] == "SQL":
-            runSQLUpdate(environnement, rollback["server"], rollback["operation"])
-        elif rollback["type"] == "REST":
-            runRESTPost(environnement, rollback["server"], rollback["operation"])
-        elif rollback["type"] == "JMS":
-            runJMSPost(environnement, rollback["operation"])
-
-        # Si besoin, on peut spécifier un temps d'attente entre chaque rollback
-        if "sleeptime" in rollback:
-            time.sleep(rollback["sleeptime"])
+    runOperations(environnement, test["rollback"])
 
     # WAIT SINON CA PEUT IMPACTER LES TESTS SUIVANTS
     time.sleep(test["sleeptime"])
 
-    return result
+    return results
 
 
 def exportResults(envName, results):

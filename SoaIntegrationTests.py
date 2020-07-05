@@ -72,7 +72,7 @@ def main():
                 if test.lower() in filename.lower():
                     data = json.load(json_file)
                     result = core.runTest(ENV, data)
-                    results.append(result)
+                    results.extend(result)
                     print("")   # Petit saut de ligne des familles pour la clareté du log
                 else:
                     log.debug("--> Fichier non concerne par le filtre")
@@ -82,7 +82,7 @@ def main():
             else:
                 data = json.load(json_file)
                 result = core.runTest(ENV, data)
-                results.append(result)
+                results.extend(result)
                 print("")   # Petit saut de ligne des familles pour la clareté du log
 
     core.exportResults(env, results)
