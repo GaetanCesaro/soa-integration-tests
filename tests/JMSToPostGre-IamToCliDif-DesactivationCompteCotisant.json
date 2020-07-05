@@ -1,5 +1,5 @@
 {
-	"name": "JMSToPostGre-IamToCli-DesactivationCompteCotisant",
+	"name": "JMSToPostGre-IamToCliDif-DesactivationCompteCotisant",
 	"sleeptime": 6,
 	"in": {
 		"type": "JMS",
@@ -27,17 +27,30 @@
 			}
 		}
 	},
-	"out": {
-		"type": "SQL",
-		"server": "POSTGRE",
-		"operation": {
-			"command": "select statut_compte_assure from sgencli.cli_personne_physique where matricule = 9999999"
+	"out": [
+		{
+			"type": "SQL",
+			"server": "POSTGRE",
+			"operation": {
+				"command": "select statut_compte_assure from sgencli.cli_personne_physique where matricule = 9999999"
+			},
+			"expected": {
+				"attribute": "statut_compte_assure",
+				"value": "DESACTIVE"
+			}
 		},
-		"expected": {
-			"attribute": "statut_compte_assure",
-			"value": "DESACTIVE"
+		{
+			"type": "SQL",
+			"server": "POSTGRE",
+			"operation": {
+				"command": "select compte_actif from sgendif.dif_preferences_notifications pn where to_number(pn.numero_assure, '9999999') = 9999999"
+			},
+			"expected": {
+				"attribute": "compte_actif",
+				"value": "False"
+			}
 		}
-	},
+	],
 	"rollback": {
 		"type": "JMS",
 		"server": "",

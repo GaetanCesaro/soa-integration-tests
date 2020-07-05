@@ -1,5 +1,5 @@
 {
-        "name": "DB2ToPostGre-MAJPersonneCli-NomPrenom",
+        "name": "DB2ToPostGre-MAJPersonneCliGpp-NomPrenom",
         "sleeptime": 10,
         "in": {
             "type": "SQL",
@@ -8,7 +8,8 @@
                 "command": "update BGEN.CIVILP set ETANP = 'ASSURES DIVERS CAFAT test', ETAPRE = 'test' where ETACAF = '01900000000001'"
             }
         },
-        "out": {
+        "out": [
+          {
             "type": "SQL",
             "server": "POSTGRE",
             "operation": {
@@ -18,7 +19,19 @@
                 "attribute": "1",
                 "value": "1"
             }
-        },
+          },
+          {
+            "type": "SQL",
+            "server": "POSTGRE",
+            "operation": {
+              "command": "select 1 from sgengpp.gpp_personne_physique p where p.numero_interne = 1900000000001 and nom_patronymique = 'ASSURES DIVERS CAFAT test' and prenom = 'test'"
+            },
+            "expected": {
+              "attribute": "1",
+              "value": "1"
+            }
+          }
+        ],
         "rollback": {
             "type": "SQL",
             "server": "DB2",

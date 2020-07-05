@@ -1,6 +1,6 @@
 {
-	"name": "PostGreToPostGre-CliToCli-AdressePostale",
-	"sleeptime": 8,
+	"name": "PostGreToPostGre-CliToCliGpp-TelephoneFixe",
+	"sleeptime": 10,
 	"in": {
 		"type": "REST",
 		"server": "SPRINGBOOT",
@@ -11,45 +11,58 @@
 					"type": "domicile",
 					"ligneDesserte": {
 						"type": "reference",
-						"id": "28871"
+						"id": "6833"
 					},
 					"lignePays": {
 						"code": "540"
 					},
-					"ligneComplement": "NAU MARCA test",
+					"ligneComplement": "NAU MARCA",
 					"ligneLieuDit": {
 						"type": "libre",
-						"libelle": "TRIANON"
+						"libelle": "TUBAND VIII"
 					},
 					"ligneVoie": {
 						"type": "libre",
-						"numero": "16",
-						"libelle": "RUE Pascal TEST"
+						"numero": "6",
+						"libelle": "RUE Pascal SHIAZE"
 					}
 				},
 				"telephoneFixe": {
 					"type": "fixe",
-					"numero": "0"
+					"numero": "533922"
 				},
 				"telephoneMobile": {
 					"type": "mobile",
-					"numero": "0"
+					"numero": ""
 				},
 				"typeContact": "ASSURE"
 			}
 		}
 	},
-	"out": {
-		"type": "SQL",
-		"server": "POSTGRE",
-		"operation": {
-			"command": "select 1 from sgencli.cli_contact c, sgencli.cli_personne_physique pp where c.id_fk_client = pp.id_fk_client and pp.matricule = '9999999' and c.adresse_postale like '%NAU MARCA test%16 RUE Pascal TEST%TRIANON%98809 MONT DORE%'"
+	"out": [
+		{
+			"type": "SQL",
+			"server": "POSTGRE",
+			"operation": {
+				"command": "select 1 from sgencli.cli_contact c, sgencli.cli_personne_physique pp where c.id_fk_client = pp.id_fk_client and pp.matricule = '9999999' and c.telephone_fixe = '533922'"
+			},
+			"expected": {
+				"attribute": "1",
+				"value": "1"
+			}
 		},
-		"expected": {
-			"attribute": "1",
-			"value": "1"
+		{
+			"type": "SQL",
+			"server": "POSTGRE",
+			"operation": {
+				"command": "select 1 from sgengpp.gpp_telephone_fixe t, sgengpp.gpp_moyen_contact mc, sgengpp.gpp_personne_physique pp where t.id_fk_moyen_contact = mc.id and mc.date_fin_validite is null and mc.fk_personne_physique = pp.numero_interne and pp.matricule = 9999999 and t.numero = '533922'"
+			},
+			"expected": {
+				"attribute": "1",
+				"value": "1"
+			}
 		}
-	},
+	],
 	"rollback": {
 		"type": "REST",
 		"server": "SPRINGBOOT",
@@ -78,11 +91,11 @@
 				},
 				"telephoneFixe": {
 					"type": "fixe",
-					"numero": "0"
+					"numero": ""
 				},
 				"telephoneMobile": {
 					"type": "mobile",
-					"numero": "0"
+					"numero": ""
 				},
 				"typeContact": "ASSURE"
 			}
