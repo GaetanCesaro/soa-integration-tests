@@ -13,7 +13,7 @@
       "type": "SQL",
       "server": "POSTGRE",
       "operation": {
-        "command": "select 1 from sgencli.cli_prestation_familiale pf where pf.matricule_assure = 9999999 and pf.histo_numero_prestation = 2099000099999 and pf.type_prestation = 'AF_SOLIDARITE' and montant_reglement=99999"
+        "command": "select 1 from sgencli.cli_prestation_familiale pf, sgencli.cli_personne_physique pp where pf.fk_personne_physique = pp.id_fk_client and pp.matricule = 9999999 and pf.histo_numero_prestation = 2099000099999 and pf.type_prestation = 'AF_SOLIDARITE' and montant_reglement=99999"
       },
       "expected": {
         "attribute": "1",
@@ -44,7 +44,7 @@
       "type": "SQL",
       "server": "POSTGRE",
       "operation": {
-        "command": "delete from sgencli.cli_prestation_familiale pf where pf.matricule_assure = 9999999 and pf.histo_numero_prestation = 2099000099999 and pf.type_prestation = 'AF_SOLIDARITE' and montant_reglement=99999"
+        "command": "delete from sgencli.cli_prestation_familiale pf where pf.histo_numero_prestation = 2099000099999"
       }
     },
     {

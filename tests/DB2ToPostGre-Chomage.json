@@ -13,7 +13,7 @@
       "type": "SQL",
       "server": "POSTGRE",
       "operation": {
-        "command": "select 1 from sgencli.cli_indemnite_chomage ic where ic.matricule_assure = 9999999 and ic.histo_numero_indemnite = 2099000099999 and ic.type_prestation = 'CHOMAGE' and ic.montant_reglement=99999 and ic.partiel is false"
+        "command": "select 1 from sgencli.cli_indemnite_chomage ic, sgencli.cli_personne_physique pp where ic.fk_personne_physique = pp.id_fk_client and pp.matricule = 9999999 and ic.histo_numero_indemnite = 2099000099999 and ic.type_prestation = 'CHOMAGE' and ic.montant_reglement=99999 and ic.partiel is false"
       },
       "expected": {
         "attribute": "1",
@@ -44,7 +44,7 @@
       "type": "SQL",
       "server": "POSTGRE",
       "operation": {
-        "command": "delete from sgencli.cli_indemnite_chomage ic where ic.matricule_assure = 9999999 and ic.histo_numero_indemnite = 2099000099999 and ic.type_prestation = 'CHOMAGE' and ic.montant_reglement=99999 and ic.partiel is false"
+        "command": "delete from sgencli.cli_indemnite_chomage ic where ic.histo_numero_indemnite = 2099000099999"
       }
     },
     {
