@@ -1,5 +1,5 @@
 {
-	"name": "PostGreToPostGre-CliToCliGpp-TelephoneFixe",
+	"name": "PostGreToPostGre-CliToCliGpp-Telephone",
 	"sleeptime": 10,
 	"in": {
 		"type": "REST",
@@ -29,11 +29,11 @@
 				},
 				"telephoneFixe": {
 					"type": "fixe",
-					"numero": "533922"
+					"numero": "247860"
 				},
 				"telephoneMobile": {
 					"type": "mobile",
-					"numero": ""
+					"numero": "533922"
 				},
 				"typeContact": "ASSURE"
 			}
@@ -44,7 +44,7 @@
 			"type": "SQL",
 			"server": "POSTGRE",
 			"operation": {
-				"command": "select 1 from sgencli.cli_contact c, sgencli.cli_personne_physique pp where c.id_fk_client = pp.id_fk_client and pp.matricule = '9999999' and c.telephone_fixe = '533922'"
+				"command": "select 1 from sgencli.cli_contact c, sgencli.cli_personne_physique pp where c.id_fk_client = pp.id_fk_client and pp.matricule = '9999999' and c.telephone_fixe = '247860' and c.telephone_mobile = '533922'"
 			},
 			"expected": {
 				"attribute": "1",
@@ -55,7 +55,18 @@
 			"type": "SQL",
 			"server": "POSTGRE",
 			"operation": {
-				"command": "select 1 from sgengpp.gpp_telephone_fixe t, sgengpp.gpp_moyen_contact mc, sgengpp.gpp_personne_physique pp where t.id_fk_moyen_contact = mc.id and mc.date_fin_validite is null and mc.fk_personne_physique = pp.numero_interne and pp.matricule = 9999999 and t.numero = '533922'"
+				"command": "select 1 from sgengpp.gpp_telephone_fixe t, sgengpp.gpp_moyen_contact mc, sgengpp.gpp_personne_physique pp where t.id_fk_moyen_contact = mc.id and mc.date_fin_validite is null and mc.fk_personne_physique = pp.numero_interne and pp.matricule = 9999999 and t.numero = '247860'"
+			},
+			"expected": {
+				"attribute": "1",
+				"value": "1"
+			}
+		},
+		{
+			"type": "SQL",
+			"server": "POSTGRE",
+			"operation": {
+				"command": "select 1 from sgengpp.gpp_telephone_mobile t, sgengpp.gpp_moyen_contact mc, sgengpp.gpp_personne_physique pp where t.id_fk_moyen_contact = mc.id and mc.date_fin_validite is null and mc.fk_personne_physique = pp.numero_interne and pp.matricule = 9999999 and t.numero = '533922'"
 			},
 			"expected": {
 				"attribute": "1",
