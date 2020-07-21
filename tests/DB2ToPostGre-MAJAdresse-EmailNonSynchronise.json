@@ -5,14 +5,14 @@
 		"type": "SQL",
 		"server": "DB2",
 		"operation": {
-			"command": "update B{SCHEMA_NAME}.ADRESSE set ADREML = 'dsi_production+emailnonsynchronise@cafat.nc' where ADRCAF = '01900000000001'"
+			"command": "update B{SCHEMA_NAME}.ADRESSE set ADREML = 'dsi_production+emailnonsynchronise@company.fr' where ADRCAF = '01900000000001'"
 		}
 	},
 	"out": {
 		"type": "SQL",
 		"server": "POSTGRE",
 		"operation": {
-			"command": "select 1 from sgengpp.gpp_email a  inner join sgengpp.gpp_moyen_contact m on m.id = a.id_fk_moyen_contact  inner join sgengpp.gpp_personne_physique p on m.fk_personne_physique = p.numero_interne  where p.matricule = '9999999'  and m.date_fin_validite is null and a.adresse like 'assure.divers@cafat.nc%'"
+			"command": "select 1 from sgengpp.gpp_email a  inner join sgengpp.gpp_moyen_contact m on m.id = a.id_fk_moyen_contact  inner join sgengpp.gpp_personne_physique p on m.fk_personne_physique = p.numero_interne  where p.matricule = '9999999'  and m.date_fin_validite is null and a.adresse like 'assure.divers@company.fr%'"
 		},
 		"expected": {
 			"attribute": "1",
@@ -23,7 +23,7 @@
 		"type": "SQL",
 		"server": "DB2",
 		"operation": {
-			"command": "update B{SCHEMA_NAME}.ADRESSE set ADREML = 'dsi_production@cafat.nc' where ADRCAF = '01900000000001'"
+			"command": "update B{SCHEMA_NAME}.ADRESSE set ADREML = 'dsi_production@company.fr' where ADRCAF = '01900000000001'"
 		}
 	}
 }

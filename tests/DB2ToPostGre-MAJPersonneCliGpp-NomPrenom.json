@@ -5,7 +5,7 @@
             "type": "SQL",
             "server": "DB2",
             "operation": {
-                "command": "update BGEN.CIVILP set ETANP = 'ASSURES DIVERS CAFAT test', ETAPRE = 'test' where ETACAF = '01900000000001'"
+                "command": "update BGEN.CIVILP set ETANP = 'ASSURES DIVERS test', ETAPRE = 'test' where ETACAF = '01900000000001'"
             }
         },
         "out": [
@@ -13,7 +13,7 @@
             "type": "SQL",
             "server": "POSTGRE",
             "operation": {
-                "command": "select 1 from sgencli.cli_personne_physique pp inner join sgencli.cli_client c on pp.id_fk_client = c.id where c.histo_numero = '01900000000001' and pp.nom_patronymique = 'ASSURES DIVERS CAFAT test' and pp.prenoms = 'test'"
+                "command": "select 1 from sgencli.cli_personne_physique pp inner join sgencli.cli_client c on pp.id_fk_client = c.id where c.histo_numero = '01900000000001' and pp.nom_patronymique = 'ASSURES DIVERS test' and pp.prenoms = 'test'"
             },
             "expected": {
                 "attribute": "1",
@@ -24,7 +24,7 @@
             "type": "SQL",
             "server": "POSTGRE",
             "operation": {
-              "command": "select 1 from sgengpp.gpp_personne_physique p where p.numero_interne = 1900000000001 and nom_patronymique = 'ASSURES DIVERS CAFAT test' and prenom = 'test'"
+              "command": "select 1 from sgengpp.gpp_personne_physique p where p.numero_interne = 1900000000001 and nom_patronymique = 'ASSURES DIVERS test' and prenom = 'test'"
             },
             "expected": {
               "attribute": "1",
@@ -36,7 +36,7 @@
             "type": "SQL",
             "server": "DB2",
             "operation": {
-                "command": "update BGEN.CIVILP set ETANP = 'ASSURES DIVERS CAFAT', ETAPRE = '.' where ETACAF = '01900000000001'"
+                "command": "update BGEN.CIVILP set ETANP = 'ASSURES DIVERS', ETAPRE = '.' where ETACAF = '01900000000001'"
             }
         }
     }

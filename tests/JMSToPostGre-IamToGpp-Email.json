@@ -16,12 +16,12 @@
 				"operation": "UPDATE", 
 				"tupleBefore": { 
 					"matricule": "9999999", 
-					"email": "dsi_production@cafat.nc", 
+					"email": "dsi_production@company.fr", 
 					"compteDesactive": "false" 
 				}, 
 				"tupleAfter": { 
 					"matricule": "9999999", 
-					"email": "dsi_production+testsoa@cafat.nc", 
+					"email": "dsi_production+testsoa@company.fr", 
 					"compteDesactive": "false" 
 				} 
 			}
@@ -31,7 +31,7 @@
 		"type": "SQL",
 		"server": "POSTGRE",
 		"operation": {
-			"command": "select 1 from sgengpp.gpp_email e, sgengpp.gpp_moyen_contact mc, sgengpp.gpp_personne_physique pp where e.id_fk_moyen_contact = mc.id and mc.date_fin_validite is null and mc.fk_personne_physique = pp.numero_interne and pp.matricule = 9999999 and adresse = 'dsi_production+testsoa@cafat.nc'"
+			"command": "select 1 from sgengpp.gpp_email e, sgengpp.gpp_moyen_contact mc, sgengpp.gpp_personne_physique pp where e.id_fk_moyen_contact = mc.id and mc.date_fin_validite is null and mc.fk_personne_physique = pp.numero_interne and pp.matricule = 9999999 and adresse = 'dsi_production+testsoa@company.fr'"
 		},
 		"expected": {
 			"attribute": "1",
@@ -53,12 +53,12 @@
 				"operation": "UPDATE", 
 				"tupleBefore": { 
 					"matricule": "9999999", 
-					"email": "dsi_production+testsoa@cafat.nc", 
+					"email": "dsi_production+testsoa@company.fr", 
 					"compteDesactive": "false" 
 				}, 
 				"tupleAfter": { 
 					"matricule": "9999999", 
-					"email": "dsi_production@cafat.nc", 
+					"email": "dsi_production@company.fr", 
 					"compteDesactive": "false" 
 				} 
 			}

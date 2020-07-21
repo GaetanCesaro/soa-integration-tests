@@ -10,7 +10,7 @@
 				"email": {
 					"type": "email",
 					"typeContact": "ASSURE",
-					"adresse": "dsi_production+email@cafat.nc"
+					"adresse": "dsi_production+email@company.fr"
 				},
 				"typeContact": "ASSURE"
 			}
@@ -21,7 +21,7 @@
 			"type": "SQL",
 			"server": "POSTGRE",
 			"operation": {
-				"command": "select 1 from sgencli.cli_contact a inner join sgencli.cli_client c on c.id = a.id_fk_client inner join sgencli.cli_personne_physique p on p.id_fk_client = c.id where p.matricule = 9999999 and a.email like 'dsi_production+email@cafat.nc%'"
+				"command": "select 1 from sgencli.cli_contact a inner join sgencli.cli_client c on c.id = a.id_fk_client inner join sgencli.cli_personne_physique p on p.id_fk_client = c.id where p.matricule = 9999999 and a.email like 'dsi_production+email@company.fr%'"
 			},
 			"expected": {
 				"attribute": "1",
@@ -36,7 +36,7 @@
 			},
 			"expected": {
 				"attribute": ["email", "adresse"],
-				"value": "dsi_production+email@cafat.nc"
+				"value": "dsi_production+email@company.fr"
 			}
 		}
 	],
@@ -49,7 +49,7 @@
 				"email": {
 					"type": "email",
 					"typeContact": "ASSURE",
-					"adresse": "dsi_production@cafat.nc"
+					"adresse": "dsi_production@company.fr"
 				},
 				"typeContact": "ASSURE"
 			}

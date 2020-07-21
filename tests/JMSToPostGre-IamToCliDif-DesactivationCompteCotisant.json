@@ -16,12 +16,12 @@
 				"operation": "UPDATE", 
 				"tupleBefore": { 
 					"matricule": "9999999", 
-					"email": "dsi_production@cafat.nc", 
+					"email": "dsi_production@company.fr", 
 					"compteDesactive": "false" 
 				}, 
 				"tupleAfter": { 
 					"matricule": "9999999", 
-					"email": "dsi_production@cafat.nc", 
+					"email": "dsi_production@company.fr", 
 					"compteDesactive": "true" 
 				} 
 			}
@@ -66,12 +66,12 @@
 				"operation": "UPDATE", 
 				"tupleBefore": { 
 					"matricule": "9999999", 
-					"email": "dsi_production@cafat.nc", 
+					"email": "dsi_production@company.fr", 
 					"compteDesactive": "true" 
 				}, 
 				"tupleAfter": { 
 					"matricule": "9999999", 
-					"email": "dsi_production@cafat.nc", 
+					"email": "dsi_production@company.fr", 
 					"compteDesactive": "false" 
 				} 
 			}

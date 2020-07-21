@@ -10,7 +10,7 @@
 				"email": {
 					"type": "email",
 					"typeContact": "ASSURE",
-					"adresse": "dsi_production+testemailnonsynchronise@cafat.nc"
+					"adresse": "dsi_production+testemailnonsynchronise@company.fr"
 				},
 				"typeContact": "ASSURE"
 			}
@@ -20,7 +20,7 @@
 		"type": "SQL",
 		"server": "DB2",
 		"operation": {
-			"command": "select 1 from B{SCHEMA_NAME}.ADRESSE where ADRCAF = '01900000000001' and ADREML = 'dsi_production+testemailnonsynchronise@cafat.nc'"
+			"command": "select 1 from B{SCHEMA_NAME}.ADRESSE where ADRCAF = '01900000000001' and ADREML = 'dsi_production+testemailnonsynchronise@company.fr'"
 		},
 		"expected": {
 			"attribute": "1",
@@ -36,7 +36,7 @@
 				"email": {
 					"type": "email",
 					"typeContact": "ASSURE",
-					"adresse": "dsi_production@cafat.nc"
+					"adresse": "dsi_production@company.fr"
 				},
 				"typeContact": "ASSURE"
 			}
