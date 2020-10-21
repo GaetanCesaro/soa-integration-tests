@@ -1,5 +1,5 @@
 # SOA-Integration-Tests
-SOA-Integration-Tests est un utilitaire de tests d'intégration automatisés utilisant les protocoles SQL (DB2 & PostGre), REST et JMS.
+SOA-Integration-Tests est un utilitaire de tests d'intégration automatisés utilisant les protocoles SQL (DB2 & PostGre), REST, JMS et LDAP.
 
 <br>
 
@@ -66,6 +66,13 @@ La structure du nom d'un test est la suivante :
 <**stack_source**>To<**stack_cible**>-<**module_source**>To<**module_cible**>-<**NomDuTestEnCamelCaseAvecMajuscule**>
 
 Les valeurs possibles sont :
-- **stack_source/stack_cible** : DB2, PostGre, JMS
+- **stack_source/stack_cible** : DB2, PostGre, JMS, LDAP
 - **module_source/module_cible** : gpp, cli, iam, dif, etc... 
 - **NomDuTestEnCamelCaseAvecMajuscule** : CeQuonVeutTantQueCaRespecteLeCamelCaseAvecMajusculeEtPasTropLongSiPossiblePasCommeCetExempleQuoi
+
+### Syntaxe pour la recherche LDAP
+
+Les filtres de recherche LDAP utilisent une syntaxe singulière qui peut étonner au premier abord.
+En réalité, ceux-ci sont très simples à définir une fois que l'on s'est familiarisé avec la syntaxe.
+
+Pour cela, je vous invite à lire : [LDAP Wiki](https://ldapwiki.com/wiki/LDAP%20Filter%20Choices), [Documentation LDAP3](https://ldap3.readthedocs.io/en/latest/tutorial_searches.html).

@@ -9,6 +9,7 @@ import pyodbc
 import requests
 import urllib3
 from openpyxl import Workbook
+from ldap3 import Server, Connection, MODIFY_REPLACE
 
 import src.Config as cfg
 import src.Log as log
@@ -154,6 +155,73 @@ def runRESTCheck(environnement, name, check):
     return testResult
 
 
+def runLdapUpdate(environnement, server, operation):
+    dn = operation["dn"]
+    fields = operation["command"]
+
+    operations = {}
+
+    for (field_name, field_value) in fields.items():
+        operations = dict(operations, **{field_name: [(MODIFY_REPLACE, [field_value])]})
+
+    env = environnement["servers"][server]
+
+    server = Server(env["hostname"], env["port"], use_ssl=True)
+    conn = Connection(server, env['username'], env['password'], auto_bind=True)
+
+    conn.modify(dn, operations)
+
+    if conn.result['result'] == 0:
+        log.debug("LDAP: modif. du DN %s avec les données %s" % (dn, json.dumps(fields, indent=4, sort_keys=True)))
+    else:
+        log.error("LDAP: erreur modif. DN %s avec les données %s" % (dn, json.dumps(fields, indent=4, sort_keys=True)))
+        log.error("Erreur: %s" % conn.last_error)
+
+    conn.unbind()
+
+
+def runLdapCheck(environnement, name, check):
+    testResult = TestResult()
+    testResult.testName = name
+    testResult.command = check["operation"]["command"]
+    testResult.expectedResult = check["expected"]["value"]
+    testResult.gottenResult = ""
+    testResult.status = "KO"
+
+    env = environnement["servers"]["LDAP"]
+
+    server = Server(env["hostname"], env["port"], use_ssl=True)
+    conn = Connection(server, env['username'], env['password'], auto_bind=True)
+
+    log.debug("Execution recherche LDAP (base: %s): %s" % (check["base"], check["operation"]["command"]))
+
+    result = conn.search(check["base"], check["operation"]["command"])
+
+    if result:
+        log.debug("Recherche LDAP: %d résultat(s)" % (len(conn.entries)))
+        if len(conn.entries) > 0:
+            result_dn = conn.entries.pop().entry_dn
+            testResult.gottenResult = result_dn
+
+            if result_dn == check["expected"]["value"]:
+                testResult.status = "OK"
+        else:
+            testResult.gottenResult = "Aucun resultat"
+    elif conn.last_error is None:
+        testResult.gottenResult = "Aucun resultat"
+    else:
+        testResult.gottenResult = conn.last_error
+
+    if testResult.status == "OK":
+        log.info(testResult.gottenResult)
+    else:
+        log.error("%s - %s" % (testResult.status, testResult.gottenResult))
+
+    conn.unbind()
+
+    return testResult
+
+
 def processJMSResponse(method, response):
     if (response.status_code == 200):
         jsonResponse = json.loads(response.text)
@@ -215,6 +283,8 @@ def runOperations(environment, operations):
             runRESTPost(environment, operation["server"], operation["operation"])
         elif operation["type"] == "JMS":
             runJMSPost(environment, operation["operation"])
+        elif operation["type"] == "LDAP":
+            runLdapUpdate(environment, operation["server"], operation["operation"])
         # Si besoin, on peut spécifier un temps d'attente entre chaque opération
         if "sleeptime" in operation:
             time.sleep(operation["sleeptime"])
@@ -231,6 +301,8 @@ def runChecks(environment, name, checks):
             results.append(runSQLCheck(environment, name, check))
         elif check["type"] == "REST":
             results.append(runRESTCheck(environment, name, check))
+        elif check["type"] == "LDAP":
+            results.append(runLdapCheck(environment, name, check))
         # Si besoin, on peut spécifier un temps d'attente entre chaque test
         if "sleeptime" in check:
             time.sleep(check["sleeptime"])

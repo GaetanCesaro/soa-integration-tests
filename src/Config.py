@@ -23,6 +23,12 @@ ENVIRONNEMENTS = {
             "JMS": {
                 "hostname": "http://mom-tst-01:1161",
                 "broker": "ACTIVEMQ-DEV1",
+            },
+            "LDAP": {
+                "hostname": "LDAP-DEV",
+                "port": 636,
+                "username": "CN=adam,DC=company,DC=fr",
+                "password": "password"
             }
         }
     },
@@ -36,6 +42,12 @@ ENVIRONNEMENTS = {
             "JMS": {
                 "hostname": "http://mom-tst-01:2161",
                 "broker": "ACTIVEMQ-INT",
+            },
+            "LDAP": {
+                "hostname": "LDAP-INT",
+                "port": 636,
+                "username": "CN=adam,DC=company,DC=fr",
+                "password": "password"
             }
         }
     },
@@ -49,6 +61,12 @@ ENVIRONNEMENTS = {
             "JMS": {
                 "hostname": "http://mom-tst-01:3161",
                 "broker": "ACTIVEMQ-VAL",
+            },
+            "LDAP": {
+                "hostname": "LDAP-VAL",
+                "port": 636,
+                "username": "CN=adam,DC=company,DC=fr",
+                "password": "password"
             }
         }
     }
