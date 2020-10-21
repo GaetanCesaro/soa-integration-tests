@@ -1,14 +1,15 @@
 {
-        "name": "DB2ToPostGre-GppToGpp-RadieDeces",
-        "sleeptime": 10,
-        "in": {
-            "type": "SQL",
-            "server": "DB2",
-            "operation": {
-                "command": "update BGEN.CIVILP set ETARAD = 'D', ETADDC = 20191231 where ETACAF = '01900000000001'"
-            }
-        },
-        "out": {
+    "name": "DB2ToPostGre-GppToGpp-RadieDeces",
+    "sleeptime": 1,
+    "in": {
+        "type": "SQL",
+        "server": "DB2",
+        "operation": {
+            "command": "update BGEN.CIVILP set ETARAD = 'D', ETADDC = 20191231 where ETACAF = '01900000000001'"
+        }
+    },
+    "out": [
+        {
             "type": "SQL",
             "server": "POSTGRE",
             "operation": {
@@ -19,11 +20,48 @@
                 "value": "1"
             }
         },
-        "rollback": {
+        {
+            "type": "SQL",
+            "server": "POSTGRE",
+            "operation": {
+                "command": "select 1 from sgencli.cli_personne_physique pp inner join sgencli.cli_client client on pp.id_fk_client = client.id where client.histo_numero = '01900000000001' and pp.date_deces = '2019-12-31' and pp.decede = true and pp.statut_compte_assure = 'DESACTIVE'"
+            },
+            "expected": {
+                "attribute": "1",
+                "value": "1"
+            }
+        },
+        {
+            "type": "LDAP",
+            "server": "LDAP",
+            "base": "CN=Assures,CN=adam,DC=cafat,DC=nc",
+            "operation": {
+                "command": "(&(cn=9999999)(msDS-UserAccountDisabled=TRUE)(!(cafatActivationCode=*)))"
+            },
+            "expected": {
+                "value": "CN=9999999,CN=Users,CN=Assures,CN=adam,DC=cafat,DC=nc"
+            }
+        }
+    ],
+    "rollback": [
+        {
             "type": "SQL",
             "server": "DB2",
             "operation": {
                 "command": "update BGEN.CIVILP set ETARAD = ' ', ETADDC = 0 where ETACAF = '01900000000001'"
             }
+        },
+        {
+            "type": "LDAP",
+            "server": "LDAP",
+            "operation": {
+                "dn": "CN=9999999,CN=Users,CN=Assures,CN=adam,DC=cafat,DC=nc",
+                "command": {
+                    "msDS-UserAccountDisabled": false,
+                    "cafatActivationCode": "012345678",
+                    "mail": "dsi_production@cafat.nc"
+                }
+            }
         }
-    }
+    ]
+}

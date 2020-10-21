@@ -213,7 +213,7 @@ def runLdapCheck(environnement, name, check):
         testResult.gottenResult = conn.last_error
 
     if testResult.status == "OK":
-        log.info(testResult.gottenResult)
+        log.info(testResult.status)
     else:
         log.error("%s - %s" % (testResult.status, testResult.gottenResult))
 
